@@ -8,9 +8,13 @@
     "moduleResolution": "node",
     "noLib": false,
     "noImplicitAny": true,
-		"strict": true,
+    "strict": false,
     "sourceMap": true,
     "target": "es2015",
+    "lib": [
+      "dom",
+      "es2016"
+    ]
   },
   "exclude": [
     "./node_modules"

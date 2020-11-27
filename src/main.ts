@@ -1,7 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { app, setupVue } from './vue';
+import { updateFilesList } from './lib/db';
+import { app, setupVue } from './lib/vue';
 
 (async () => {
+	await updateFilesList();
 	setupVue();
 	app.mount('#app');
 })();

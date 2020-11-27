@@ -1,21 +1,26 @@
 <template>
-	<grid>
+	<container>
 		<row class="d-flex justify-content-center">
-			<column size="6"> Coming Soon </column>
+			<column size="6">
+				Recently Opened Spreadsheets
+				<div v-for="f in files" :key="f.name">
+					{{ f.name }}
+				</div>
+			</column>
 		</row>
-	</grid>
+	</container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import router from '../router';
-import state from '../state';
+import { defineComponent, reactive } from 'vue';
+import router from '../lib/router';
+import state from '../lib/state';
 
 export default defineComponent({
 	setup() {
-		if (!state.isLoaded) router.replace('/upload');
+		if (state.files.length === 0) router.replace('/upload');
 
-		return {};
+		return { files: state.files };
 	},
 });
 </script>
