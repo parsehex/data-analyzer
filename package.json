@@ -6,7 +6,18 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.0.2"
+    "balm-ui": "^9.2.0",
+    "bootstrap": "^4.5.3",
+    "dexie": "^3.0.3",
+    "equal-vue": "^0.7.19",
+    "jquery": "^3.5.1",
+    "office-ui-fabric-core": "^11.0.0",
+    "popper.js": "^1.16.1",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primevue": "^3.0.0",
+    "vue": "^3.0.2",
+    "vue-router": "^4.0.0-rc.5"
   },
   "devDependencies": {
     "vite": "^1.0.0-rc.8",

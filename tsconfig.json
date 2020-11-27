@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "noLib": false,
+    "noImplicitAny": true,
+		"strict": true,
+    "sourceMap": true,
+    "target": "es2015",
+  },
+  "exclude": [
+    "./node_modules"
+  ],
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.vue",
+  ],
+}
