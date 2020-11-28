@@ -32,4 +32,4 @@ jobs:
           app-name: 'data-analyzer11310'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_327556ea9ca742bf9e947e215227ac1f }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/dist
+          package: dist
