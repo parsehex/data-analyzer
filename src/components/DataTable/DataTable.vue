@@ -12,14 +12,12 @@
 			<tr>
 				<th v-for="t in heading" :key="t" scope="col">
 					<a
-						v-if="isNumber(t)"
 						href="#"
 						@click.prevent="sortBy(t)"
 						:class="{ active: sortKey == t }"
 					>
 						{{ t }}
 					</a>
-					<span v-else>{{ t }}</span>
 				</th>
 			</tr>
 		</thead>
@@ -34,6 +32,12 @@
 </template>
 
 <script lang="ts">
+/*
+	DataTable
+	Pass data as array of objects.
+	Each object should have the
+	same exact keys, which are used as columns.
+*/
 import { computed, defineComponent } from 'vue';
 import { clone } from '../../lib/utils';
 import { TableData } from '../types';
@@ -68,17 +72,41 @@ export default defineComponent({
 			const dataCopy = clone(this.data);
 			// @ts-ignore
 			return dataCopy.sort((a, b) => {
-				if (!this.sortKey) this.sortKey = 'Total Sessions';
-				let aVal = a[this.sortKey];
-				let bVal = b[this.sortKey];
+				let aVal: string | number = a[this.sortKey];
+				let bVal: string | number = b[this.sortKey];
 
-				if (this.sortKey?.includes('Average')) {
-					aVal = +aVal.substr(1);
-					bVal = +bVal.substr(1);
+				let aSortVal = aVal as number;
+				let bSortVal = bVal as number;
+
+				if (typeof aVal === 'string' && typeof bVal === 'string') {
+					// try to parse number-containing strings
+					if (/^\$/.test(aVal)) {
+						// value is dollar-formatted
+						aSortVal = +aVal.substr(1);
+						bSortVal = +bVal.substr(1);
+					} else if (/\d+/.test(aVal)) {
+						// has numbers
+						aSortVal = +aVal;
+						bSortVal = +bVal;
+					} else {
+						// sort text
+						let aStr = aVal.toUpperCase();
+						let bStr = bVal.toUpperCase();
+
+						if (this.reverse) {
+							if (aStr < bStr) return 1;
+							if (aStr > bStr) return -1;
+							return 0;
+						} else {
+							if (aStr < bStr) return -1;
+							if (aStr > bStr) return 1;
+							return 0;
+						}
+					}
 				}
 
-				if (this.reverse) return bVal - aVal;
-				return aVal - bVal;
+				if (this.reverse) return bSortVal - aSortVal;
+				return aSortVal - bSortVal;
 			});
 		},
 	},
