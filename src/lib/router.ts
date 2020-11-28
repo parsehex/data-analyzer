@@ -4,6 +4,7 @@ import Upload from '../pages/Upload.vue';
 import File from '../pages/File.vue';
 import { nextTick } from 'vue';
 import state, { findFile } from './state';
+import { DataTypes } from '../data-types';
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -41,7 +42,8 @@ router.afterEach((to, from) => {
 		} else if (to.name === 'File') {
 			const file_id = to.params.id as string;
 			const file = findFile(file_id);
-			title = file.type + ' - ' + DEFAULT_TITLE;
+			const { name_long } = DataTypes[file.type];
+			title = name_long + ' - ' + DEFAULT_TITLE;
 		}
 		document.title = title;
 	});

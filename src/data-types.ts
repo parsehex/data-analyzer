@@ -4,7 +4,7 @@ interface DataTypeConfig {
 	name_long: string;
 }
 export const DataTypes: { [key: string]: DataTypeConfig } = {
-	TNS: {
+	therapy_notes_spreadsheet: {
 		version: 1,
 		name: 'therapy_notes_spreadsheet',
 		name_long: 'TherapyNotes Spreadsheet',

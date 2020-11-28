@@ -3,11 +3,11 @@ import { findFile } from '../state';
 import * as xlsx from 'xlsx';
 import { addFileData, DBFileObject, getFileContent } from '../db';
 
-export async function processFile(file_id: string) {
-	const file = findFile(file_id);
+export async function processFile(file_id: string | DBFileObject) {
+	const file = typeof file_id === 'string' ? findFile(file_id) : file_id;
 
 	switch (file.type) {
-		case 'TherapyNotes spreadsheet': {
+		case 'therapy_notes_spreadsheet': {
 			await processTNData(file);
 			break;
 		}
