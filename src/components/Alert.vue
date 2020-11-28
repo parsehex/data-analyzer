@@ -6,13 +6,13 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { BSType } from '../types';
+import { BootstrapType } from './types';
 
 export default defineComponent({
 	name: 'alert',
 	props: {
 		type: {
-			type: String as () => BSType,
+			type: String as () => BootstrapType,
 			required: true,
 		},
 	},

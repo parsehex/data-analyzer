@@ -1,19 +1,16 @@
 import { reactive } from 'vue';
-import * as Excel from 'exceljs';
+import { DBFileObject } from './db';
 
 interface State {
-	wb: Excel.Workbook;
-	files: {
-		name: string;
-		type: string;
-		last_opened: number;
-		first_opened: number;
-	}[];
+	files: DBFileObject[];
 }
 
 const state: State = reactive({
-	wb: null,
 	files: [],
 });
 
 export default state;
+
+export function findFile(file_id: string) {
+	return state.files.find((f) => f.file_id === file_id);
+}

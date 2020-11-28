@@ -1,20 +1,17 @@
 <template>
-	<button type="button" :class="'btn btn-' + type">
+	<div :class="['col', centered ? 'd-flex justify-content-center' : '']">
 		<slot />
-	</button>
+	</div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { BSType } from '../types';
 
 export default defineComponent({
-	name: 'btn',
+	name: 'column',
 	props: {
-		type: {
-			type: String as () => BSType | 'link',
-			required: true,
-		},
+		size: String,
+		centered: Boolean,
 	},
 	setup(props) {
 		return {};

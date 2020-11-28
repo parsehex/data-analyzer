@@ -3,3 +3,7 @@ node_modules
 dist
 *.local
 *.xlsx
+.cache
+.idea
+dist
+.parcel-cache

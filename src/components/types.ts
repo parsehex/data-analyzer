@@ -1,4 +1,4 @@
-export type BSType =
+export type BootstrapType =
 	| 'primary'
 	| 'secondary'
 	| 'light'
@@ -7,3 +7,7 @@ export type BSType =
 	| 'danger'
 	| 'warning'
 	| 'info';
+
+export type TableData = {
+	[columnName: string]: string | number | boolean;
+}[];

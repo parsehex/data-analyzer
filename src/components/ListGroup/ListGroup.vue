@@ -1,19 +1,17 @@
 <template>
-	<div :class="'col' + (size ? '-' + size : '')">
+	<div :class="['list-group', flush ? 'list-group-flush' : '']">
 		<slot />
 	</div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import { BootstrapType } from '../types';
 
 export default defineComponent({
-	name: 'column',
+	name: 'list-group',
 	props: {
-		size: {
-			type: String,
-			required: false,
-		},
+		flush: Boolean,
 	},
 	setup(props) {
 		return {};

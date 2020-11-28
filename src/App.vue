@@ -1,9 +1,16 @@
 <template>
-	<router-view />
+	<div>
+		<navigation title="Data Analyzer" />
+		<container fluid>
+			<router-view />
+		</container>
+	</div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
 	name: 'App',
-};
+});
 </script>

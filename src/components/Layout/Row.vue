@@ -1,5 +1,5 @@
 <template>
-	<div class="row">
+	<div :class="['row', centered ? 'd-flex justify-content-center' : '']">
 		<slot />
 	</div>
 </template>
@@ -9,5 +9,8 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
 	name: 'row',
+	props: {
+		centered: Boolean,
+	},
 });
 </script>
