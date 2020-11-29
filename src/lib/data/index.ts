@@ -35,5 +35,9 @@ async function processTNData(file: DBFileObject) {
 	}
 	console.log('spliced ' + spliced + ' rows');
 
-	await addFileData(file.file_id, data, DataTypes.TNS.version);
+	await addFileData(
+		file.file_id,
+		data,
+		DataTypes.therapy_notes_spreadsheet.version
+	);
 }
