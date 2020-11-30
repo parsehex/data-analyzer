@@ -9,7 +9,6 @@ import Icon from '../components/Icon.vue';
 import ListGroup from '../components/ListGroup/ListGroup.vue';
 import ListGroupItem from '../components/ListGroup/ListGroupItem.vue';
 import ListGroupLink from '../components/ListGroup/ListGroupLink.vue';
-import Navigation from '../components/Navigation/Navigation.vue';
 import ProgressBar from '../components/ProgressBar.vue';
 import Row from '../components/Layout/Row.vue';
 
@@ -29,7 +28,6 @@ export function setupVue() {
 	app.component(ListGroupLink.name, ListGroupLink);
 	app.component(DataTable.name, DataTable);
 	app.component(ProgressBar.name, ProgressBar);
-	app.component(Navigation.name, Navigation);
 	app.component(Icon.name, Icon);
 
 	app.use(router);
