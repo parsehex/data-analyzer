@@ -4,5 +4,8 @@
 	},
 	"files.watcherExclude": {
 		".cache/**": true
-	}
+	},
+	"staticWebApps.appSubpath": "/",
+	"staticWebApps.apiSubpath": "",
+	"staticWebApps.appArtifactSubpath": "dist"
 }
