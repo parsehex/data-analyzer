@@ -5,16 +5,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent } from 'vue';
 
-export default defineComponent({
-	name: 'column',
-	props: {
-		size: String,
-		centered: Boolean,
-	},
-	setup(props) {
-		return {};
-	},
-});
+	export default defineComponent({
+		name: 'Column',
+		props: {
+			centered: Boolean,
+		},
+		setup(props) {
+			return {};
+		},
+	});
 </script>

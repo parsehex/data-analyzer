@@ -1,9 +1,8 @@
 <template>
 	<router-link
 		:class="[
-			'list-group-item',
+			'list-group-item list-group-item-action',
 			type ? 'list-group-item-' + type : '',
-			'list-group-item-action',
 		]"
 		:to="to"
 	>
@@ -12,29 +11,29 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import router from '../../lib/router';
-import { BootstrapType } from '../types';
+	import { computed, defineComponent } from 'vue';
+	import router from '../../lib/router';
+	import { BootstrapType } from '../types';
 
-export default defineComponent({
-	name: 'list-group-link',
-	props: {
-		type: {
-			type: String as () => BootstrapType,
-			required: false,
+	export default defineComponent({
+		name: 'ListGroupLink',
+		props: {
+			type: {
+				type: String as () => BootstrapType,
+				default: '',
+			},
+			to: {
+				type: String,
+				required: true,
+			},
 		},
-		to: {
-			type: String,
-			required: false,
+		setup(props) {
+			return {};
 		},
-	},
-	setup(props) {
-		return {};
-	},
-	methods: {
-		handleClick() {
-			if (this.action) router.push(this.action);
+		methods: {
+			handleClick() {
+				if (this.action) router.push(this.action);
+			},
 		},
-	},
-});
+	});
 </script>

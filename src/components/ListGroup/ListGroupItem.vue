@@ -12,29 +12,29 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import router from '../../lib/router';
-import { BootstrapType } from '../types';
+	import { computed, defineComponent } from 'vue';
+	import router from '../../lib/router';
+	import { BootstrapType } from '../types';
 
-export default defineComponent({
-	name: 'list-group-item',
-	props: {
-		type: {
-			type: String as () => BootstrapType,
-			required: false,
+	export default defineComponent({
+		name: 'ListGroupItem',
+		props: {
+			type: {
+				type: String as () => BootstrapType,
+				default: '',
+			},
+			action: {
+				type: Boolean,
+				default: false,
+			},
 		},
-		action: {
-			type: String,
-			required: false,
+		setup(props) {
+			return {};
 		},
-	},
-	setup(props) {
-		return {};
-	},
-	methods: {
-		handleClick() {
-			if (this.action) router.push(this.action);
+		methods: {
+			handleClick() {
+				if (this.action) router.push(this.action);
+			},
 		},
-	},
-});
+	});
 </script>

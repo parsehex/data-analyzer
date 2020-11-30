@@ -42,8 +42,10 @@
 					</list-group>
 
 					<span v-if="files.length === 0">
-						There are no files.<br />
-						<router-link to="/upload">Upload</router-link> one?
+						There are no files.
+						<br />
+						<router-link to="/upload">Upload</router-link>
+						one?
 					</span>
 				</column>
 			</row>
@@ -52,27 +54,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import router from '../lib/router';
-import state from '../lib/state';
-import { formatDistanceToNow, fromUnixTime } from 'date-fns';
-import { removeFile } from '../lib/db';
-import { processFile } from '../lib/data';
+	import { defineComponent, reactive } from 'vue';
+	import router from '../lib/router';
+	import state from '../lib/state';
+	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
+	import { removeFile } from '../lib/db';
+	import { processFile } from '../lib/data';
 
-export default defineComponent({
-	setup() {
-		if (state.files.length === 0) router.replace('/upload');
+	export default defineComponent({
+		setup() {
+			if (state.files.length === 0) router.replace('/upload');
 
-		return { files: state.files };
-	},
-	methods: {
-		getLastOpenedLabel(time: number) {
-			return formatDistanceToNow(fromUnixTime(time), {
-				addSuffix: true,
-			});
+			return { files: state.files };
 		},
-		processFile,
-		removeFile,
-	},
-});
+		methods: {
+			getLastOpenedLabel(time: number) {
+				return formatDistanceToNow(fromUnixTime(time), {
+					addSuffix: true,
+				});
+			},
+			processFile,
+			removeFile,
+		},
+	});
 </script>

@@ -24,7 +24,7 @@ async function processTNData(file: DBFileObject) {
 		wb.Sheets[wb.SheetNames[0]]
 	);
 
-	// TODO clean data
+	// TODO clean data better
 	let spliced = 0;
 	for (let i = 0; i < data.length; i++) {
 		const row = data[i];

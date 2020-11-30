@@ -5,19 +5,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { BootstrapType } from './types';
+	import { computed, defineComponent } from 'vue';
+	import { BootstrapType } from './types';
 
-export default defineComponent({
-	name: 'alert',
-	props: {
-		type: {
-			type: String as () => BootstrapType,
-			required: true,
+	export default defineComponent({
+		name: 'Alert',
+		props: {
+			type: {
+				type: String as () => BootstrapType,
+				required: true,
+			},
 		},
-	},
-	setup(props) {
-		return {};
-	},
-});
+		setup(props) {
+			return {};
+		},
+	});
 </script>

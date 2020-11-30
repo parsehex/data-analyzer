@@ -13,13 +13,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent } from 'vue';
 
-export default defineComponent({
-	name: 'nav-search',
-	props: {},
-	setup(props) {
-		return {};
-	},
-});
+	export default defineComponent({
+		name: 'NavSearch',
+		props: {},
+		setup(props) {
+			return {};
+		},
+	});
 </script>

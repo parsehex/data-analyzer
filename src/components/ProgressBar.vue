@@ -13,32 +13,36 @@
 			aria-valuemin="0"
 			aria-valuemax="100"
 		>
-			{{ label || '' }}
+			{{ label }}
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { BootstrapType } from './types';
+	import { computed, defineComponent } from 'vue';
+	import { BootstrapType } from './types';
 
-export default defineComponent({
-	name: 'progress-bar',
-	props: {
-		type: {
-			type: String as () => BootstrapType,
-			required: true,
+	export default defineComponent({
+		name: 'ProgressBar',
+		props: {
+			type: {
+				type: String as () => BootstrapType,
+				required: true,
+			},
+			striped: Boolean,
+			animated: Boolean,
+			label: {
+				type: String,
+				required: false,
+				default: '',
+			},
+			value: {
+				type: Number,
+				required: true,
+			},
 		},
-		striped: Boolean,
-		animated: Boolean,
-		label: String,
-		value: {
-			type: Number,
-			required: true,
+		setup(props) {
+			return {};
 		},
-	},
-	setup(props) {
-		return {};
-	},
-});
+	});
 </script>

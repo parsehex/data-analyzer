@@ -26,20 +26,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import NavItem from './NavItem.vue';
+	import { computed, defineComponent } from 'vue';
+	import NavItem from './NavItem.vue';
 
-export default defineComponent({
-	components: { NavItem },
-	name: 'navigation',
-	props: {
-		title: {
-			type: String,
-			required: true,
+	export default defineComponent({
+		components: { NavItem },
+		name: 'Navigation',
+		props: {
+			title: {
+				type: String,
+				required: true,
+			},
 		},
-	},
-	setup(props) {
-		return {};
-	},
-});
+		setup(props) {
+			return {};
+		},
+	});
 </script>

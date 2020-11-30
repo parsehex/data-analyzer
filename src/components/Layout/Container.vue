@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+	import { defineComponent } from 'vue';
 
-export default defineComponent({
-	name: 'container',
-	props: {
-		fluid: Boolean,
-	},
-});
+	export default defineComponent({
+		name: 'Container',
+		props: {
+			fluid: Boolean,
+		},
+	});
 </script>
 
 <style lang="scss"></style>

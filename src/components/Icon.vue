@@ -17,23 +17,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { BootstrapType } from './types';
+	import { computed, defineComponent } from 'vue';
+	import { BootstrapType } from './types';
 
-export default defineComponent({
-	name: 'icon',
-	props: {
-		type: {
-			type: String,
-			required: true,
+	export default defineComponent({
+		name: 'Icon',
+		props: {
+			type: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				default: 32,
+			},
 		},
-		size: {
-			type: Number,
-			default: 32,
+		setup(props) {
+			return {};
 		},
-	},
-	setup(props) {
-		return {};
-	},
-});
+	});
 </script>

@@ -21,13 +21,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent } from 'vue';
 
-export default defineComponent({
-	name: 'nav-dropdown',
-	props: {},
-	setup(props) {
-		return {};
-	},
-});
+	export default defineComponent({
+		name: 'NavDropdown',
+		props: {},
+		setup(props) {
+			return {};
+		},
+	});
 </script>

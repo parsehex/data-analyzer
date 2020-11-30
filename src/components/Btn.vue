@@ -3,9 +3,9 @@
 		type="button"
 		:class="[
 			'btn',
+			centered ? 'd-flex justify-content-center align-items-center' : '',
 			'btn-' + (outline ? 'outline-' : '') + type,
 			size ? 'btn-' + size : '',
-			centered ? 'd-flex justify-content-center align-items-center' : '',
 		]"
 	>
 		<slot />
@@ -13,22 +13,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { BootstrapType } from './types';
+	import { computed, defineComponent } from 'vue';
+	import { BootstrapType } from './types';
 
-export default defineComponent({
-	name: 'btn',
-	props: {
-		type: {
-			type: String as () => BootstrapType,
-			required: true,
+	export default defineComponent({
+		name: 'Btn',
+		props: {
+			type: {
+				type: String as () => BootstrapType,
+				required: true,
+			},
+			size: {
+				type: String as () => '' | 'sm' | 'lg',
+				required: false,
+				default: '',
+			},
+			outline: Boolean,
+			centered: Boolean,
 		},
-		size: String as () => 'sm' | 'lg',
-		outline: Boolean,
-		centered: Boolean,
-	},
-	setup(props) {
-		return {};
-	},
-});
+		setup(props) {
+			return {};
+		},
+	});
 </script>
