@@ -1,6 +1,7 @@
 {
 	"files.exclude": {
-		".cache": true
+		".cache": true,
+		"src": true
 	},
 	"files.watcherExclude": {
 		".cache/**": true
