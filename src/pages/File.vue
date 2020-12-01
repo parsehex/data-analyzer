@@ -5,11 +5,11 @@
 				{{ fileNameLong }}
 			</h1>
 
-			<column class="col-xs-12 col-sm-4">
+			<!-- <column class="col-xs-12 col-sm-4">
 				<select class="form-control" v-model="mode">
 					<option value="eps">Earnings Per Session</option>
 				</select>
-			</column>
+			</column> -->
 
 			<data-table :data="data" small />
 		</column>
