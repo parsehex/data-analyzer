@@ -9,7 +9,7 @@
 					<list-group v-for="f in files" :key="f.name">
 						<list-group-link :to="'/file/' + f.file_id">
 							<div class="d-flex w-100 justify-content-between">
-								<h6 class="mb-1">{{ f.type }}</h6>
+								<h6 class="mb-1">{{ getFileTypeName(f.type) }}</h6>
 								<small>
 									last opened {{ getLastOpenedLabel(f.last_opened) }}
 								</small>
@@ -60,6 +60,7 @@
 	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
 	import { removeFile } from '../lib/db';
 	import { processFile } from '../lib/data';
+	import { DataTypes } from '../data-types';
 
 	export default defineComponent({
 		setup() {
@@ -72,6 +73,9 @@
 				return formatDistanceToNow(fromUnixTime(time), {
 					addSuffix: true,
 				});
+			},
+			getFileTypeName(type: string) {
+				return DataTypes[type].name_long;
 			},
 			processFile,
 			removeFile,
