@@ -4,7 +4,7 @@ import Upload from '../pages/Upload.vue';
 import File from '../pages/File.vue';
 import { nextTick } from 'vue';
 import state, { findFile } from './state';
-import { DataTypes } from '../data-types';
+import { DataTypes } from '../file-modules';
 
 const routes: RouteRecordRaw[] = [
 	{

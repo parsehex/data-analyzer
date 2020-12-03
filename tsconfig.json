@@ -9,6 +9,7 @@
     "noLib": false,
     "noImplicitAny": true,
     "strict": false,
+    "jsx": "preserve",
     "sourceMap": true,
     "target": "es2015",
     "lib": [

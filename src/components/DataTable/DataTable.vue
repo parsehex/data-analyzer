@@ -10,7 +10,7 @@
 	>
 		<thead>
 			<tr>
-				<th v-for="t in heading" :key="t" scope="col">
+				<th v-for="t in heading" :key="idFromString(t)" scope="col">
 					<a
 						href="#"
 						@click.prevent="sortBy(t)"
@@ -23,8 +23,14 @@
 		</thead>
 		<tbody>
 			<tr v-for="(row, index) in sortedData" :key="index">
-				<td v-for="(value, key) in row" :key="index + key">
-					{{ value }}
+				<td v-for="(value, col) in row" :key="index + col">
+					<router-link
+						v-if="linkColumn === col"
+						:to="col.toLowerCase() + '/' + idFromString(value)"
+					>
+						{{ value }}
+					</router-link>
+					<span v-else>{{ value }}</span>
 				</td>
 			</tr>
 		</tbody>
@@ -33,14 +39,14 @@
 
 <script lang="ts">
 	/*
-	DataTable
-	Pass data as array of objects.
-	Each object should have the
-	same exact keys, which are used as columns.
-*/
+		DataTable
+		Pass data as array of objects.
+		Each object should have the
+		same exact keys, which are used as columns.
+	*/
 	import { computed, defineComponent } from 'vue';
-	import { clone } from '../../lib/utils';
-	import { TableData } from '../types';
+	import { clone, idFromString } from '../../lib/utils';
+	import { TableData, TableDataType } from '../types';
 
 	export default defineComponent({
 		name: 'DataTable',
@@ -51,12 +57,22 @@
 			},
 			dark: Boolean,
 			small: Boolean,
+			defaultSort: {
+				type: String,
+				default: '',
+			},
+			linkColumn: {
+				type: String,
+				default: '',
+			},
 		},
-		data: () => ({
-			sortKey: '',
-			reverse: true,
-			sorted: false,
-		}),
+		data(props) {
+			return {
+				sortKey: props.defaultSort,
+				reverse: true,
+				sorted: false,
+			};
+		},
 		setup(props) {
 			const heading = computed(() => {
 				if (!props.data[0]) {
@@ -69,11 +85,11 @@
 		},
 		computed: {
 			sortedData() {
-				const dataCopy = clone(this.data);
+				const dataCopy: TableData = clone(this.data);
 				// @ts-ignore
 				return dataCopy.sort((a, b) => {
-					let aVal: string | number = a[this.sortKey];
-					let bVal: string | number = b[this.sortKey];
+					let aVal: TableDataType = a[this.sortKey];
+					let bVal: TableDataType = b[this.sortKey];
 
 					let aSortVal = aVal as number;
 					let bSortVal = bVal as number;
@@ -122,6 +138,7 @@
 			isNumber(column: string) {
 				return /\d+/.test(this.sortedData[0][column]);
 			},
+			idFromString,
 		},
 	});
 </script>

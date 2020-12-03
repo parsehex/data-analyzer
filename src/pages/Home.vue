@@ -60,7 +60,7 @@
 	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
 	import { removeFile } from '../lib/db';
 	import { processFile } from '../lib/data';
-	import { DataTypes } from '../data-types';
+	import { DataTypes } from '../file-modules';
 
 	export default defineComponent({
 		setup() {

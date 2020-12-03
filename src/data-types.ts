@@ -1,16 +1,3 @@
-interface DataTypeConfig {
-	version: number;
-	name: string;
-	name_long: string;
-}
-export const DataTypes: { [key: string]: DataTypeConfig } = {
-	therapy_notes_spreadsheet: {
-		version: 1,
-		name: 'therapy_notes_spreadsheet',
-		name_long: 'TherapyNotes Spreadsheet',
-	},
-};
-
 export interface TherapyNotesColumn {
 	'Appointment Type': 'Therapy Session';
 	'Bill as Supervisor': 'yes';

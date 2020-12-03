@@ -3,18 +3,18 @@ import { TherapyNotesColumn } from '../../data-types';
 import { DBFileDataObject, DBFileObject, getFileData } from '../db';
 import { arrayAverage } from '../utils';
 
-export async function getModeData(mode: string, file: DBFileDataObject) {
+export async function getTableData(mode: string, file: DBFileDataObject) {
 	if (mode === 'debug') return [{ Result: 'Success' }];
 	const data = await getFileData(file.file_id);
 
 	switch (file.type) {
 		case 'therapy_notes_spreadsheet': {
-			return tnModeData(mode, data.file_data);
+			return tnTableData(mode, data.file_data);
 		}
 	}
 }
 
-function tnModeData(mode: string, data: TherapyNotesColumn[]) {
+function tnTableData(mode: string, data: TherapyNotesColumn[]) {
 	let tableData: TableData = [];
 
 	switch (mode) {

@@ -8,6 +8,8 @@ export type BootstrapType =
 	| 'warning'
 	| 'info';
 
+export type TableDataType = string | number | boolean;
+
 export type TableData = {
-	[columnName: string]: string | number | boolean;
+	[columnName: string]: TableDataType;
 }[];
