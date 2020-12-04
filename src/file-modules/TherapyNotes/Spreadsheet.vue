@@ -1,10 +1,42 @@
 <template>
-	<data-table
-		:data="data"
-		link-column="Clinician"
-		default-sort="Total Sessions"
-		small
-	/>
+	<div>
+		<div class="form-inline my-2">
+			<div class="form-group px-2">
+				<label for="mode">View results by</label>
+				<select class="form-control mx-2" id="mode" v-model="mode">
+					<option value="Appointment Type">Appointment Type</option>
+					<option value="Billing Method">Billing Method</option>
+					<option value="Clinician Name">Clinician</option>
+					<option value="Patient Name">Patient Name</option>
+					<option value="Primary Insurer Name">Primary Insurer</option>
+					<option value="Secondary Insurer Name">Secondary Insurer</option>
+					<option value="Service Description">Service Type</option>
+				</select>
+			</div>
+			<div class="form-group px-2">
+				<label
+					class="form-check-label"
+					for="precise"
+					title="More precise calculations are slower but more accurate"
+				>
+					Precise numbers
+				</label>
+				<input
+					id="precise"
+					class="form-check-input mx-1"
+					type="checkbox"
+					v-model="precise"
+					title="More precise calculations are slower but more accurate"
+				/>
+			</div>
+		</div>
+		<data-table
+			:data="data"
+			default-sort="Total Earnings"
+			small
+			sticky-header
+		/>
+	</div>
 </template>
 
 <script lang="ts">
@@ -13,8 +45,11 @@
 	import { DBFileObject, getFileData } from '../../lib/db';
 	import tippy from 'tippy.js';
 	import { TableData } from '../../components/types';
-	import { arrayAverage } from '../../lib/utils';
+	import { clone } from '../../lib/utils';
 	import { DBFileDataObject } from '../../lib/db';
+	import { TherapyNotesColumn } from '../../data-types';
+	import numeral from 'numeral';
+	import math from '../../mathjs';
 
 	export default defineComponent({
 		name: 'TherapyNotesSpreadsheet',
@@ -25,7 +60,8 @@
 			},
 		},
 		data: () => ({
-			viewing: '',
+			mode: 'Clinician Name' as keyof TherapyNotesColumn,
+			precise: !window.location.href.includes('localhost'),
 		}),
 		setup(props) {
 			return {};
@@ -36,31 +72,52 @@
 
 				const tableData: TableData = [];
 
-				const clinicians: { name: string; sessionTotals: number[] }[] = [];
-				for (const row of this.fileData) {
-					if (!row['Clinician Name']) continue;
-					let doc = clinicians.find((d) => d.name === row['Clinician Name']);
+				const clinicians: {
+					name: string;
+					sessionTotals: (math.BigNumber | number)[];
+				}[] = [];
+				for (const row of this.fileData as TherapyNotesColumn[]) {
+					if (row.Type !== 'Appointment') continue;
+
+					const pPaid = math.abs(row['Patient Amount Paid'] || 0);
+					const iPaid = math.abs(row['Insurance Amount Paid'] || 0);
+
+					let name = row[this.mode];
+					if (!name) {
+						if (this.mode === 'Primary Insurer Name') name = 'No Insurance';
+						if (this.mode === 'Secondary Insurer Name') name = 'N/A';
+						if (this.mode === 'Patient Name')
+							name = row['First Name'] + ' ' + row['Last Name'];
+					}
+
+					let doc = clinicians.find((d) => d.name === name);
 					if (!doc) {
 						doc = {
-							name: row['Clinician Name'],
+							name,
 							sessionTotals: [],
 						};
 						clinicians.push(doc);
 					}
 
-					const total =
-						Math.abs(row['Patient Amount Paid'] || 0) +
-						Math.abs(row['Insurance Amount Paid'] || 0);
-					doc.sessionTotals.push(total);
+					const total = math.add(pPaid, iPaid);
+
+					let value: math.BigNumber | number = total.valueOf() as number;
+					if (this.precise) value = math.bignumber(value);
+					doc.sessionTotals.push(value);
 				}
 
 				for (const doc of clinicians) {
-					const average = arrayAverage(doc.sessionTotals);
+					const average = math.mean(...doc.sessionTotals);
+					const median = math.median(...doc.sessionTotals);
+					const sum = math.sum(...doc.sessionTotals);
+					const sessions = doc.sessionTotals.length;
 
 					tableData.push({
-						Clinician: doc.name,
-						'Average Earnings Per Session': `$${average.toFixed(2)}`,
-						'Total Sessions': doc.sessionTotals.length,
+						[this.mode]: doc.name,
+						Average: `$${numeral(average).format('0,0.00')}`,
+						Median: `$${numeral(median).format('0,0.00')}`,
+						'Total Earnings': `$${numeral(sum).format('0,0.00')}`,
+						'Total Sessions': `${numeral(sessions).format('0,0')}`,
 					});
 				}
 
