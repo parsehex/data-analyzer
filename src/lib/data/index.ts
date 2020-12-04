@@ -21,8 +21,9 @@ async function processTNData(file: DBFileObject) {
 	const wb = xlsx.read(new Uint8Array(content), {
 		type: 'array',
 	});
+	const sheetIndex = wb.SheetNames.indexOf('Billing Transactions');
 	const data: TherapyNotesColumn[] = xlsx.utils.sheet_to_json(
-		wb.Sheets[wb.SheetNames[0]]
+		wb.Sheets[wb.SheetNames[sheetIndex]]
 	);
 
 	await addFileData(
