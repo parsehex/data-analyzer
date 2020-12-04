@@ -3,10 +3,12 @@ import { DBFileObject } from './db';
 
 interface State {
 	files: DBFileObject[];
+	isDev: boolean;
 }
 
 const state: State = reactive({
 	files: [],
+	isDev: window.location.href.includes('localhost'),
 });
 
 export default state;

@@ -13,7 +13,26 @@
 					<option value="Service Description">Service Type</option>
 				</select>
 			</div>
-			<div class="form-group px-2">
+			<div class="form-group" v-if="isDev">
+				<div class="dropdown">
+					<button
+						class="btn btn-secondary dropdown-toggle"
+						type="button"
+						id="dropdownMenuButton"
+						data-toggle="dropdown"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						Enable/Disable Columns
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" href="#">Action</a>
+						<a class="dropdown-item" href="#">Another action</a>
+						<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</div>
+			</div>
+			<div v-if="isDev" class="form-group px-2">
 				<label
 					class="form-check-label"
 					for="precise"
@@ -50,6 +69,7 @@
 	import { TherapyNotesColumn } from '../../data-types';
 	import numeral from 'numeral';
 	import math from '../../mathjs';
+	import state from '../../lib/state';
 
 	export default defineComponent({
 		name: 'TherapyNotesSpreadsheet',
@@ -61,7 +81,8 @@
 		},
 		data: () => ({
 			mode: 'Clinician Name' as keyof TherapyNotesColumn,
-			precise: !window.location.href.includes('localhost'),
+			isDev: state.isDev,
+			precise: !state.isDev,
 		}),
 		setup(props) {
 			return {};
