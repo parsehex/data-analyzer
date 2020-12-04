@@ -15,6 +15,7 @@ export async function addFileData(
 	file_data: any,
 	version: number
 ) {
+	if (await getFileData(file_id)) await removeFile(file_id, true);
 	await db.table('files_data').put({
 		file_id,
 		file_data,
@@ -59,8 +60,9 @@ export async function getFileContent(file_id: string): Promise<ArrayBuffer> {
 	return (await db.table('files').where('file_id').equals(file_id).first())
 		.content;
 }
-export async function removeFile(file_id: string) {
-	await db.table('files').where('file_id').equals(file_id).delete();
+export async function removeFile(file_id: string, dataOnly?: boolean) {
+	if (!dataOnly)
+		await db.table('files').where('file_id').equals(file_id).delete();
 	await db.table('files_data').where('file_id').equals(file_id).delete();
 	const i = state.files.indexOf(findFile(file_id));
 	state.files.splice(i, 1);
