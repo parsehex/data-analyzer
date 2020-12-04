@@ -1,14 +1,19 @@
 <template>
 	<table
 		ref="tableEl"
-		:class="[
-			'table',
-			'table-hover',
-			dark ? 'table-dark' : '',
-			small ? 'table-sm' : '',
-		]"
+		:class="{
+			'data-table': true,
+			table: true,
+			'table-hover': true,
+			'table-dark': dark,
+			'table-sm': small,
+			'table-bordered': bordered,
+			'table-responsive': responsive,
+			'table-striped': striped,
+			'sticky-header': stickyHeader,
+		}"
 	>
-		<thead>
+		<thead :class="dark ? 'thead-dark' : 'thead-light'">
 			<tr>
 				<th v-for="t in heading" :key="idFromString(t)" scope="col">
 					<a
@@ -17,6 +22,11 @@
 						:class="{ active: sortKey == t }"
 					>
 						{{ t }}
+						<icon
+							v-if="sortKey === t"
+							:size="16"
+							:type="'arrow-' + (reverse ? 'down' : 'up')"
+						/>
 					</a>
 				</th>
 			</tr>
@@ -57,6 +67,10 @@
 			},
 			dark: Boolean,
 			small: Boolean,
+			bordered: Boolean,
+			responsive: Boolean,
+			striped: Boolean,
+			stickyHeader: Boolean,
 			defaultSort: {
 				type: String,
 				default: '',
@@ -142,3 +156,28 @@
 		},
 	});
 </script>
+
+<style lang="scss">
+	table.data-table {
+		thead th {
+			a {
+				display: block;
+			}
+		}
+		th,
+		td {
+			padding: 8px 16px;
+		}
+
+		&.sticky-header {
+			overflow-y: auto;
+			border-collapse: collapse;
+			width: 100%;
+
+			thead th {
+				position: sticky;
+				top: 0;
+			}
+		}
+	}
+</style>
