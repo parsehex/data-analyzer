@@ -8,11 +8,7 @@
 		stroke-linecap="round"
 		stroke-linejoin="round"
 	>
-		<use
-			:xlink:href="
-				'/node_modules/feather-icons/dist/feather-sprite.svg#' + type
-			"
-		/>
+		<use :xlink:href="'/feather-sprite.svg#' + type" />
 	</svg>
 </template>
 
