@@ -95,15 +95,15 @@
 					let bSortVal = bVal as number;
 
 					if (typeof aVal === 'string' && typeof bVal === 'string') {
-						// try to parse number-containing strings
+						// parse number-containing strings
 						if (/^\$/.test(aVal)) {
 							// value is dollar-formatted
-							aSortVal = +aVal.substr(1);
-							bSortVal = +bVal.substr(1);
+							aSortVal = +aVal.replace(/,/g, '').substr(1);
+							bSortVal = +bVal.replace(/,/g, '').substr(1);
 						} else if (/\d+/.test(aVal)) {
 							// has numbers
-							aSortVal = +aVal;
-							bSortVal = +bVal;
+							aSortVal = +aVal.replace(/,/g, '');
+							bSortVal = +bVal.replace(/,/g, '');
 						} else {
 							// sort text
 							let aStr = aVal.toUpperCase();
@@ -133,7 +133,7 @@
 					return;
 				}
 				this.sortKey = column;
-				this.reverse = false;
+				this.reverse = this.isNumber(column);
 			},
 			isNumber(column: string) {
 				return /\d+/.test(this.sortedData[0][column]);

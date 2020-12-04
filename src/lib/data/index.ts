@@ -25,17 +25,6 @@ async function processTNData(file: DBFileObject) {
 		wb.Sheets[wb.SheetNames[0]]
 	);
 
-	// TODO clean data better
-	let spliced = 0;
-	for (let i = 0; i < data.length; i++) {
-		const row = data[i];
-		if (row.Type !== 'Appointment') {
-			data.splice(i, 1);
-			spliced++;
-		}
-	}
-	console.log('spliced ' + spliced + ' rows');
-
 	await addFileData(
 		file.file_id,
 		data,

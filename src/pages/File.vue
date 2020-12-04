@@ -54,7 +54,7 @@
 			tippy('h1.file-name', {
 				content: this.file.name,
 				animation: 'shift-toward',
-				delay: 150,
+				delay: 1500,
 			});
 		},
 	});
