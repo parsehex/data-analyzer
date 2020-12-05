@@ -13,3 +13,5 @@ export type TableDataType = string | number | boolean;
 export type TableData = {
 	[columnName: string]: TableDataType;
 }[];
+
+export type ToggleOptions = { [key: string]: boolean };

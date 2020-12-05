@@ -5,6 +5,7 @@ import Btn from '../components/Btn.vue';
 import Column from '../components/Layout/Column.vue';
 import Container from '../components/Layout/Container.vue';
 import DataTable from '../components/DataTable/DataTable.vue';
+import ToggleDropdown from '../components/ToggleDropdown.vue';
 import FormGroup from '../components/FormGroup.vue';
 import Icon from '../components/Icon.vue';
 import ListGroup from '../components/ListGroup/ListGroup.vue';
@@ -25,6 +26,7 @@ export function setupVue() {
 	app.component(Column.name, Column);
 	app.component(Container.name, Container);
 	app.component(DataTable.name, DataTable);
+	app.component(ToggleDropdown.name, ToggleDropdown);
 	app.component(FormGroup.name, FormGroup);
 	app.component(Icon.name, Icon);
 	app.component(ListGroup.name, ListGroup);
