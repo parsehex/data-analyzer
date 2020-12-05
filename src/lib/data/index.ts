@@ -26,6 +26,8 @@ async function processTNData(file: DBFileObject) {
 		wb.Sheets[wb.SheetNames[sheetIndex]]
 	);
 
+	data.sort((a, b) => a.Date - b.Date);
+
 	await addFileData(
 		file.file_id,
 		data,
