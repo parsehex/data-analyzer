@@ -44,6 +44,7 @@
 	import numeral from 'numeral';
 	import math from '../../mathjs';
 	import state from '../../lib/state';
+	import { quantile } from 'simple-statistics';
 	import { loadSettings, saveSettings } from '../../lib/settings';
 
 	const DataID = 'therapy-notes';
@@ -63,6 +64,10 @@
 				isDev: state.isDev,
 				columns: {
 					Average: true,
+					Q1: false,
+					Median: true,
+					Q3: false,
+					IQR: false,
 					'Total Earnings': true,
 					'Total Sessions': true,
 				},
@@ -128,12 +133,17 @@
 					const average = math.mean(...doc.sessionTotals);
 					const median = math.median(...doc.sessionTotals);
 					const sum = math.sum(...doc.sessionTotals);
+					const q1 = quantile(doc.sessionTotals, 0.25);
+					const q3 = quantile(doc.sessionTotals, 0.75);
 					const sessions = doc.sessionTotals.length;
 
 					tableData.push({
 						[this.mode]: doc.name,
 						Average: `$${numeral(average).format('0,0.00')}`,
+						Q1: `$${numeral(q1).format('0,0.00')}`,
 						Median: `$${numeral(median).format('0,0.00')}`,
+						Q3: `$${numeral(q3).format('0,0.00')}`,
+						IQR: `$${numeral(q3 - q1).format('0,0.00')}`,
 						'Total Earnings': `$${numeral(sum).format('0,0.00')}`,
 						'Total Sessions': `${numeral(sessions).format('0,0')}`,
 					});
