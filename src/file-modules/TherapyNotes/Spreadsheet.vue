@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="form-inline my-2">
-			<div class="form-group px-2">
+			<form-group class="px-2">
 				<label for="mode">View results by</label>
 				<select class="form-control mx-2" id="mode" v-model="mode">
 					<option value="Appointment Type">Appointment Type</option>
@@ -12,27 +12,14 @@
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
 					<option value="Service Description">Service Type</option>
 				</select>
-			</div>
-			<div class="form-group" v-if="isDev">
-				<div class="dropdown">
-					<button
-						class="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false"
-					>
-						Enable/Disable Columns
-					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="#">Action</a>
-						<a class="dropdown-item" href="#">Another action</a>
-						<a class="dropdown-item" href="#">Something else here</a>
-					</div>
-				</div>
-			</div>
-			<div v-if="isDev" class="form-group px-2">
+			</form-group>
+			<form-group>
+				<toggle-dropdown
+					label="Show/Hide Columns"
+					label-type="info"
+					v-model="columns"
+				/>
+			</form-group>
 			<form-group v-if="isDev" class="px-2">
 				<label
 					class="form-check-label"
@@ -52,7 +39,9 @@
 		</div>
 		<data-table
 			:data="data"
-			default-sort="Total Earnings"
+			:column-states="columns"
+			default-sort="Clinician Name"
+			:default-reverse="false"
 			small
 			sticky-header
 		/>
@@ -84,6 +73,12 @@
 			mode: 'Clinician Name' as keyof TherapyNotesColumn,
 			isDev: state.isDev,
 			precise: !state.isDev,
+			columns: {
+				Average: true,
+				Median: true,
+				'Total Earnings': true,
+				'Total Sessions': true,
+			},
 		}),
 		setup(props) {
 			return {};
