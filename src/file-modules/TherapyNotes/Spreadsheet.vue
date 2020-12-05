@@ -24,8 +24,8 @@
 		<data-table
 			:data="data"
 			:column-states="columns"
-			default-sort="Clinician Name"
-			:default-reverse="false"
+			default-sort="Total Sessions"
+			:default-reverse="true"
 			small
 			sticky-header
 		/>
