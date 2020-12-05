@@ -33,6 +33,7 @@
 				</div>
 			</div>
 			<div v-if="isDev" class="form-group px-2">
+			<form-group v-if="isDev" class="px-2">
 				<label
 					class="form-check-label"
 					for="precise"
@@ -47,7 +48,7 @@
 					v-model="precise"
 					title="More precise calculations are slower but more accurate"
 				/>
-			</div>
+			</form-group>
 		</div>
 		<data-table
 			:data="data"
