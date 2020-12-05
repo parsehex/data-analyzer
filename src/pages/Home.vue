@@ -16,6 +16,7 @@
 								<em>{{ f.name }}</em>
 								<div class="d-flex flex-row">
 									<btn
+										v-if="isDev"
 										@click.stop.capture.prevent="processFile(f.file_id)"
 										size="sm"
 										type="info"
@@ -61,6 +62,7 @@
 	import { DataTypes } from '../file-modules';
 
 	export default defineComponent({
+		data: () => ({ isDev: state.isDev }),
 		setup() {
 			if (state.files.length === 0) router.replace('/upload');
 
