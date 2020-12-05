@@ -20,22 +20,6 @@
 					v-model="columns"
 				/>
 			</form-group>
-			<form-group v-if="isDev" class="px-2">
-				<label
-					class="form-check-label"
-					for="precise"
-					title="More precise calculations are slower but more accurate"
-				>
-					Precise numbers
-				</label>
-				<input
-					id="precise"
-					class="form-check-input mx-1"
-					type="checkbox"
-					v-model="precise"
-					title="More precise calculations are slower but more accurate"
-				/>
-			</form-group>
 		</div>
 		<data-table
 			:data="data"
@@ -91,7 +75,7 @@
 
 				const clinicians: {
 					name: string;
-					sessionTotals: (math.BigNumber | number)[];
+					sessionTotals: number[];
 				}[] = [];
 				for (const row of this.fileData as TherapyNotesColumn[]) {
 					if (row.Type !== 'Appointment') continue;
@@ -118,8 +102,7 @@
 
 					const total = math.add(pPaid, iPaid);
 
-					let value: math.BigNumber | number = total.valueOf() as number;
-					if (this.precise) value = math.bignumber(value);
+					let value = total.valueOf() as number;
 					doc.sessionTotals.push(value);
 				}
 
