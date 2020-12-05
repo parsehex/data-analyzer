@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
+	import { computed, defineComponent, watch } from 'vue';
 	import * as xlsx from 'xlsx';
 	import { DBFileObject, getFileData } from '../../lib/db';
 	import tippy from 'tippy.js';
@@ -44,6 +44,10 @@
 	import numeral from 'numeral';
 	import math from '../../mathjs';
 	import state from '../../lib/state';
+	import { loadSettings, saveSettings } from '../../lib/settings';
+
+	const DataID = 'therapy-notes';
+	const DataVersion = 2;
 
 	export default defineComponent({
 		name: 'TherapyNotesSpreadsheet',
@@ -53,19 +57,33 @@
 				required: true,
 			},
 		},
-		data: () => ({
-			mode: 'Clinician Name' as keyof TherapyNotesColumn,
-			isDev: state.isDev,
-			precise: !state.isDev,
-			columns: {
-				Average: true,
-				Median: true,
-				'Total Earnings': true,
-				'Total Sessions': true,
-			},
-		}),
+		data() {
+			const DefaultData = {
+				mode: 'Clinician Name' as keyof TherapyNotesColumn,
+				isDev: state.isDev,
+				columns: {
+					Average: true,
+					'Total Earnings': true,
+					'Total Sessions': true,
+				},
+			};
+
+			const loadedData = loadSettings(DataID, DefaultData, DataVersion);
+			loadedData.isDev = state.isDev;
+
+			return loadedData;
+		},
 		setup(props) {
 			return {};
+		},
+		mounted() {
+			watch(
+				[this.$data],
+				() => {
+					saveSettings(DataID, this.$data, DataVersion);
+				},
+				{ deep: true }
+			);
 		},
 		computed: {
 			data() {
