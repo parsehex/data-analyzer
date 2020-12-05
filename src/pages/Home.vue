@@ -3,16 +3,14 @@
 		<container>
 			<row>
 				<column class="col-12 col-lg-6" centered>
-					<h1 class="lead">Recently Opened Data</h1>
+					<h1 class="lead">Recently Opened</h1>
 				</column>
 				<column class="col-12 col-lg-6">
 					<list-group v-for="f in files" :key="f.name">
 						<list-group-link :to="'/file/' + f.file_id">
 							<div class="d-flex w-100 justify-content-between">
 								<h6 class="mb-1">{{ getFileTypeName(f.type) }}</h6>
-								<small>
-									last opened {{ getLastOpenedLabel(f.last_opened) }}
-								</small>
+								<small>opened {{ getLastOpenedLabel(f.last_opened) }}</small>
 							</div>
 							<small class="d-flex justify-content-between">
 								<em>{{ f.name }}</em>
