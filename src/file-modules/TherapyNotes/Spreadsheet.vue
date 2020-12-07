@@ -58,10 +58,10 @@
 				isDev: state.isDev,
 				columns: {
 					Average: true,
-					Q1: false,
+					Q1: true,
 					Median: true,
-					Q3: false,
-					IQR: false,
+					Q3: true,
+					IQR: true,
 					'Total Earnings': true,
 					'Total Sessions': true,
 				},
