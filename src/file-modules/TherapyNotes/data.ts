@@ -1,5 +1,5 @@
 import math from '../../mathjs';
-import { quantile } from 'simple-statistics';
+import { interquartileRange, quantile } from 'simple-statistics';
 import numeral from 'numeral';
 import { TableData } from '../../components/types';
 import { TherapyNotesColumn } from '../../data-types';
@@ -58,7 +58,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		const sum = math.sum(...doc.sessionTotals);
 		const q1 = quantile(doc.sessionTotals, 0.25);
 		const q3 = quantile(doc.sessionTotals, 0.75);
-		const iqr = q3 - q1;
+		const iqr = interquartileRange(doc.sessionTotals);
 		const sessions = doc.sessionTotals.length;
 
 		tableData.push({
