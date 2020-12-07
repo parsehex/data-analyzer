@@ -181,11 +181,17 @@
 <style lang="scss">
 	table.data-table {
 		thead th {
+			padding: 0;
 			a {
 				display: block;
+				padding: 8px 16px;
+
+				&:hover {
+					background-color: #c7c8c9;
+				}
 			}
 		}
-		th,
+		// th,
 		td {
 			padding: 8px 16px;
 		}
