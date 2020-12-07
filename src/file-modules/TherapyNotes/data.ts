@@ -20,6 +20,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 
 	const clinicians: {
 		name: string;
+		nameValue?: number;
 		sessionTotals: number[];
 	}[] = [];
 	for (const row of fileData as TherapyNotesColumn[]) {
@@ -30,6 +31,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 
 		// @ts-ignore
 		let name = row[mode];
+		let nameValue: number;
 		if (!name) {
 			if (mode === 'Primary Insurer Name') name = 'No Insurance';
 			if (mode === 'Secondary Insurer Name') name = 'N/A';
@@ -41,6 +43,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		if (!doc) {
 			doc = {
 				name,
+				nameValue,
 				sessionTotals: [],
 			};
 			clinicians.push(doc);
@@ -61,16 +64,41 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		const iqr = interquartileRange(doc.sessionTotals);
 		const sessions = doc.sessionTotals.length;
 
-		tableData.push({
-			[mode]: doc.name,
-			Average: `$${numeral(average).format('0,0.00')}`,
-			Q1: `$${numeral(q1).format('0,0.00')}`,
-			Median: `$${numeral(median).format('0,0.00')}`,
-			Q3: `$${numeral(q3).format('0,0.00')}`,
-			IQR: `$${numeral(iqr).format('0,0.00')}`,
-			'Total Earnings': `$${numeral(sum).format('0,0.00')}`,
-			'Total Sessions': `${numeral(sessions).format('0,0')}`,
-		});
+		const data = {
+			[mode]: {
+				value: doc.name,
+			},
+			Average: {
+				text: `$${numeral(average).format('0,0.00')}`,
+				value: average,
+			},
+			Q1: {
+				text: `$${numeral(q1).format('0,0.00')}`,
+				value: q1,
+			},
+			Median: {
+				text: `$${numeral(median).format('0,0.00')}`,
+				value: median,
+			},
+			Q3: {
+				text: `$${numeral(q3).format('0,0.00')}`,
+				value: q3,
+			},
+			IQR: {
+				text: `$${numeral(iqr).format('0,0.00')}`,
+				value: iqr,
+			},
+			'Total Earnings': {
+				text: `$${numeral(sum).format('0,0.00')}`,
+				value: sum,
+			},
+			'Total Sessions': {
+				text: `${numeral(sessions).format('0,0')}`,
+				value: sessions,
+			},
+		};
+
+		tableData.push(data);
 	}
 
 	return tableData;

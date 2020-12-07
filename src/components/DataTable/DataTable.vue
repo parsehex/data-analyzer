@@ -36,11 +36,13 @@
 				<td v-for="(value, col) in row" :key="index + col">
 					<router-link
 						v-if="linkColumn === col"
-						:to="col.toLowerCase() + '/' + idFromString(value)"
+						:to="
+							col.toLowerCase() + '/' + idFromString(value.text || value.value)
+						"
 					>
-						{{ value }}
+						{{ value.text || value.value }}
 					</router-link>
-					<span v-else>{{ value }}</span>
+					<span v-else>{{ value.text || value.value }}</span>
 				</td>
 			</tr>
 		</tbody>
@@ -123,41 +125,26 @@
 				}
 				// @ts-ignore
 				return dataCopy.sort((a, b) => {
-					let aVal: TableDataType = a[this.sortKey];
-					let bVal: TableDataType = b[this.sortKey];
+					const aVal = a[this.sortKey].value;
+					const bVal = b[this.sortKey].value;
 
-					let aSortVal = aVal as number;
-					let bSortVal = bVal as number;
-
-					if (typeof aVal === 'string' && typeof bVal === 'string') {
-						// parse number-containing strings
-						if (/^\$/.test(aVal)) {
-							// value is dollar-formatted
-							aSortVal = +aVal.replace(/,/g, '').substr(1);
-							bSortVal = +bVal.replace(/,/g, '').substr(1);
-						} else if (/\d+/.test(aVal)) {
-							// has numbers
-							aSortVal = +aVal.replace(/,/g, '');
-							bSortVal = +bVal.replace(/,/g, '');
-						} else {
-							// sort text
-							let aStr = aVal.toUpperCase();
-							let bStr = bVal.toUpperCase();
-
-							if (this.reverse) {
-								if (aStr < bStr) return 1;
-								if (aStr > bStr) return -1;
-								return 0;
-							} else {
-								if (aStr < bStr) return -1;
-								if (aStr > bStr) return 1;
-								return 0;
-							}
-						}
+					if (typeof aVal === 'number' && typeof bVal === 'number') {
+						if (this.reverse) return bVal - aVal;
+						return aVal - bVal;
 					}
 
-					if (this.reverse) return bSortVal - aSortVal;
-					return aSortVal - bSortVal;
+					const aStr = (aVal as string).toUpperCase();
+					const bStr = (bVal as string).toUpperCase();
+
+					if (this.reverse) {
+						if (aStr < bStr) return 1;
+						if (aStr > bStr) return -1;
+						return 0;
+					} else {
+						if (aStr < bStr) return -1;
+						if (aStr > bStr) return 1;
+						return 0;
+					}
 				});
 			},
 		},
