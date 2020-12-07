@@ -3,11 +3,14 @@ import { interquartileRange, quantile } from 'simple-statistics';
 import numeral from 'numeral';
 import { TableData } from '../../components/types';
 import { TherapyNotesColumn } from '../../data-types';
+import { newDateFromExcel } from '../../lib/utils';
+import { format } from 'date-fns';
 
 export type DataMode =
 	| 'Appointment Type'
 	| 'Billing Method'
 	| 'Clinician Name'
+	| 'Month'
 	| 'Patient Name'
 	| 'Primary Insurer Name'
 	| 'Secondary Insurer Name'
@@ -37,6 +40,11 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			if (mode === 'Secondary Insurer Name') name = 'N/A';
 			if (mode === 'Patient Name')
 				name = row['First Name'] + ' ' + row['Last Name'];
+			if (mode === 'Month') {
+				const date = newDateFromExcel(row.Date);
+				name = format(date, 'MMMM, yyyy');
+				nameValue = date.getTime();
+			}
 		}
 
 		let doc = clinicians.find((d) => d.name === name);
@@ -97,6 +105,10 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 				value: sessions,
 			},
 		};
+		if (mode === 'Month') {
+			data[mode].value = doc.nameValue;
+			data[mode].text = doc.name;
+		}
 
 		tableData.push(data);
 	}

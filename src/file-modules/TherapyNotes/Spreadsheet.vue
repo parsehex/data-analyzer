@@ -7,6 +7,7 @@
 					<option value="Appointment Type">Appointment Type</option>
 					<option value="Billing Method">Billing Method</option>
 					<option value="Clinician Name">Clinician</option>
+					<option value="Month">Month</option>
 					<option value="Patient Name">Patient Name</option>
 					<option value="Primary Insurer Name">Primary Insurer</option>
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
