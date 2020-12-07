@@ -31,9 +31,9 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		// @ts-ignore
 		let name = row[mode];
 		if (!name) {
-			if (this.mode === 'Primary Insurer Name') name = 'No Insurance';
-			if (this.mode === 'Secondary Insurer Name') name = 'N/A';
-			if (this.mode === 'Patient Name')
+			if (mode === 'Primary Insurer Name') name = 'No Insurance';
+			if (mode === 'Secondary Insurer Name') name = 'N/A';
+			if (mode === 'Patient Name')
 				name = row['First Name'] + ' ' + row['Last Name'];
 		}
 
