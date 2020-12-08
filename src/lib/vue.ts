@@ -4,7 +4,7 @@ import Alert from '@/components/Alert.vue';
 import Btn from '@/components/Btn.vue';
 import Column from '@/components/Layout/Column.vue';
 import Container from '@/components/Layout/Container.vue';
-import DataTable from '@/components/DataTable/DataTable.vue';
+import DataTable from '@/components/DataTable.vue';
 import ToggleDropdown from '@/components/ToggleDropdown.vue';
 import FormGroup from '@/components/FormGroup.vue';
 import Icon from '@/components/Icon.vue';
@@ -14,9 +14,9 @@ import ListGroupLink from '@/components/ListGroup/ListGroupLink.vue';
 import ProgressBar from '@/components/ProgressBar.vue';
 import Row from '@/components/Layout/Row.vue';
 import Spinner from '@/components/Spinner.vue';
+import App from '@/App.vue';
 
 import router from './router';
-import App from '../App.vue';
 
 export const app = createApp(App);
 

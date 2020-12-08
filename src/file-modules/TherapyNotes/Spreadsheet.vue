@@ -39,8 +39,8 @@
 	import { clone } from '@/lib/utils';
 	import state from '@/lib/state';
 	import { loadSettings, saveSettings } from '@/lib/settings';
-	import { DataMode, getTableData } from './data';
 	import { DBFileDataObject } from '@/types/db';
+	import { DataMode, getTableData } from './data';
 
 	const DataID = 'therapy-notes';
 	const DataVersion = 2;

@@ -1,10 +1,10 @@
+import { RouterLink, RouterView } from 'vue-router';
 import { mount, shallowMount } from '@vue/test-utils';
 import App from './App.vue';
 import Container from './components/Layout/Container.vue';
 import Column from './components/Layout/Column.vue';
 import Row from './components/Layout/Row.vue';
 import Navigation from './components/Navigation/Navigation.vue';
-import { RouterLink, RouterView } from 'vue-router';
 
 test('uses shallowMount', async () => {
 	const wrapper = mount(App, {

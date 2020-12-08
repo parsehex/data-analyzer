@@ -54,9 +54,9 @@
 
 <script lang="ts">
 	import { defineComponent, reactive } from 'vue';
+	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
 	import router from '@/lib/router';
 	import state from '@/lib/state';
-	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
 	import { removeFile } from '@/lib/db';
 	import { processFile } from '@/lib/data';
 	import FileModules from '@/file-modules';

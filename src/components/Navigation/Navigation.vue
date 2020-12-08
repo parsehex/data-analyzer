@@ -28,9 +28,9 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
+	import Dexie from 'dexie';
 	import state from '@/lib/state';
 	import NavItem from './NavItem.vue';
-	import Dexie from 'dexie';
 
 	export default defineComponent({
 		components: { NavItem },
