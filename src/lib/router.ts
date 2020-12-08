@@ -1,10 +1,10 @@
 import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
-import Home from '../pages/Home.vue';
-import Upload from '../pages/Upload.vue';
-import File from '../pages/File.vue';
+import Home from '@/pages/Home.vue';
+import Upload from '@/pages/Upload.vue';
+import File from '@/pages/File.vue';
+import { DataTypes } from '@/file-modules';
 import { nextTick } from 'vue';
-import state, { findFile } from './state';
-import { DataTypes } from '../file-modules';
+import { findFile } from './state';
 
 const routes: RouteRecordRaw[] = [
 	{

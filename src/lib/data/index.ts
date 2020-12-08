@@ -1,8 +1,8 @@
-import { DataTypes } from '../../file-modules';
+import { DataTypes } from '@/file-modules';
 import { findFile } from '../state';
 import * as xlsx from 'xlsx';
 import { addFileData, DBFileObject, getFileContent } from '../db';
-import { TherapyNotesColumn } from '../../data-types';
+import { TherapyNotesColumn } from '@/data-types';
 
 export async function processFile(file_id: string | DBFileObject) {
 	const file = typeof file_id === 'string' ? findFile(file_id) : file_id;

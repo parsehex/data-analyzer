@@ -22,15 +22,15 @@
 
 <script lang="ts">
 	import { defineComponent, nextTick } from 'vue';
-	import { BootstrapType } from '../components/types';
+	import { BootstrapType } from '@/components/types';
 	import {
 		addFileData,
 		DBFileObject,
 		saveFile,
 		updateFilesList,
-	} from '../lib/db';
-	import router from '../lib/router';
-	import { processFile } from '../lib/data';
+	} from '@/lib/db';
+	import router from '@/lib/router';
+	import { processFile } from '@/lib/data';
 
 	export default defineComponent({
 		data: () => ({

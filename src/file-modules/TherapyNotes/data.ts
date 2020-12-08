@@ -1,9 +1,9 @@
-import math from '../../mathjs';
+import math from '@/math';
 import { interquartileRange, quantile } from 'simple-statistics';
 import numeral from 'numeral';
-import { TableData } from '../../components/types';
-import { TherapyNotesColumn } from '../../data-types';
-import { newDateFromExcel } from '../../lib/utils';
+import { TableData } from '@/components/types';
+import { TherapyNotesColumn } from '@/data-types';
+import { newDateFromExcel } from '@/lib/utils';
 import { format } from 'date-fns';
 
 export type DataMode =

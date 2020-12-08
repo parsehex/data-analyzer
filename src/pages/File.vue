@@ -12,12 +12,12 @@
 
 <script lang="ts">
 	import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
-	import state from '../lib/state';
+	import state from '@/lib/state';
 	import * as xlsx from 'xlsx';
-	import db, { DBFileDataObject, getFileData } from '../lib/db';
-	import { clone } from '../lib/utils';
+	import db, { DBFileDataObject, getFileData } from '@/lib/db';
+	import { clone } from '@/lib/utils';
 	import tippy from 'tippy.js';
-	import { DataTypes } from '../file-modules';
+	import { DataTypes } from '@/file-modules';
 
 	export default defineComponent({
 		props: {

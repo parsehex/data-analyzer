@@ -57,7 +57,7 @@
 		same exact keys, which are used as columns.
 	*/
 	import { computed, defineComponent } from 'vue';
-	import { clone, idFromString } from '../../lib/utils';
+	import { clone, idFromString } from '@/lib/utils';
 	import { TableData, TableDataType, ToggleOptions } from '../types';
 
 	export default defineComponent({

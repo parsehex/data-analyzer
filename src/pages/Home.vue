@@ -54,12 +54,12 @@
 
 <script lang="ts">
 	import { defineComponent, reactive } from 'vue';
-	import router from '../lib/router';
-	import state from '../lib/state';
+	import router from '@/lib/router';
+	import state from '@/lib/state';
 	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
-	import { removeFile } from '../lib/db';
-	import { processFile } from '../lib/data';
-	import { DataTypes } from '../file-modules';
+	import { removeFile } from '@/lib/db';
+	import { processFile } from '@/lib/data';
+	import { DataTypes } from '@/file-modules';
 
 	export default defineComponent({
 		data: () => ({ isDev: state.isDev }),

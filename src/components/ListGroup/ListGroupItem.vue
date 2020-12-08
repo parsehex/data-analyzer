@@ -13,7 +13,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import router from '../../lib/router';
+	import router from '@/lib/router';
 	import { BootstrapType } from '../types';
 
 	export default defineComponent({

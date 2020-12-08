@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
-import state, { findFile } from './state';
-import { generateID } from './utils';
+import state, { findFile } from '@/lib/state';
+import { generateID } from '@/lib/utils';
 
 const db = new Dexie('data-analyzer');
 db.version(1).stores({
