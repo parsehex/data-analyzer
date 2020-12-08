@@ -40,7 +40,7 @@
 	import state from '@/lib/state';
 	import { loadSettings, saveSettings } from '@/lib/settings';
 	import { DBFileDataObject } from '@/types/db';
-	import { DataMode, getTableData } from './data';
+	import { DataMode, getTableData } from './data/table';
 
 	const DataID = 'therapy-notes';
 	const DataVersion = 2;

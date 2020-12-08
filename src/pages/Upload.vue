@@ -43,7 +43,7 @@
 
 				const file: DBFileObject = await this.uploadFile(fileObj);
 				await updateFilesList();
-				await processFile(file.file_id);
+				await processFile(file);
 
 				this.isLoading = false;
 				nextTick(() => router.replace('/'));
