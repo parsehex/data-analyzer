@@ -19,7 +19,8 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<nav-item to="/">Home</nav-item>
-				<nav-item to="/upload">Upload New Data</nav-item>
+				<nav-item to="/upload">Add New Data</nav-item>
+				<btn type="secondary" v-if="isDev" @click="reset">Reset DB</btn>
 			</ul>
 		</div>
 	</nav>
@@ -27,7 +28,9 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
+	import state from '../../lib/state';
 	import NavItem from './NavItem.vue';
+	import Dexie from 'dexie';
 
 	export default defineComponent({
 		components: { NavItem },
@@ -38,8 +41,14 @@
 				required: true,
 			},
 		},
-		setup(props) {
-			return {};
+		computed: {
+			isDev: () => state.isDev,
+		},
+		methods: {
+			reset: async () => {
+				await Dexie.delete('data-analyzer');
+				window.location.reload();
+			},
 		},
 	});
 </script>
