@@ -47,7 +47,7 @@
 		methods: {
 			reset: async () => {
 				await Dexie.delete('data-analyzer');
-				window.location.reload();
+				window.location.replace('/');
 			},
 		},
 	});
