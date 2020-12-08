@@ -17,9 +17,5 @@
 
 	export default defineComponent({
 		name: 'NavSearch',
-		props: {},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

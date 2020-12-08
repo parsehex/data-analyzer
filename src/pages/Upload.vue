@@ -34,9 +34,6 @@
 			alertType: 'primary',
 			isLoading: false,
 		}),
-		setup() {
-			return {};
-		},
 
 		methods: {
 			async upload() {

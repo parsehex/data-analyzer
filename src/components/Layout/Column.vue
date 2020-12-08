@@ -12,8 +12,5 @@
 		props: {
 			centered: Boolean,
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

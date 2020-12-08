@@ -31,8 +31,5 @@
 			outline: Boolean,
 			centered: Boolean,
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

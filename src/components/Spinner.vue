@@ -16,8 +16,5 @@
 				default: '',
 			},
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

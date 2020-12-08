@@ -30,27 +30,26 @@
 		data: () => ({
 			data: {} as DBFileDataObject,
 		}),
-		setup(props) {
-			const file = computed(() =>
-				state.files.find((f) => f.file_id === props.id)
-			);
-
-			const fileType = computed(() => FileModules[file.value.type]);
-
-			const now = Date.now() / 1000;
-			if (now - file.value.last_opened >= 45) {
-				// update file's last_opened
-				file.value.last_opened = now;
-				db.table('files')
-					.where('file_id')
-					.equals(props.id)
-					.modify({ last_opened: now });
-			}
-
-			return { file, fileType };
+		computed: {
+			file() {
+				return state.files.find((f) => f.file_id === this.id);
+			},
+			fileType() {
+				return FileModules[this.file.type];
+			},
 		},
 		async mounted() {
 			this.data = await getFileData(this.file.file_id);
+
+			const now = Date.now() / 1000;
+			if (now - this.file.last_opened >= 45) {
+				// update file's last_opened
+				this.file.last_opened = now;
+				db.table('files')
+					.where('file_id')
+					.equals(this.id)
+					.modify({ last_opened: now });
+			}
 
 			tippy('h1.file-name', {
 				content: this.file.name,

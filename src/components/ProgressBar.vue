@@ -41,8 +41,5 @@
 				required: true,
 			},
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

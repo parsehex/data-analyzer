@@ -62,11 +62,9 @@
 	import FileModules from '@/file-modules';
 
 	export default defineComponent({
-		data: () => ({ isDev: state.isDev }),
-		setup() {
+		data: () => ({ isDev: state.isDev, files: state.files }),
+		mounted() {
 			if (state.files.length === 0) router.replace('/upload');
-
-			return { files: state.files };
 		},
 		methods: {
 			getLastOpenedLabel(time: number) {

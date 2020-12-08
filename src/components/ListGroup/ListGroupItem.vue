@@ -28,9 +28,6 @@
 				default: false,
 			},
 		},
-		setup(props) {
-			return {};
-		},
 		methods: {
 			handleClick() {
 				if (this.action) router.push(this.action);

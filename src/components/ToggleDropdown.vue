@@ -52,8 +52,5 @@
 				this.$emit('update:modelValue', newData);
 			},
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

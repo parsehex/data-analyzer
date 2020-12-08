@@ -28,8 +28,5 @@
 				default: 32,
 			},
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

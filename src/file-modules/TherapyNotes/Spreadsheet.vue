@@ -73,9 +73,6 @@
 
 			return loadedData;
 		},
-		setup(props) {
-			return {};
-		},
 		mounted() {
 			watch(
 				[this.$data],

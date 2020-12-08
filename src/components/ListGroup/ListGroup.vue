@@ -13,8 +13,5 @@
 		props: {
 			flush: Boolean,
 		},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

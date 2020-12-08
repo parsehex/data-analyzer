@@ -95,23 +95,19 @@
 				sorted: false,
 			};
 		},
-		setup(props) {
-			const heading = computed(() => {
-				if (!props.data[0]) {
+		computed: {
+			anyColumnsHidden() {
+				if (!this.columnStates) return false;
+				return Object.values(this.columnStates).includes(false);
+			},
+			heading() {
+				if (!this.data[0]) {
 					return [];
 				}
-				return Object.keys(props.data[0]).filter(
-					(k, i) => i === 0 || !props.columnStates || props.columnStates[k]
+				return Object.keys(this.data[0]).filter(
+					(k, i) => i === 0 || !this.columnStates || this.columnStates[k]
 				);
-			});
-			const anyColumnsHidden = computed(() => {
-				if (!props.columnStates) return false;
-				return Object.values(props.columnStates).includes(false);
-			});
-
-			return { heading, anyColumnsHidden };
-		},
-		computed: {
+			},
 			sortedData() {
 				let dataCopy: TableData = clone(this.data);
 				if (this.anyColumnsHidden) {

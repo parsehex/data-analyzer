@@ -27,9 +27,6 @@
 				required: true,
 			},
 		},
-		setup(props) {
-			return {};
-		},
 		methods: {
 			handleClick() {
 				if (this.action) router.push(this.action);
