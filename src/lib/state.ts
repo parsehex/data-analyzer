@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { DBFileObject } from './db';
+import { DBFileObject } from '@/types/db';
 
 interface State {
 	files: DBFileObject[];

@@ -1,5 +1,5 @@
 import { add } from 'date-fns';
-import { TableDataType } from '@/components/types';
+import { TableDataType } from '@/types/components';
 
 export function generateID() {
 	return '' + Math.random().toString(36).substr(2, 9);

@@ -35,11 +35,12 @@
 
 <script lang="ts">
 	import { computed, defineComponent, watch } from 'vue';
-	import { DBFileObject, getFileData, DBFileDataObject } from '@/lib/db';
+	import { getFileData } from '@/lib/db';
 	import { clone } from '@/lib/utils';
 	import state from '@/lib/state';
 	import { loadSettings, saveSettings } from '@/lib/settings';
 	import { DataMode, getTableData } from './data';
+	import { DBFileDataObject } from '@/types/db';
 
 	const DataID = 'therapy-notes';
 	const DataVersion = 2;

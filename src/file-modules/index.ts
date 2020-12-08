@@ -1,18 +1,13 @@
-import { defineComponent } from 'vue';
+import { FileModuleConfig } from '@/types/file-data';
+import TherapyNotes from './TherapyNotes/Spreadsheet.vue';
 
-import TherapyNotesSpreadsheet from './TherapyNotes/Spreadsheet.vue';
-
-interface DataTypeConfig {
-	version: number;
-	name: string;
-	name_long: string;
-	component: ReturnType<typeof defineComponent>;
-}
-export const DataTypes: { [key: string]: DataTypeConfig } = {
+const FileModules: FileModuleConfig = {
 	therapy_notes_spreadsheet: {
 		version: 1,
 		name: 'therapy_notes_spreadsheet',
 		name_long: 'TherapyNotes Spreadsheet',
-		component: TherapyNotesSpreadsheet,
+		component: TherapyNotes,
 	},
 };
+
+export default FileModules;

@@ -26,7 +26,7 @@
 
 <script lang="ts">
 	import { defineComponent } from 'vue';
-	import { BootstrapType, ToggleOptions } from './types';
+	import { BootstrapType, ToggleOptions } from '@/types/components';
 
 	export default defineComponent({
 		name: 'ToggleDropdown',

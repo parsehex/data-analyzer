@@ -2,9 +2,9 @@ import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
 import Home from '@/pages/Home.vue';
 import Upload from '@/pages/Upload.vue';
 import File from '@/pages/File.vue';
-import { DataTypes } from '@/file-modules';
 import { nextTick } from 'vue';
 import { findFile } from './state';
+import FileModules from '@/file-modules';
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -42,7 +42,7 @@ router.afterEach((to, from) => {
 		} else if (to.name === 'File') {
 			const file_id = to.params.id as string;
 			const file = findFile(file_id);
-			const { name_long } = DataTypes[file.type];
+			const { name_long } = FileModules[file.type];
 			title = name_long + ' - ' + DEFAULT_TITLE;
 		}
 		document.title = title;

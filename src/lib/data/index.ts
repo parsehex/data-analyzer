@@ -1,8 +1,9 @@
-import { DataTypes } from '@/file-modules';
 import { findFile } from '../state';
 import * as xlsx from 'xlsx';
-import { addFileData, DBFileObject, getFileContent } from '../db';
-import { TherapyNotesColumn } from '@/data-types';
+import { addFileData, getFileContent } from '../db';
+import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
+import { DBFileObject } from '@/types/db';
+import FileModules from '@/file-modules';
 
 export async function processFile(file_id: string | DBFileObject) {
 	const file = typeof file_id === 'string' ? findFile(file_id) : file_id;
@@ -31,6 +32,6 @@ async function processTNData(file: DBFileObject) {
 	await addFileData(
 		file.file_id,
 		data,
-		DataTypes.therapy_notes_spreadsheet.version
+		FileModules.therapy_notes_spreadsheet.version
 	);
 }

@@ -59,7 +59,7 @@
 	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
 	import { removeFile } from '@/lib/db';
 	import { processFile } from '@/lib/data';
-	import { DataTypes } from '@/file-modules';
+	import FileModules from '@/file-modules';
 
 	export default defineComponent({
 		data: () => ({ isDev: state.isDev }),
@@ -75,7 +75,7 @@
 				});
 			},
 			getFileTypeName(type: string) {
-				return DataTypes[type].name_long;
+				return FileModules[type].name_long;
 			},
 			processFile,
 			removeFile,

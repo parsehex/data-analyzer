@@ -1,6 +1,7 @@
 import Dexie from 'dexie';
 import state, { findFile } from '@/lib/state';
 import { generateID } from '@/lib/utils';
+import { DBFileDataObject, FileType, DBFileObject } from '@/types/db';
 
 const db = new Dexie('data-analyzer');
 db.version(1).stores({
@@ -22,11 +23,6 @@ export async function addFileData(
 		version,
 	});
 }
-export interface DBFileDataObject {
-	file_id: string;
-	type: FileType;
-	file_data: any;
-}
 export async function getFileData(file_id: string): Promise<DBFileDataObject> {
 	const f = await db.table('files_data').get({
 		file_id,
@@ -34,16 +30,6 @@ export async function getFileData(file_id: string): Promise<DBFileDataObject> {
 	return f;
 }
 
-type FileType = 'therapy_notes_spreadsheet';
-
-export interface DBFileObject {
-	file_id: string;
-	name: string;
-	type: FileType;
-	content: ArrayBuffer;
-	last_opened: number;
-	first_opened: number;
-}
 export async function saveFile(name: string, type: FileType, content: any) {
 	const file: DBFileObject = {
 		file_id: generateID(),

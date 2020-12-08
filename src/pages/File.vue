@@ -14,10 +14,11 @@
 	import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
 	import state from '@/lib/state';
 	import * as xlsx from 'xlsx';
-	import db, { DBFileDataObject, getFileData } from '@/lib/db';
+	import db, { getFileData } from '@/lib/db';
 	import { clone } from '@/lib/utils';
 	import tippy from 'tippy.js';
-	import { DataTypes } from '@/file-modules';
+	import { DBFileDataObject } from '@/types/db';
+	import FileModules from '@/file-modules';
 
 	export default defineComponent({
 		props: {
@@ -34,7 +35,7 @@
 				state.files.find((f) => f.file_id === props.id)
 			);
 
-			const fileType = computed(() => DataTypes[file.value.type]);
+			const fileType = computed(() => FileModules[file.value.type]);
 
 			const now = Date.now() / 1000;
 			if (now - file.value.last_opened >= 45) {

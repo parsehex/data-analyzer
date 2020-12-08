@@ -58,7 +58,7 @@
 	*/
 	import { computed, defineComponent } from 'vue';
 	import { clone, idFromString } from '@/lib/utils';
-	import { TableData, TableDataType, ToggleOptions } from '../types';
+	import { TableData, TableDataType, ToggleOptions } from '@/types/components';
 
 	export default defineComponent({
 		name: 'DataTable',
