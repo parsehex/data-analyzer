@@ -37,13 +37,13 @@
 			const fileType = computed(() => DataTypes[file.value.type]);
 
 			const now = Date.now() / 1000;
-			if (now - file.value.last_opened <= 45) {
+			if (now - file.value.last_opened >= 45) {
 				// update file's last_opened
-				file.value.last_opened = Date.now() / 1000;
+				file.value.last_opened = now;
 				db.table('files')
 					.where('file_id')
 					.equals(props.id)
-					.modify({ last_opened: file.value.last_opened });
+					.modify({ last_opened: now });
 			}
 
 			return { file, fileType };

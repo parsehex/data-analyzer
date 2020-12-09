@@ -56,7 +56,7 @@
 	*/
 	import { computed, defineComponent } from 'vue';
 	import { clone, idFromString } from '../../lib/utils';
-	import { TableData, TableDataType } from '../types';
+	import { TableData, TableDataType, ToggleOptions } from '../types';
 
 	export default defineComponent({
 		name: 'DataTable',
@@ -71,6 +71,7 @@
 			responsive: Boolean,
 			striped: Boolean,
 			stickyHeader: Boolean,
+			defaultReverse: Boolean,
 			defaultSort: {
 				type: String,
 				default: '',
@@ -79,11 +80,16 @@
 				type: String,
 				default: '',
 			},
+			// NOTE: the first column will not be hidden
+			columnStates: {
+				type: Object as () => ToggleOptions,
+				default: null,
+			},
 		},
 		data(props) {
 			return {
 				sortKey: props.defaultSort,
-				reverse: true,
+				reverse: props.defaultReverse,
 				sorted: false,
 			};
 		},
@@ -92,14 +98,29 @@
 				if (!props.data[0]) {
 					return [];
 				}
-				return Object.keys(props.data[0]);
+				return Object.keys(props.data[0]).filter(
+					(k, i) => i === 0 || !props.columnStates || props.columnStates[k]
+				);
+			});
+			const anyColumnsHidden = computed(() => {
+				if (!props.columnStates) return false;
+				return Object.values(props.columnStates).includes(false);
 			});
 
-			return { heading };
+			return { heading, anyColumnsHidden };
 		},
 		computed: {
 			sortedData() {
-				const dataCopy: TableData = clone(this.data);
+				let dataCopy: TableData = clone(this.data);
+				if (this.anyColumnsHidden) {
+					dataCopy = dataCopy.map((r) => {
+						const keys = Object.keys(r);
+						for (const k of keys) {
+							if (this.columnStates[k] === false) delete r[k];
+						}
+						return r;
+					});
+				}
 				// @ts-ignore
 				return dataCopy.sort((a, b) => {
 					let aVal: TableDataType = a[this.sortKey];
@@ -160,11 +181,16 @@
 <style lang="scss">
 	table.data-table {
 		thead th {
+			padding: 0;
 			a {
 				display: block;
+				padding: 8px 16px;
+
+				&:hover {
+					background-color: #c7c8c9;
+				}
 			}
 		}
-		th,
 		td {
 			padding: 8px 16px;
 		}
