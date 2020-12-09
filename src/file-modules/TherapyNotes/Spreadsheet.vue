@@ -2,7 +2,7 @@
 	<div>
 		<div class="form-inline my-2">
 			<form-group class="px-2">
-				<label for="mode">View results by</label>
+				<label for="mode">Results Mode:</label>
 				<select class="form-control mx-2" id="mode" v-model="mode">
 					<option value="Appointment Type">Appointment Type</option>
 					<option value="Billing Method">Billing Method</option>

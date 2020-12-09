@@ -100,6 +100,5 @@ export async function updateFilesList() {
 	await db.table('files').each((f) => {
 		files.push(f);
 	});
-	console.log(clone(files));
 	state.files = files;
 }

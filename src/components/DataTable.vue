@@ -63,17 +63,20 @@
 	export default defineComponent({
 		name: 'DataTable',
 		props: {
-			data: {
-				type: Array as PropType<TableData>,
-				default: [],
-			},
 			dark: Boolean,
 			small: Boolean,
 			bordered: Boolean,
 			responsive: Boolean,
 			striped: Boolean,
 			stickyHeader: Boolean,
+
+			data: {
+				type: Array as PropType<TableData>,
+				default: [],
+			},
+			/** Whether to reverse sort order by default */
 			defaultReverse: Boolean,
+			/** The column to sort on by default */
 			defaultSort: {
 				type: String,
 				default: '',
@@ -105,7 +108,15 @@
 					return [];
 				}
 				return Object.keys(this.data[0]).filter(
-					(k, i) => i === 0 || !this.columnStates || this.columnStates[k]
+					(k, i) =>
+						// always keep first column
+						i === 0 ||
+						// keep if columnStates no provided
+						!this.columnStates ||
+						//  use columnStates val
+						this.columnStates[k] ||
+						//  keep if columnStates doesn't reference column
+						!this.columnStates.hasOwnProperty(k)
 				);
 			},
 			sortedData(): TableData {
