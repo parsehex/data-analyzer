@@ -1,16 +1,11 @@
 export type FileType = 'therapy_notes_spreadsheet';
 
-export interface DBFileDataObject {
-	file_id: string;
-	type: FileType;
-	file_data: any;
-}
-
-export interface DBFileObject {
+export interface DBFileObject<FileDataType> {
 	file_id: string;
 	name: string;
 	type: FileType;
-	content: ArrayBuffer;
+	content: FileDataType;
 	last_opened: number;
 	first_opened: number;
+	version: number;
 }

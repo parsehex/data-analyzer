@@ -35,11 +35,10 @@
 
 <script lang="ts">
 	import { computed, defineComponent, PropType, watch } from 'vue';
-	import { getFileData } from '@/lib/db';
+	import { getFile } from '@/lib/db';
 	import { clone } from '@/lib/utils';
 	import state from '@/lib/state';
 	import { loadSettings, saveSettings } from '@/lib/settings';
-	import { DBFileDataObject } from '@/types/db';
 	import { TableData } from '@/types/components';
 	import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
 	import { DataMode, getTableData } from './data/table';

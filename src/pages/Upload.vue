@@ -23,10 +23,11 @@
 <script lang="ts">
 	import { defineComponent, nextTick } from 'vue';
 	import { BootstrapType } from '@/types/components';
-	import { addFileData, saveFile, updateFilesList } from '@/lib/db';
+	import { addFile, updateFile, updateFilesList } from '@/lib/db';
 	import router from '@/lib/router';
 	import { processFile } from '@/lib/data';
 	import { DBFileObject } from '@/types/db';
+	import FileModules from '@/file-modules';
 
 	export default defineComponent({
 		data: () => ({
@@ -41,27 +42,29 @@
 				const fileObj = ((this.$refs.fileInput as HTMLInputElement)
 					.files as FileList)[0];
 
-				const file: DBFileObject = await this.uploadFile(fileObj);
+				const fileBuffer = await this.uploadFile(fileObj);
+				const fileData = await processFile(
+					fileBuffer,
+					'therapy_notes_spreadsheet'
+				);
+				await addFile({
+					name: fileObj.name,
+					type: 'therapy_notes_spreadsheet',
+					content: fileData,
+					version: FileModules.therapy_notes_spreadsheet.version,
+				});
 				await updateFilesList();
-				await processFile(file);
 
 				this.isLoading = false;
 				nextTick(() => router.replace('/'));
 			},
 
-			uploadFile(file: File): Promise<DBFileObject> {
+			uploadFile(file: File): Promise<ArrayBuffer> {
 				return new Promise((resolve) => {
 					const reader = new FileReader();
-
 					reader.readAsArrayBuffer(file);
 					reader.onload = async () => {
-						const buffer = reader.result as ArrayBuffer;
-						const f = await saveFile(
-							file.name,
-							'therapy_notes_spreadsheet',
-							buffer
-						);
-						resolve(f);
+						resolve(reader.result as ArrayBuffer);
 					};
 				});
 			},

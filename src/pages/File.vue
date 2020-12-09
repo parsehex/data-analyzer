@@ -5,7 +5,7 @@
 				{{ fileType.name_long }}
 			</h1>
 
-			<component :is="fileType.component" :file-data="data.file_data || []" />
+			<component :is="fileType.component" :file-data="data.content || []" />
 		</column>
 	</row>
 </template>
@@ -15,9 +15,9 @@
 	import tippy from 'tippy.js';
 	import * as xlsx from 'xlsx';
 	import state from '@/lib/state';
-	import db, { getFileData } from '@/lib/db';
+	import db, { getFile } from '@/lib/db';
 	import { clone } from '@/lib/utils';
-	import { DBFileDataObject, DBFileObject } from '@/types/db';
+	import { DBFileObject } from '@/types/db';
 	import FileModules from '@/file-modules';
 	import { DataTypeConfig } from '@/types/file-data';
 
@@ -29,10 +29,10 @@
 			},
 		},
 		data: () => ({
-			data: {} as DBFileDataObject,
+			data: {} as DBFileObject<unknown>,
 		}),
 		computed: {
-			file(): DBFileObject {
+			file(): DBFileObject<unknown> {
 				return state.files.find((f) => f.file_id === this.id);
 			},
 			fileType(): DataTypeConfig {
@@ -40,7 +40,7 @@
 			},
 		},
 		async mounted() {
-			this.data = await getFileData(this.file.file_id);
+			this.data = await getFile(this.file.file_id);
 
 			const now = Date.now() / 1000;
 			if (now - this.file.last_opened >= 45) {

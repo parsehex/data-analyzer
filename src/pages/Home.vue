@@ -16,17 +16,6 @@
 								<em>{{ f.name }}</em>
 								<div class="d-flex flex-row">
 									<btn
-										v-if="isDev"
-										@click.stop.capture.prevent="processFile(f.file_id)"
-										size="sm"
-										type="info"
-										title="Re-process file"
-										outline
-										centered
-									>
-										<icon :size="16" type="refresh-cw" />
-									</btn>
-									<btn
 										@click.stop.capture.prevent="removeFile(f.file_id)"
 										size="sm"
 										type="danger"
@@ -58,7 +47,6 @@
 	import router from '@/lib/router';
 	import state from '@/lib/state';
 	import { removeFile } from '@/lib/db';
-	import { processFile } from '@/lib/data';
 	import FileModules from '@/file-modules';
 
 	export default defineComponent({
@@ -75,7 +63,6 @@
 			getFileTypeName(type: string) {
 				return FileModules[type].name_long;
 			},
-			processFile,
 			removeFile,
 		},
 	});
