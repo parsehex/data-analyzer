@@ -12,6 +12,7 @@
 					<option value="Primary Insurer Name">Primary Insurer</option>
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
 					<option value="Service Description">Service Type</option>
+					<option value="Unpaid Patients">Unpaid Patients</option>
 				</select>
 			</form-group>
 			<form-group>

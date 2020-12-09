@@ -1,6 +1,6 @@
 import { interquartileRange, quantile } from 'simple-statistics';
 import numeral from 'numeral';
-import { format } from 'date-fns';
+import { format, isFuture } from 'date-fns';
 import math from '@/math';
 import { TableData } from '@/types/components';
 import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
@@ -14,7 +14,8 @@ export type DataMode =
 	| 'Patient Name'
 	| 'Primary Insurer Name'
 	| 'Secondary Insurer Name'
-	| 'Service Description';
+	| 'Service Description'
+	| 'Unpaid Patients';
 
 export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 	if (!fileData) return [];
@@ -25,6 +26,12 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		name: string;
 		nameValue?: number;
 		sessionTotals: number[];
+
+		paidInFull?: boolean;
+		nextAppointments: {
+			clinician: string;
+			date: Date;
+		}[];
 	}[] = [];
 	for (const row of fileData as TherapyNotesColumn[]) {
 		if (row.Type !== 'Appointment') continue;
@@ -32,18 +39,19 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		const pPaid = math.abs(row['Patient Amount Paid'] || 0);
 		const iPaid = math.abs(row['Insurance Amount Paid'] || 0);
 
+		const rowDate = newDateFromExcel(row.Date);
+
 		// @ts-ignore
 		let name = row[mode];
 		let nameValue = null as number;
 		if (!name) {
 			if (mode === 'Primary Insurer Name') name = 'No Insurance';
 			if (mode === 'Secondary Insurer Name') name = 'N/A';
-			if (mode === 'Patient Name')
+			if (mode === 'Patient Name' || mode === 'Unpaid Patients')
 				name = row['First Name'] + ' ' + row['Last Name'];
 			if (mode === 'Month') {
-				const date = newDateFromExcel(row.Date);
-				name = format(date, 'MMMM, yyyy');
-				nameValue = date.getTime();
+				name = format(rowDate, 'MMMM, yyyy');
+				nameValue = rowDate.getTime();
 			}
 		}
 
@@ -52,6 +60,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			doc = {
 				name,
 				nameValue: nameValue as number,
+				nextAppointments: [],
 				sessionTotals: [],
 			};
 			results.push(doc);
@@ -61,20 +70,41 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 
 		let value = total.valueOf() as number;
 		doc.sessionTotals.push(value);
+
+		if (mode === 'Unpaid Patients') {
+			// since the data should be sorted by date, this value should
+			// end up as the most recent entry
+			doc.paidInFull = row['Patient Balance Status'] === 'Paid in Full';
+
+			if (isFuture(rowDate)) {
+				doc.nextAppointments.push({
+					date: rowDate,
+					clinician: row['Clinician Name'],
+				});
+			}
+		}
 	}
 
-	for (const doc of results) {
-		const average = math.mean(...doc.sessionTotals);
-		const median = math.median(...doc.sessionTotals);
-		const sum = math.sum(...doc.sessionTotals);
-		const q1 = quantile(doc.sessionTotals, 0.25);
-		const q3 = quantile(doc.sessionTotals, 0.75);
-		const iqr = interquartileRange(doc.sessionTotals);
-		const sessions = doc.sessionTotals.length;
+	for (const result of results) {
+		if (mode === 'Unpaid Patients') {
+			if (result.paidInFull) continue;
+
+			result.nextAppointments.sort(
+				(a, b) => a.date.getTime() - b.date.getTime()
+			);
+		}
+
+		const average = math.mean(...result.sessionTotals);
+		const median = math.median(...result.sessionTotals);
+		const sum = math.sum(...result.sessionTotals);
+		const q1 = quantile(result.sessionTotals, 0.25);
+		const q3 = quantile(result.sessionTotals, 0.75);
+		const iqr = interquartileRange(result.sessionTotals);
+		const sessions = result.sessionTotals.length;
 
 		const data = {
 			[mode]: {
-				value: doc.name,
+				value: result.name,
 			},
 			Average: {
 				text: `$${numeral(average).format('0,0.00')}`,
@@ -106,8 +136,20 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			},
 		};
 		if (mode === 'Month') {
-			data[mode].value = doc.nameValue;
-			data[mode].text = doc.name;
+			data[mode].value = result.nameValue;
+			data[mode].text = result.name;
+		} else if (mode === 'Unpaid Patients') {
+			let text = 'N/A';
+			let value = -1;
+			if (result.nextAppointments.length > 0) {
+				const appt = result.nextAppointments[0];
+				value = appt.date.getTime();
+				text = `${format(appt.date, 'P')} with ${appt.clinician}`;
+			}
+			data['Next Appointment'] = {
+				value,
+				text,
+			};
 		}
 
 		tableData.push(data);
