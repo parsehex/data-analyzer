@@ -1,21 +1,20 @@
 import * as xlsx from 'xlsx';
 
 interface Options<Col> {
-	content: ArrayBuffer;
+	buffer: ArrayBuffer;
 	sheetName: string;
 	header?: xlsx.Sheet2JSONOpts['header'];
 	sort?: keyof Col | ((a: Col, b: Col) => number);
 }
 
 export function loadSpreadsheetFile<ColumnType>({
-	content,
+	buffer,
 	sheetName,
 	header,
 	sort,
 }: Options<ColumnType>): ColumnType[] {
 	// convert spreadsheet to json
-	// const content = await getFileContent(file.file_id);
-	const wb = xlsx.read(new Uint8Array(content), {
+	const wb = xlsx.read(new Uint8Array(buffer), {
 		type: 'array',
 	});
 	const sheetIndex = wb.SheetNames.indexOf(sheetName);

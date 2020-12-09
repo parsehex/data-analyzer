@@ -21,7 +21,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 
 	const tableData: TableData = [];
 
-	const clinicians: {
+	const results: {
 		name: string;
 		nameValue?: number;
 		sessionTotals: number[];
@@ -47,14 +47,14 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			}
 		}
 
-		let doc = clinicians.find((d) => d.name === name);
+		let doc = results.find((d) => d.name === name);
 		if (!doc) {
 			doc = {
 				name,
 				nameValue: nameValue as number,
 				sessionTotals: [],
 			};
-			clinicians.push(doc);
+			results.push(doc);
 		}
 
 		const total = math.add(pPaid, iPaid);
@@ -63,7 +63,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		doc.sessionTotals.push(value);
 	}
 
-	for (const doc of clinicians) {
+	for (const doc of results) {
 		const average = math.mean(...doc.sessionTotals);
 		const median = math.median(...doc.sessionTotals);
 		const sum = math.sum(...doc.sessionTotals);
