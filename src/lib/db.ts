@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 import state, { findFile } from '@/lib/state';
-import { generateID } from '@/lib/utils';
+import { clone, generateID, nowSeconds } from '@/lib/utils';
 import { FileType, DBFileObject } from '@/types/db';
 
 const db = new Dexie('data-analyzer');
@@ -52,8 +52,8 @@ export async function addFile<FileDataType>({
 		type,
 		content,
 		version,
-		last_opened: Date.now() / 1000,
-		first_opened: Date.now() / 1000,
+		last_opened: nowSeconds(),
+		first_opened: nowSeconds(),
 	};
 	await db.table('files').add(file);
 	return file;
@@ -73,7 +73,7 @@ export async function updateFile<FileDataType = unknown>(
 	const oldData = await getFile(options.file_id);
 	if (!oldData) console.warn('Could not find requested file by ID to update.');
 
-	const newData = Object.assign({}, oldData, options);
+	const newData = clone(Object.assign({}, oldData, options));
 	await db
 		.table('files')
 		.where('file_id')
@@ -100,5 +100,6 @@ export async function updateFilesList() {
 	await db.table('files').each((f) => {
 		files.push(f);
 	});
+	console.log(clone(files));
 	state.files = files;
 }

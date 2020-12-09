@@ -55,11 +55,11 @@
 
 					buffers.push(await this.uploadFile(file));
 				}
-				const fileData = await processFile(
+				const fileData = await processFile({
 					buffers,
-					'therapy_notes_spreadsheet'
-				);
-				await addFile({
+					fileType: 'therapy_notes_spreadsheet',
+				});
+				const newFile = await addFile({
 					name: FileModules.therapy_notes_spreadsheet.name_long,
 					type: 'therapy_notes_spreadsheet',
 					content: fileData,
@@ -68,7 +68,7 @@
 				await updateFilesList();
 
 				this.isLoading = false;
-				nextTick(() => router.replace('/'));
+				nextTick(() => router.replace('/file/' + newFile.file_id));
 			},
 
 			uploadFile(file: File): Promise<ArrayBuffer> {

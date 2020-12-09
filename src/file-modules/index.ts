@@ -7,6 +7,7 @@ const FileModules: FileModuleConfig = {
 		name: 'therapy_notes_spreadsheet',
 		name_long: 'TherapyNotes Spreadsheet',
 		component: TherapyNotes,
+		mergeable: true,
 	},
 };
 

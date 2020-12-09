@@ -7,4 +7,5 @@ export interface DataTypeConfig {
 	name: string;
 	name_long: string;
 	component: ReturnType<typeof defineComponent>;
+	mergeable: boolean;
 }

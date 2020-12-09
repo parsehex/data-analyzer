@@ -19,3 +19,7 @@ export function newDateFromExcel(days: number) {
 	// excel dates are a number counting days up from 1/1/1900
 	return add(_1900, { days });
 }
+
+export function nowSeconds() {
+	return Math.round(Date.now() / 1000);
+}
