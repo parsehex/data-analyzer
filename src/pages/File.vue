@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
-	import tippy from 'tippy.js';
+	// import tippy from 'tippy.js';
 	import * as xlsx from 'xlsx';
 	import state from '@/lib/state';
 	import db, { getFile } from '@/lib/db';
@@ -52,11 +52,11 @@
 					.modify({ last_opened: now });
 			}
 
-			tippy('h1.file-name', {
-				content: this.file.name,
-				animation: 'shift-toward',
-				delay: 1500,
-			});
+			// tippy('h1.file-name', {
+			// 	content: this.file.name,
+			// 	animation: 'shift-toward',
+			// 	delay: 1500,
+			// });
 		},
 	});
 </script>

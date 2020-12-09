@@ -10,10 +10,6 @@
 						<list-group-link :to="'/file/' + f.file_id">
 							<div class="d-flex w-100 justify-content-between">
 								<h6 class="mb-1">{{ getFileTypeName(f.type) }}</h6>
-								<small>opened {{ getLastOpenedLabel(f.last_opened) }}</small>
-							</div>
-							<small class="d-flex justify-content-between">
-								<em>{{ f.name }}</em>
 								<div class="d-flex flex-row">
 									<btn
 										@click.stop.capture.prevent="removeFile(f.file_id)"
@@ -25,7 +21,8 @@
 										<icon :size="16" type="trash-2" />
 									</btn>
 								</div>
-							</small>
+							</div>
+							<small>opened {{ getLastOpenedLabel(f.last_opened) }}</small>
 						</list-group-link>
 					</list-group>
 

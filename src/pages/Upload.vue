@@ -48,7 +48,7 @@
 					'therapy_notes_spreadsheet'
 				);
 				await addFile({
-					name: fileObj.name,
+					name: FileModules.therapy_notes_spreadsheet.name_long,
 					type: 'therapy_notes_spreadsheet',
 					content: fileData,
 					version: FileModules.therapy_notes_spreadsheet.version,
