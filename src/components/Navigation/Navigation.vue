@@ -20,7 +20,7 @@
 			<ul class="navbar-nav mr-auto">
 				<nav-item to="/">Home</nav-item>
 				<nav-item to="/upload">Add New Data</nav-item>
-				<btn type="secondary" v-if="isDev" @click="reset">Reset DB</btn>
+				<btn type="secondary" v-if="isDev" @click="reset">Reset Data</btn>
 			</ul>
 		</div>
 	</nav>
@@ -47,6 +47,7 @@
 		methods: {
 			reset: async () => {
 				await Dexie.delete('data-analyzer');
+				localStorage.clear();
 				window.location.replace('/');
 			},
 		},
