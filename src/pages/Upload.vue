@@ -4,7 +4,13 @@
 			<alert :type="alertType">{{ alertText }}</alert>
 			<div class="input-group mb-3">
 				<div class="custom-file">
-					<input type="file" ref="fileInput" @change="upload" id="file-input" />
+					<input
+						type="file"
+						ref="fileInput"
+						@change="upload"
+						id="file-input"
+						multiple
+					/>
 					<label class="custom-file-label" for="file-input">Choose file</label>
 				</div>
 			</div>
@@ -39,12 +45,18 @@
 		methods: {
 			async upload() {
 				this.isLoading = true;
-				const fileObj = ((this.$refs.fileInput as HTMLInputElement)
-					.files as FileList)[0];
+				const { files } = this.$refs.fileInput as HTMLInputElement;
 
-				const fileBuffer = await this.uploadFile(fileObj);
+				const buffers: ArrayBuffer[] = [];
+
+				for (const key in files) {
+					if (!files.hasOwnProperty(key)) continue;
+					const file = files[key];
+
+					buffers.push(await this.uploadFile(file));
+				}
 				const fileData = await processFile(
-					fileBuffer,
+					buffers,
 					'therapy_notes_spreadsheet'
 				);
 				await addFile({
