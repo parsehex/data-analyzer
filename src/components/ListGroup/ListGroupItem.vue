@@ -5,7 +5,6 @@
 			type ? 'list-group-item-' + type : '',
 			action ? 'list-group-item-action' : '',
 		]"
-		@click="handleClick"
 	>
 		<slot />
 	</div>
@@ -26,11 +25,6 @@
 			action: {
 				type: Boolean,
 				default: false,
-			},
-		},
-		methods: {
-			handleClick() {
-				if (this.action) router.push(this.action);
 			},
 		},
 	});

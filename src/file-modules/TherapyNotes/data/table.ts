@@ -34,7 +34,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 
 		// @ts-ignore
 		let name = row[mode];
-		let nameValue: number;
+		let nameValue = null as number;
 		if (!name) {
 			if (mode === 'Primary Insurer Name') name = 'No Insurance';
 			if (mode === 'Secondary Insurer Name') name = 'N/A';
@@ -51,7 +51,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		if (!doc) {
 			doc = {
 				name,
-				nameValue,
+				nameValue: nameValue as number,
 				sessionTotals: [],
 			};
 			clinicians.push(doc);

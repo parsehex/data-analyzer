@@ -10,7 +10,6 @@ module.exports = {
 	// **optional** default: `[{ root: './' }]`
 	// support monorepos
 	projects: [
-		'./', // shorthand for only root.
 		{
 			// **required**
 			// Where is your project?

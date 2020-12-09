@@ -56,7 +56,7 @@
 		Each object should have the
 		same exact keys, which are used as columns.
 	*/
-	import { computed, defineComponent } from 'vue';
+	import { computed, defineComponent, PropType } from 'vue';
 	import { clone, idFromString } from '@/lib/utils';
 	import { TableData, TableDataType, ToggleOptions } from '@/types/components';
 
@@ -64,7 +64,7 @@
 		name: 'DataTable',
 		props: {
 			data: {
-				type: Array as () => TableData,
+				type: Array as PropType<TableData>,
 				default: [],
 			},
 			dark: Boolean,
@@ -84,7 +84,7 @@
 			},
 			// NOTE: the first column will not be hidden
 			columnStates: {
-				type: Object as () => ToggleOptions,
+				type: Object as PropType<{ [col: string]: boolean }>,
 				default: null,
 			},
 		},
@@ -96,11 +96,11 @@
 			};
 		},
 		computed: {
-			anyColumnsHidden() {
+			anyColumnsHidden(): boolean {
 				if (!this.columnStates) return false;
 				return Object.values(this.columnStates).includes(false);
 			},
-			heading() {
+			heading(): string[] {
 				if (!this.data[0]) {
 					return [];
 				}
@@ -108,7 +108,7 @@
 					(k, i) => i === 0 || !this.columnStates || this.columnStates[k]
 				);
 			},
-			sortedData() {
+			sortedData(): TableData {
 				let dataCopy: TableData = clone(this.data);
 				if (this.anyColumnsHidden) {
 					dataCopy = dataCopy.map((r) => {
@@ -154,7 +154,7 @@
 				this.reverse = this.isNumber(column);
 			},
 			isNumber(column: string) {
-				return /\d+/.test(this.sortedData[0][column]);
+				return typeof this.sortedData[0][column].value === 'number';
 			},
 			idFromString,
 		},

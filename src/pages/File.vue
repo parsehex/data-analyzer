@@ -17,8 +17,9 @@
 	import state from '@/lib/state';
 	import db, { getFileData } from '@/lib/db';
 	import { clone } from '@/lib/utils';
-	import { DBFileDataObject } from '@/types/db';
+	import { DBFileDataObject, DBFileObject } from '@/types/db';
 	import FileModules from '@/file-modules';
+	import { DataTypeConfig } from '@/types/file-data';
 
 	export default defineComponent({
 		props: {
@@ -31,10 +32,10 @@
 			data: {} as DBFileDataObject,
 		}),
 		computed: {
-			file() {
+			file(): DBFileObject {
 				return state.files.find((f) => f.file_id === this.id);
 			},
-			fileType() {
+			fileType(): DataTypeConfig {
 				return FileModules[this.file.type];
 			},
 		},

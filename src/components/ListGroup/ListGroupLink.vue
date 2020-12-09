@@ -29,7 +29,7 @@
 		},
 		methods: {
 			handleClick() {
-				if (this.action) router.push(this.action);
+				if (this.to) router.push(this.to);
 			},
 		},
 	});
