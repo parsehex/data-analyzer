@@ -3,7 +3,7 @@
 		type="button"
 		:class="[
 			'btn',
-			centered ? 'd-flex justify-content-center align-items-center' : '',
+			centered ? 'd-inline-flex justify-content-center align-items-center' : '',
 			'btn-' + (outline ? 'outline-' : '') + type,
 			size ? 'btn-' + size : '',
 		]"
