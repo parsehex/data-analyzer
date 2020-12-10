@@ -12,11 +12,14 @@ export type TableDataType = string | number;
 
 export interface TableDataObject {
 	text?: string;
+	title?: string;
 	value: TableDataType;
 }
 
-export type TableData = {
+export type TableRowObject = {
 	[columnName: string]: TableDataObject;
-}[];
+};
+
+export type TableData = TableRowObject[];
 
 export type ToggleOptions = { [key: string]: boolean };

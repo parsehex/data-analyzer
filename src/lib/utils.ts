@@ -1,3 +1,4 @@
+import numeral from 'numeral';
 import { TableDataType } from '@/types/components';
 
 export function generateID() {
@@ -42,4 +43,9 @@ export function newDateFromExcel(serial: number) {
 
 export function nowSeconds() {
 	return Math.round(Date.now() / 1000);
+}
+
+/** Format number as a dollar string (with dolar sign) */
+export function $(money: number) {
+	return '$' + numeral(money).format('0,0.00');
 }

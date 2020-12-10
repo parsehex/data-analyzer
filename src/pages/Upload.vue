@@ -4,8 +4,13 @@
 			<alert :type="alertType">
 				Select the type of file to add:
 				<select v-model="dataType">
-					<option value="pnc_statement_activity">PNC Statement Activity</option>
-					<option value="therapy_notes_spreadsheet">TherapyNotes</option>
+					<option
+						v-for="type in fileTypes"
+						:key="type.value"
+						:value="type.value"
+					>
+						{{ type.name }}
+					</option>
 				</select>
 				<!-- TODO add export instructions -->
 			</alert>
@@ -41,6 +46,7 @@
 	import { processFile } from '@/lib/data';
 	import { DBFileObject, FileType } from '@/types/db';
 	import FileModules from '@/file-modules';
+	import { uploadFiles } from '@/lib/io';
 
 	export default defineComponent({
 		data: () => ({
@@ -49,19 +55,21 @@
 			dataType: '' as FileType,
 		}),
 
+		computed: {
+			fileTypes: () => {
+				return Object.keys(FileModules).map((value) => ({
+					value,
+					name: FileModules[value as FileType].name_long,
+				}));
+			},
+		},
+
 		methods: {
 			async upload() {
 				this.isLoading = true;
 				const { files } = this.$refs.fileInput as HTMLInputElement;
+				const { buffers, file_names } = await uploadFiles(files);
 
-				const buffers: ArrayBuffer[] = [];
-
-				for (const key in files) {
-					if (!files.hasOwnProperty(key)) continue;
-					const file = files[key];
-
-					buffers.push(await this.uploadFile(file));
-				}
 				const fileData = await processFile({
 					buffers,
 					fileType: this.dataType,
@@ -71,21 +79,12 @@
 					type: this.dataType,
 					content: fileData,
 					version: FileModules[this.dataType].version,
+					file_names,
 				});
 				await updateFilesList();
 
 				this.isLoading = false;
 				nextTick(() => router.replace('/file/' + newFile.file_id));
-			},
-
-			uploadFile(file: File): Promise<ArrayBuffer> {
-				return new Promise((resolve) => {
-					const reader = new FileReader();
-					reader.readAsArrayBuffer(file);
-					reader.onload = async () => {
-						resolve(reader.result as ArrayBuffer);
-					};
-				});
 			},
 		},
 	});

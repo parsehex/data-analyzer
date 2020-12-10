@@ -8,11 +8,10 @@
 					<option value="Billing Method">Billing Method</option>
 					<option value="Clinician Name">Clinician</option>
 					<option value="Month">Month</option>
-					<option value="Patient Name">Patient Name</option>
+					<option value="Patient Name">Patient</option>
 					<option value="Primary Insurer Name">Primary Insurer</option>
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
 					<option value="Service Description">Service Type</option>
-					<option value="Unpaid Patients">Unpaid Patients</option>
 				</select>
 			</form-group>
 			<form-group>
@@ -29,6 +28,7 @@
 			default-sort="Total Sessions"
 			:default-reverse="true"
 			small
+			bordered
 			sticky-header
 		/>
 	</div>

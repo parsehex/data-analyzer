@@ -5,6 +5,7 @@
 			default-sort="Date"
 			:default-reverse="true"
 			small
+			bordered
 			sticky-header
 		/>
 	</div>
