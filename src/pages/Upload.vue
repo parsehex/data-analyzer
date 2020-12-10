@@ -1,8 +1,15 @@
 <template>
 	<row class="d-flex justify-content-center">
 		<column class="col-lg-6">
-			<alert :type="alertType">{{ alertText }}</alert>
-			<div class="input-group mb-3">
+			<alert :type="alertType">
+				Select the type of file to add:
+				<select v-model="dataType">
+					<option value="pnc_statement">PNC Statement</option>
+					<option value="therapy_notes_spreadsheet">TherapyNotes</option>
+				</select>
+				<!-- TODO add export instructions -->
+			</alert>
+			<div v-if="dataType" class="input-group mb-3">
 				<div class="custom-file">
 					<input
 						type="file"
@@ -32,14 +39,14 @@
 	import { addFile, updateFile, updateFilesList } from '@/lib/db';
 	import router from '@/lib/router';
 	import { processFile } from '@/lib/data';
-	import { DBFileObject } from '@/types/db';
+	import { DBFileObject, FileType } from '@/types/db';
 	import FileModules from '@/file-modules';
 
 	export default defineComponent({
 		data: () => ({
-			alertText: 'Select the TherapyNotes export file:',
 			alertType: 'primary',
 			isLoading: false,
+			dataType: '' as FileType,
 		}),
 
 		methods: {
@@ -57,13 +64,13 @@
 				}
 				const fileData = await processFile({
 					buffers,
-					fileType: 'therapy_notes_spreadsheet',
+					fileType: this.dataType,
 				});
 				const newFile = await addFile({
-					name: FileModules.therapy_notes_spreadsheet.name_long,
-					type: 'therapy_notes_spreadsheet',
+					name: FileModules[this.dataType].name_long,
+					type: this.dataType,
 					content: fileData,
-					version: FileModules.therapy_notes_spreadsheet.version,
+					version: FileModules[this.dataType].version,
 				});
 				await updateFilesList();
 
