@@ -2,33 +2,10 @@ import Dexie from 'dexie';
 import state, { findFile } from '@/lib/state';
 import { clone, generateID, nowSeconds } from '@/lib/utils';
 import { FileType, DBFileObject } from '@/types/db';
+import applyVersions from './versions';
 
 const db = new Dexie('data-analyzer');
-db.version(1).stores({
-	files: `++id, file_id, name, type, last_opened, first_opened`,
-	files_data: '++id, file_id, version, type',
-});
-db.version(2)
-	.stores({
-		files: `++id, file_id, name, type, last_opened, first_opened, version`,
-		// in the future version 3, remove files_data
-	})
-	.upgrade((tx) => {
-		return tx.table('files').each(async (file: DBFileObject<unknown>) => {
-			const data = await tx.table('files_data').get({ file_id: file.file_id });
-
-			const newData = Object.assign({}, file, {
-				content: data.file_data,
-				version: data.version,
-			});
-
-			await db
-				.table('files')
-				.where('file_id')
-				.equals(file.file_id)
-				.modify(newData);
-		});
-	});
+applyVersions(db);
 
 export default db;
 
@@ -41,12 +18,14 @@ interface AddFileOptions<FileDataType> {
 	type: FileType;
 	content: FileDataType;
 	version: number;
+	file_names: string[];
 }
 export async function addFile<FileDataType>({
 	name,
 	type,
 	content,
 	version,
+	file_names,
 }: AddFileOptions<FileDataType>) {
 	const file: DBFileObject<FileDataType> = {
 		file_id: generateID(),
@@ -54,6 +33,7 @@ export async function addFile<FileDataType>({
 		type,
 		content,
 		version,
+		file_names,
 		last_opened: nowSeconds(),
 		first_opened: nowSeconds(),
 	};
@@ -67,6 +47,7 @@ interface UpdateFileOptions<FileDataType = unknown> {
 	content?: FileDataType;
 	last_opened?: number;
 	version?: number;
+	file_names: string[];
 }
 export async function updateFile<FileDataType = unknown>(
 	options: UpdateFileOptions<FileDataType>
