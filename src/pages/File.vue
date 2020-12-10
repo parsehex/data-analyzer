@@ -70,12 +70,14 @@
 				const { files } = this.$refs.fileInput as HTMLInputElement;
 
 				const buffers: ArrayBuffer[] = [];
+				const file_names: string[] = clone(this.file.file_names);
 
 				for (const key in files) {
 					if (!files.hasOwnProperty(key)) continue;
 					const file = files[key];
 
 					buffers.push(await this.uploadFile(file));
+					file_names.push(file.name);
 				}
 				const fileData = await processFile({
 					buffers,
@@ -85,6 +87,7 @@
 				await updateFile({
 					file_id: this.file.file_id,
 					content: fileData,
+					file_names,
 				});
 				await updateFilesList();
 			},

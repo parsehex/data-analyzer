@@ -3,6 +3,7 @@ export type FileType = 'therapy_notes_spreadsheet' | 'pnc_statement_activity';
 export interface DBFileObject<FileDataType> {
 	file_id: string;
 	name: string;
+	file_names: string[];
 	type: FileType;
 	content: FileDataType;
 	last_opened: number;

@@ -28,4 +28,21 @@ export default function applyVersions(db: Dexie) {
 					.modify(newData);
 			});
 		});
+	db.version(3)
+		.stores({
+			files_data: null,
+		})
+		.upgrade((tx) => {
+			return tx.table('files').each(async (file) => {
+				const newData = Object.assign({}, file, {
+					file_names: ['Unknown'],
+				});
+
+				await tx
+					.table('files')
+					.where('file_id')
+					.equals(file.file_id)
+					.modify(newData);
+			});
+		});
 }
