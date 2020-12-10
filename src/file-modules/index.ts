@@ -1,6 +1,6 @@
 import { FileModuleConfig } from '@/types/file-data';
 import TherapyNotes from './TherapyNotes/Spreadsheet.vue';
-import PNCStatement from './PNC/Statement.vue';
+import PNCStatementActivity from './PNC/Statement.vue';
 
 const FileModules: FileModuleConfig = {
 	therapy_notes_spreadsheet: {
@@ -10,11 +10,11 @@ const FileModules: FileModuleConfig = {
 		component: TherapyNotes,
 		mergeable: true,
 	},
-	pnc_statement: {
+	pnc_statement_activity: {
 		version: 1,
-		name: 'pnc_statement',
-		name_long: 'PNC Statement',
-		component: PNCStatement,
+		name: 'pnc_statement_activity',
+		name_long: 'PNC Statement Activity',
+		component: PNCStatementActivity,
 		mergeable: true,
 	},
 };

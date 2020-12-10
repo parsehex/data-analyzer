@@ -13,14 +13,14 @@
 <script lang="ts">
 	import { computed, defineComponent, PropType, watch } from 'vue';
 	import { TableData } from '@/types/components';
-	import { PNCStatementColumn } from '@/types/file-data/pnc';
+	import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
 	import { getTableData } from './data/table';
 
 	export default defineComponent({
-		name: 'PNCStatement',
+		name: 'PNCStatementActivity',
 		props: {
 			fileData: {
-				type: Object as PropType<PNCStatementColumn[]>,
+				type: Object as PropType<PNCStatementActivityColumn[]>,
 				required: true,
 			},
 		},

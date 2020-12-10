@@ -1,4 +1,4 @@
-export interface PNCStatementColumn {
+export interface PNCStatementActivityColumn {
 	Date: string;
 	Amount: number;
 	Description: string;

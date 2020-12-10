@@ -4,7 +4,7 @@
 			<alert :type="alertType">
 				Select the type of file to add:
 				<select v-model="dataType">
-					<option value="pnc_statement">PNC Statement</option>
+					<option value="pnc_statement_activity">PNC Statement Activity</option>
 					<option value="therapy_notes_spreadsheet">TherapyNotes</option>
 				</select>
 				<!-- TODO add export instructions -->
