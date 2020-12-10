@@ -14,18 +14,20 @@ db.version(2)
 		// in the future version 3, remove files_data
 	})
 	.upgrade((tx) => {
-		return tx
-			.table('files')
-			.toCollection()
-			.modify(async (file: DBFileObject<unknown>) => {
-				const data = await tx
-					.table('files_data')
-					.get({ file_id: file.file_id });
+		return tx.table('files').each(async (file: DBFileObject<unknown>) => {
+			const data = await tx.table('files_data').get({ file_id: file.file_id });
 
-				delete file.content;
-				file.content = data.file_data;
-				file.version = data.version;
+			const newData = Object.assign({}, file, {
+				content: data.file_data,
+				version: data.version,
 			});
+
+			await db
+				.table('files')
+				.where('file_id')
+				.equals(file.file_id)
+				.modify(newData);
+		});
 	});
 
 export default db;
