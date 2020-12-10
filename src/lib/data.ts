@@ -2,7 +2,7 @@ import { FileType } from '@/types/db';
 import processTherapyNotesData from '@/file-modules/TherapyNotes/data/process';
 import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
 import processPNCStatementData from '@/file-modules/PNC/data/process';
-import { PNCStatementColumn } from '@/types/file-data/pnc';
+import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
 
 interface ProcessFileOptions {
 	buffers: ArrayBuffer[];
@@ -27,10 +27,10 @@ export async function processFile({
 			);
 		}
 
-		case 'pnc_statement': {
+		case 'pnc_statement_activity': {
 			return await processPNCStatementData(
 				buffers,
-				priorData as PNCStatementColumn[]
+				priorData as PNCStatementActivityColumn[]
 			);
 		}
 

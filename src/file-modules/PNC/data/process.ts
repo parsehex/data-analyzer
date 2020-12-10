@@ -1,15 +1,15 @@
-import { PNCStatementColumn } from '@/types/file-data/pnc';
+import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
 import { loadSpreadsheetFile } from '@/lib/io';
 
 export default async function processPNCStatementData(
 	buffers: ArrayBuffer[],
-	priorData?: PNCStatementColumn[]
+	priorData?: PNCStatementActivityColumn[]
 ) {
-	const sheet: PNCStatementColumn[] = [];
+	const sheet: PNCStatementActivityColumn[] = [];
 	if (priorData) sheet.push(...priorData);
 
 	for (const buffer of buffers) {
-		const rows = loadSpreadsheetFile<PNCStatementColumn>({
+		const rows = loadSpreadsheetFile<PNCStatementActivityColumn>({
 			buffer,
 			sheetName: 'DataExport',
 			sort: 'Date',

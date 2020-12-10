@@ -1,9 +1,9 @@
 import { format, parse } from 'date-fns';
 import numeral from 'numeral';
 import { TableData } from '@/types/components';
-import { PNCStatementColumn } from '@/types/file-data/pnc';
+import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
 
-export function getTableData(fileData: PNCStatementColumn[] = []) {
+export function getTableData(fileData: PNCStatementActivityColumn[] = []) {
 	const tableData: TableData = [];
 
 	for (const row of fileData) {
