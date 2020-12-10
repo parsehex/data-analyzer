@@ -1,4 +1,4 @@
-export type FileType = 'therapy_notes_spreadsheet';
+export type FileType = 'therapy_notes_spreadsheet' | 'pnc_statement';
 
 export interface DBFileObject<FileDataType> {
 	file_id: string;
