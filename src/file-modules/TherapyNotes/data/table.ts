@@ -14,8 +14,7 @@ export type DataMode =
 	| 'Patient Name'
 	| 'Primary Insurer Name'
 	| 'Secondary Insurer Name'
-	| 'Service Description'
-	| 'Unpaid Patients';
+	| 'Service Description';
 
 export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 	if (!fileData) return [];
@@ -28,7 +27,8 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		sessionTotals: number[];
 
 		paidInFull?: boolean;
-		nextAppointments: {
+		patientOwes?: number[];
+		nextAppointments?: {
 			clinician: string;
 			date: Date;
 		}[];
@@ -47,7 +47,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		if (!name) {
 			if (mode === 'Primary Insurer Name') name = 'No Insurance';
 			if (mode === 'Secondary Insurer Name') name = 'N/A';
-			if (mode === 'Patient Name' || mode === 'Unpaid Patients')
+			if (mode === 'Patient Name')
 				name = row['First Name'] + ' ' + row['Last Name'];
 			if (mode === 'Month') {
 				name = format(rowDate, 'MMMM, yyyy');
@@ -60,7 +60,6 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			doc = {
 				name,
 				nameValue: nameValue as number,
-				nextAppointments: [],
 				sessionTotals: [],
 			};
 			results.push(doc);
@@ -71,11 +70,15 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		let value = total.valueOf() as number;
 		doc.sessionTotals.push(value);
 
-		if (mode === 'Unpaid Patients') {
-			// since the data should be sorted by date, this value should
-			// end up as the most recent entry
-			doc.paidInFull = row['Patient Balance Status'] === 'Paid in Full';
+		if (mode === 'Patient Name') {
+			const owes =
+				row['Patient Amount Due'] - Math.abs(row['Patient Amount Paid']);
+			doc.patientOwes = doc.patientOwes || [];
+			if (owes > 0 && row['Patient Balance Status'] !== 'Paid in Full') {
+				doc.patientOwes.push(owes);
+			}
 
+			doc.nextAppointments = doc.nextAppointments || [];
 			if (isFuture(rowDate)) {
 				doc.nextAppointments.push({
 					date: rowDate,
@@ -86,9 +89,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 	}
 
 	for (const result of results) {
-		if (mode === 'Unpaid Patients') {
-			if (result.paidInFull) continue;
-
+		if (mode === 'Patient Name') {
 			result.nextAppointments.sort(
 				(a, b) => a.date.getTime() - b.date.getTime()
 			);
@@ -138,18 +139,30 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		if (mode === 'Month') {
 			data[mode].value = result.nameValue;
 			data[mode].text = result.name;
-		} else if (mode === 'Unpaid Patients') {
-			let text = 'N/A';
-			let value = -1;
+		} else if (mode === 'Patient Name') {
+			data['Owed'] = {
+				value: 0,
+				text: $(0),
+			};
+			if (result.patientOwes.length > 0) {
+				const owes = math.sum(...result.patientOwes);
+				data['Owed'].text = $(owes);
+				data['Owed'].value = owes;
+				data['Owed'].title = `Owed from ${result.patientOwes.length} sessions`;
+			}
+
+			data['Next Appointment'] = {
+				value: -1,
+				text: 'N/A',
+			};
 			if (result.nextAppointments.length > 0) {
 				const appt = result.nextAppointments[0];
-				value = appt.date.getTime();
-				text = `${format(appt.date, 'P')} with ${appt.clinician}`;
+
+				data['Next Appointment'].value = appt.date.getTime();
+				data['Next Appointment'].text = `${format(appt.date, 'P')} with ${
+					appt.clinician
+				}`;
 			}
-			data['Next Appointment'] = {
-				value,
-				text,
-			};
 		}
 
 		tableData.push(data);
