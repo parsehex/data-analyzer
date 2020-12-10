@@ -102,5 +102,6 @@ export async function updateFilesList() {
 	await db.table('files').each((f) => {
 		files.push(f);
 	});
+	files.sort((a, b) => b.last_opened - a.last_opened);
 	state.files = files;
 }
