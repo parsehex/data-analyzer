@@ -33,7 +33,7 @@
 		</thead>
 		<tbody>
 			<tr v-for="(row, index) in sortedData" :key="index">
-				<td v-for="(value, col) in row" :key="index + col">
+				<td v-for="(value, col) in row" :key="index + col" :title="value.title">
 					<router-link
 						v-if="linkColumn === col"
 						:to="
@@ -42,7 +42,9 @@
 					>
 						{{ value.text || value.value }}
 					</router-link>
-					<span v-else>{{ value.text || value.value }}</span>
+					<span v-else>
+						{{ value.text || value.value }}
+					</span>
 				</td>
 			</tr>
 		</tbody>

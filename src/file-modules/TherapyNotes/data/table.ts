@@ -2,7 +2,7 @@ import { interquartileRange, quantile } from 'simple-statistics';
 import numeral from 'numeral';
 import { format, isFuture } from 'date-fns';
 import math from '@/math';
-import { TableData } from '@/types/components';
+import { TableData, TableRowObject } from '@/types/components';
 import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
 import { $, newDateFromExcel } from '@/lib/utils';
 
@@ -102,7 +102,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		const iqr = interquartileRange(result.sessionTotals);
 		const sessions = result.sessionTotals.length;
 
-		const data = {
+		const data: TableRowObject = {
 			[mode]: {
 				value: result.name,
 			},
