@@ -29,6 +29,7 @@
 			default-sort="Total Sessions"
 			:default-reverse="true"
 			small
+			bordered
 			sticky-header
 		/>
 	</div>
