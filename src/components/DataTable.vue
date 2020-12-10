@@ -36,11 +36,13 @@
 				<td v-for="(value, col) in row" :key="index + col">
 					<router-link
 						v-if="linkColumn === col"
-						:to="col.toLowerCase() + '/' + idFromString(value)"
+						:to="
+							col.toLowerCase() + '/' + idFromString(value.text || value.value)
+						"
 					>
-						{{ value }}
+						{{ value.text || value.value }}
 					</router-link>
-					<span v-else>{{ value }}</span>
+					<span v-else>{{ value.text || value.value }}</span>
 				</td>
 			</tr>
 		</tbody>
@@ -54,24 +56,27 @@
 		Each object should have the
 		same exact keys, which are used as columns.
 	*/
-	import { computed, defineComponent } from 'vue';
-	import { clone, idFromString } from '../../lib/utils';
-	import { TableData, TableDataType, ToggleOptions } from '../types';
+	import { computed, defineComponent, PropType } from 'vue';
+	import { clone, idFromString } from '@/lib/utils';
+	import { TableData, TableDataType, ToggleOptions } from '@/types/components';
 
 	export default defineComponent({
 		name: 'DataTable',
 		props: {
-			data: {
-				type: Array as () => TableData,
-				default: [],
-			},
 			dark: Boolean,
 			small: Boolean,
 			bordered: Boolean,
 			responsive: Boolean,
 			striped: Boolean,
 			stickyHeader: Boolean,
+
+			data: {
+				type: Array as PropType<TableData>,
+				default: [],
+			},
+			/** Whether to reverse sort order by default */
 			defaultReverse: Boolean,
+			/** The column to sort on by default */
 			defaultSort: {
 				type: String,
 				default: '',
@@ -82,7 +87,7 @@
 			},
 			// NOTE: the first column will not be hidden
 			columnStates: {
-				type: Object as () => ToggleOptions,
+				type: Object as PropType<{ [col: string]: boolean }>,
 				default: null,
 			},
 		},
@@ -93,24 +98,28 @@
 				sorted: false,
 			};
 		},
-		setup(props) {
-			const heading = computed(() => {
-				if (!props.data[0]) {
+		computed: {
+			anyColumnsHidden(): boolean {
+				if (!this.columnStates) return false;
+				return Object.values(this.columnStates).includes(false);
+			},
+			heading(): string[] {
+				if (!this.data[0]) {
 					return [];
 				}
-				return Object.keys(props.data[0]).filter(
-					(k, i) => i === 0 || !props.columnStates || props.columnStates[k]
+				return Object.keys(this.data[0]).filter(
+					(k, i) =>
+						// always keep first column
+						i === 0 ||
+						// keep if columnStates no provided
+						!this.columnStates ||
+						//  use columnStates val
+						this.columnStates[k] ||
+						//  keep if columnStates doesn't reference column
+						!this.columnStates.hasOwnProperty(k)
 				);
-			});
-			const anyColumnsHidden = computed(() => {
-				if (!props.columnStates) return false;
-				return Object.values(props.columnStates).includes(false);
-			});
-
-			return { heading, anyColumnsHidden };
-		},
-		computed: {
-			sortedData() {
+			},
+			sortedData(): TableData {
 				let dataCopy: TableData = clone(this.data);
 				if (this.anyColumnsHidden) {
 					dataCopy = dataCopy.map((r) => {
@@ -123,41 +132,26 @@
 				}
 				// @ts-ignore
 				return dataCopy.sort((a, b) => {
-					let aVal: TableDataType = a[this.sortKey];
-					let bVal: TableDataType = b[this.sortKey];
+					const aVal = a[this.sortKey].value;
+					const bVal = b[this.sortKey].value;
 
-					let aSortVal = aVal as number;
-					let bSortVal = bVal as number;
-
-					if (typeof aVal === 'string' && typeof bVal === 'string') {
-						// parse number-containing strings
-						if (/^\$/.test(aVal)) {
-							// value is dollar-formatted
-							aSortVal = +aVal.replace(/,/g, '').substr(1);
-							bSortVal = +bVal.replace(/,/g, '').substr(1);
-						} else if (/\d+/.test(aVal)) {
-							// has numbers
-							aSortVal = +aVal.replace(/,/g, '');
-							bSortVal = +bVal.replace(/,/g, '');
-						} else {
-							// sort text
-							let aStr = aVal.toUpperCase();
-							let bStr = bVal.toUpperCase();
-
-							if (this.reverse) {
-								if (aStr < bStr) return 1;
-								if (aStr > bStr) return -1;
-								return 0;
-							} else {
-								if (aStr < bStr) return -1;
-								if (aStr > bStr) return 1;
-								return 0;
-							}
-						}
+					if (typeof aVal === 'number' && typeof bVal === 'number') {
+						if (this.reverse) return bVal - aVal;
+						return aVal - bVal;
 					}
 
-					if (this.reverse) return bSortVal - aSortVal;
-					return aSortVal - bSortVal;
+					const aStr = (aVal as string).toUpperCase();
+					const bStr = (bVal as string).toUpperCase();
+
+					if (this.reverse) {
+						if (aStr < bStr) return 1;
+						if (aStr > bStr) return -1;
+						return 0;
+					} else {
+						if (aStr < bStr) return -1;
+						if (aStr > bStr) return 1;
+						return 0;
+					}
 				});
 			},
 		},
@@ -171,7 +165,7 @@
 				this.reverse = this.isNumber(column);
 			},
 			isNumber(column: string) {
-				return /\d+/.test(this.sortedData[0][column]);
+				return typeof this.sortedData[0][column].value === 'number';
 			},
 			idFromString,
 		},

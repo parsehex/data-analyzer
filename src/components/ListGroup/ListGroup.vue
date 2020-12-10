@@ -6,15 +6,12 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from '../types';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'ListGroup',
 		props: {
 			flush: Boolean,
-		},
-		setup(props) {
-			return {};
 		},
 	});
 </script>

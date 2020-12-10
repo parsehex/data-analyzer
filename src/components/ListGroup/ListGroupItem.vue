@@ -5,7 +5,6 @@
 			type ? 'list-group-item-' + type : '',
 			action ? 'list-group-item-action' : '',
 		]"
-		@click="handleClick"
 	>
 		<slot />
 	</div>
@@ -13,8 +12,8 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import router from '../../lib/router';
-	import { BootstrapType } from '../types';
+	import router from '@/lib/router';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'ListGroupItem',
@@ -26,14 +25,6 @@
 			action: {
 				type: Boolean,
 				default: false,
-			},
-		},
-		setup(props) {
-			return {};
-		},
-		methods: {
-			handleClick() {
-				if (this.action) router.push(this.action);
 			},
 		},
 	});

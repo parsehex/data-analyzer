@@ -7,6 +7,7 @@
 			data-toggle="dropdown"
 			aria-haspopup="true"
 			aria-expanded="false"
+			outline
 		>
 			{{ label }}
 		</btn>
@@ -26,7 +27,7 @@
 
 <script lang="ts">
 	import { defineComponent } from 'vue';
-	import { BootstrapType, ToggleOptions } from './types';
+	import { BootstrapType, ToggleOptions } from '@/types/components';
 
 	export default defineComponent({
 		name: 'ToggleDropdown',
@@ -51,9 +52,6 @@
 				const newData = Object.assign({}, this.modelValue, { [key]: newVal });
 				this.$emit('update:modelValue', newData);
 			},
-		},
-		setup(props) {
-			return {};
 		},
 	});
 </script>

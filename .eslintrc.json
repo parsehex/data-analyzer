@@ -10,6 +10,8 @@
     "vue"
   ],
   "extends": [
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "plugin:vue/vue3-strongly-recommended",
     "prettier",
     "prettier/@typescript-eslint",
@@ -21,6 +23,27 @@
       "tab"
     ],
     "no-console": 0,
-    "no-warning-comments": 1
+    "no-warning-comments": 1,
+    "import/order": [
+      1,
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
+      }
+    ],
+    "import/no-unused-modules": [
+      1,
+      { "unusedExports": true }
+    ],
+    "import/no-unassigned-import": [
+      1,
+      {
+        "allow": [ "**/*.css", "bootstrap" ]
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "eslint-import-resolver-typescript": {}
+    }
   }
 }

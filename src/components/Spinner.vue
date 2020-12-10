@@ -6,7 +6,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from './types';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'Spinner',
@@ -15,9 +15,6 @@
 				type: String as () => BootstrapType,
 				default: '',
 			},
-		},
-		setup(props) {
-			return {};
 		},
 	});
 </script>

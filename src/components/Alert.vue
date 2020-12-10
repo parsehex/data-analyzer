@@ -6,7 +6,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from './types';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'Alert',
@@ -15,9 +15,6 @@
 				type: String as () => BootstrapType,
 				required: true,
 			},
-		},
-		setup(props) {
-			return {};
 		},
 	});
 </script>

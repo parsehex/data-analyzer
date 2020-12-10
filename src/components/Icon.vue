@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from './types';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'Icon',
@@ -27,9 +27,6 @@
 				type: Number,
 				default: 32,
 			},
-		},
-		setup(props) {
-			return {};
 		},
 	});
 </script>

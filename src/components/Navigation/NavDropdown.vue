@@ -25,9 +25,5 @@
 
 	export default defineComponent({
 		name: 'NavDropdown',
-		props: {},
-		setup(props) {
-			return {};
-		},
 	});
 </script>

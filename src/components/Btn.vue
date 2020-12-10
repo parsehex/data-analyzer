@@ -3,7 +3,7 @@
 		type="button"
 		:class="[
 			'btn',
-			centered ? 'd-flex justify-content-center align-items-center' : '',
+			centered ? 'd-inline-flex justify-content-center align-items-center' : '',
 			'btn-' + (outline ? 'outline-' : '') + type,
 			size ? 'btn-' + size : '',
 		]"
@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from './types';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'Btn',
@@ -30,9 +30,6 @@
 			},
 			outline: Boolean,
 			centered: Boolean,
-		},
-		setup(props) {
-			return {};
 		},
 	});
 </script>

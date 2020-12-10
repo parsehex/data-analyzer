@@ -9,8 +9,5 @@
 
 	export default defineComponent({
 		name: 'FormGroup',
-		setup(props) {
-			return {};
-		},
 	});
 </script>

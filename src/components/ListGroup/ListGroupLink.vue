@@ -12,8 +12,8 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import router from '../../lib/router';
-	import { BootstrapType } from '../types';
+	import router from '@/lib/router';
+	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
 		name: 'ListGroupLink',
@@ -27,12 +27,9 @@
 				required: true,
 			},
 		},
-		setup(props) {
-			return {};
-		},
 		methods: {
 			handleClick() {
-				if (this.action) router.push(this.action);
+				if (this.to) router.push(this.to);
 			},
 		},
 	});

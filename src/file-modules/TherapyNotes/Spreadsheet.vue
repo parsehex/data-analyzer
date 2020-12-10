@@ -2,15 +2,17 @@
 	<div>
 		<div class="form-inline my-2">
 			<form-group class="px-2">
-				<label for="mode">View results by</label>
+				<label for="mode">Results Mode:</label>
 				<select class="form-control mx-2" id="mode" v-model="mode">
 					<option value="Appointment Type">Appointment Type</option>
 					<option value="Billing Method">Billing Method</option>
 					<option value="Clinician Name">Clinician</option>
+					<option value="Month">Month</option>
 					<option value="Patient Name">Patient Name</option>
 					<option value="Primary Insurer Name">Primary Insurer</option>
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
 					<option value="Service Description">Service Type</option>
+					<option value="Unpaid Patients">Unpaid Patients</option>
 				</select>
 			</form-group>
 			<form-group>
@@ -33,12 +35,14 @@
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent, watch } from 'vue';
-	import { DBFileObject, getFileData, DBFileDataObject } from '../../lib/db';
-	import { clone } from '../../lib/utils';
-	import state from '../../lib/state';
-	import { loadSettings, saveSettings } from '../../lib/settings';
-	import { DataMode, getTableData } from './data';
+	import { computed, defineComponent, PropType, watch } from 'vue';
+	import { getFile } from '@/lib/db';
+	import { clone } from '@/lib/utils';
+	import state from '@/lib/state';
+	import { loadSettings, saveSettings } from '@/lib/settings';
+	import { TableData } from '@/types/components';
+	import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
+	import { DataMode, getTableData } from './data/table';
 
 	const DataID = 'therapy-notes';
 	const DataVersion = 2;
@@ -47,7 +51,7 @@
 		name: 'TherapyNotesSpreadsheet',
 		props: {
 			fileData: {
-				type: Object as () => DBFileDataObject,
+				type: Object as PropType<TherapyNotesColumn[]>,
 				required: true,
 			},
 		},
@@ -57,10 +61,10 @@
 				isDev: state.isDev,
 				columns: {
 					Average: true,
-					Q1: false,
+					Q1: true,
 					Median: true,
-					Q3: false,
-					IQR: false,
+					Q3: true,
+					IQR: true,
 					'Total Earnings': true,
 					'Total Sessions': true,
 				},
@@ -70,9 +74,6 @@
 			loadedData.isDev = state.isDev;
 
 			return loadedData;
-		},
-		setup(props) {
-			return {};
 		},
 		mounted() {
 			watch(
@@ -84,7 +85,7 @@
 			);
 		},
 		computed: {
-			data() {
+			data(): TableData {
 				return getTableData(this.fileData, this.mode);
 			},
 		},

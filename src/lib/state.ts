@@ -1,14 +1,16 @@
 import { reactive } from 'vue';
-import { DBFileObject } from './db';
+import { DBFileObject } from '@/types/db';
 
 interface State {
-	files: DBFileObject[];
+	files: DBFileObject<unknown>[];
 	isDev: boolean;
+	isLoading: boolean;
 }
 
 const state: State = reactive({
 	files: [],
 	isDev: window.location.href.includes('localhost'),
+	isLoading: false,
 });
 
 export default state;

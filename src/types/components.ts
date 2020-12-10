@@ -8,10 +8,15 @@ export type BootstrapType =
 	| 'warning'
 	| 'info';
 
-export type TableDataType = string | number | boolean;
+export type TableDataType = string | number;
+
+export interface TableDataObject {
+	text?: string;
+	value: TableDataType;
+}
 
 export type TableData = {
-	[columnName: string]: TableDataType;
+	[columnName: string]: TableDataObject;
 }[];
 
 export type ToggleOptions = { [key: string]: boolean };
