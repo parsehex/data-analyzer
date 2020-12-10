@@ -24,7 +24,7 @@
 				required: true,
 			},
 			size: {
-				type: String as () => '' | 'sm' | 'lg',
+				type: String as () => '' | 'xs' | 'sm' | 'lg',
 				required: false,
 				default: '',
 			},

@@ -67,7 +67,6 @@
 				fileInput.click();
 			},
 			async upload() {
-				// state.isLoading = true;
 				const { files } = this.$refs.fileInput as HTMLInputElement;
 
 				const buffers: ArrayBuffer[] = [];
@@ -88,9 +87,6 @@
 					content: fileData,
 				});
 				await updateFilesList();
-
-				// state.isLoading = false;
-				// nextTick(() => router.replace('/'));
 			},
 			uploadFile(file: File): Promise<ArrayBuffer> {
 				return new Promise((resolve) => {

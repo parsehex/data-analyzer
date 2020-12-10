@@ -20,7 +20,17 @@
 			<ul class="navbar-nav mr-auto">
 				<nav-item to="/">Home</nav-item>
 				<nav-item to="/upload">Add New Data</nav-item>
-				<btn type="secondary" v-if="isDev" @click="reset">Reset Data</btn>
+				<li class="nav-item">
+					<btn
+						type="warning"
+						outline
+						size="xs"
+						@click="reset"
+						title="Reset all data for Data Analyzer"
+					>
+						Reset Data
+					</btn>
+				</li>
 			</ul>
 		</div>
 	</nav>
@@ -40,9 +50,6 @@
 				type: String,
 				required: true,
 			},
-		},
-		computed: {
-			isDev: () => state.isDev,
 		},
 		methods: {
 			reset: async () => {
