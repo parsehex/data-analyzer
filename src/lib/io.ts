@@ -32,3 +32,27 @@ export function loadSpreadsheetFile<ColumnType>({
 
 	return data;
 }
+
+export async function uploadFiles(files: FileList) {
+	const buffers: ArrayBuffer[] = [];
+	const file_names: string[] = [];
+
+	for (const key in files) {
+		if (!files.hasOwnProperty(key)) continue;
+		const file = files[key];
+
+		buffers.push(await uploadFile(file));
+		file_names.push(file.name);
+	}
+	return { buffers, file_names };
+}
+
+function uploadFile(file: File): Promise<ArrayBuffer> {
+	return new Promise((resolve) => {
+		const reader = new FileReader();
+		reader.readAsArrayBuffer(file);
+		reader.onload = async () => {
+			resolve(reader.result as ArrayBuffer);
+		};
+	});
+}

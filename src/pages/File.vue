@@ -34,6 +34,7 @@
 	import FileModules from '@/file-modules';
 	import { DataTypeConfig } from '@/types/file-data';
 	import { processFile } from '@/lib/data';
+	import { uploadFiles } from '@/lib/io';
 
 	export default defineComponent({
 		props: {
@@ -68,17 +69,8 @@
 			},
 			async upload() {
 				const { files } = this.$refs.fileInput as HTMLInputElement;
+				const { buffers, file_names } = await uploadFiles(files);
 
-				const buffers: ArrayBuffer[] = [];
-				const file_names: string[] = clone(this.file.file_names);
-
-				for (const key in files) {
-					if (!files.hasOwnProperty(key)) continue;
-					const file = files[key];
-
-					buffers.push(await this.uploadFile(file));
-					file_names.push(file.name);
-				}
 				const fileData = await processFile({
 					buffers,
 					fileType: this.file.type,
@@ -90,15 +82,6 @@
 					file_names,
 				});
 				await updateFilesList();
-			},
-			uploadFile(file: File): Promise<ArrayBuffer> {
-				return new Promise((resolve) => {
-					const reader = new FileReader();
-					reader.readAsArrayBuffer(file);
-					reader.onload = async () => {
-						resolve(reader.result as ArrayBuffer);
-					};
-				});
 			},
 		},
 	});
