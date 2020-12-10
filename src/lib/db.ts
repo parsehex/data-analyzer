@@ -15,7 +15,7 @@ db.version(2)
 	})
 	.upgrade((tx) => {
 		return tx
-			.table('files_data')
+			.table('files')
 			.toCollection()
 			.modify(async (file: DBFileObject<unknown>) => {
 				const data = await tx
