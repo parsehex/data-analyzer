@@ -4,7 +4,7 @@ import { format, isFuture } from 'date-fns';
 import math from '@/math';
 import { TableData } from '@/types/components';
 import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
-import { newDateFromExcel } from '@/lib/utils';
+import { $, newDateFromExcel } from '@/lib/utils';
 
 export type DataMode =
 	| 'Appointment Type'
@@ -107,31 +107,31 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 				value: result.name,
 			},
 			Average: {
-				text: `$${numeral(average).format('0,0.00')}`,
+				text: $(average),
 				value: average,
 			},
 			Q1: {
-				text: `$${numeral(q1).format('0,0.00')}`,
+				text: $(q1),
 				value: q1,
 			},
 			Median: {
-				text: `$${numeral(median).format('0,0.00')}`,
+				text: $(median),
 				value: median,
 			},
 			Q3: {
-				text: `$${numeral(q3).format('0,0.00')}`,
+				text: $(q3),
 				value: q3,
 			},
 			IQR: {
-				text: `$${numeral(iqr).format('0,0.00')}`,
+				text: $(iqr),
 				value: iqr,
 			},
 			'Total Earnings': {
-				text: `$${numeral(sum).format('0,0.00')}`,
+				text: $(sum),
 				value: sum,
 			},
 			'Total Sessions': {
-				text: `${numeral(sessions).format('0,0')}`,
+				text: numeral(sessions).format('0,0'),
 				value: sessions,
 			},
 		};
