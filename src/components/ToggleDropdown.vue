@@ -7,6 +7,7 @@
 			data-toggle="dropdown"
 			aria-haspopup="true"
 			aria-expanded="false"
+			outline
 		>
 			{{ label }}
 		</btn>
