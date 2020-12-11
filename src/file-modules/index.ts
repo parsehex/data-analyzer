@@ -1,4 +1,4 @@
-import { FileModuleConfig } from '@/types/file-data';
+import { FileModuleConfig } from 'types/file-data';
 import TherapyNotes from './TherapyNotes/Spreadsheet.vue';
 import PNCStatementActivity from './PNC/Statement.vue';
 

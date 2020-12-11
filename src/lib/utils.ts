@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import { TableDataType } from '@/types/components';
+import { TableDataType } from 'types/components';
 
 export function generateID() {
 	return '' + Math.random().toString(36).substr(2, 9);

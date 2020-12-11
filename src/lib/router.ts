@@ -1,9 +1,9 @@
 import { nextTick } from 'vue';
 import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
-import Home from '@/pages/Home.vue';
-import Upload from '@/pages/Upload.vue';
-import File from '@/pages/File.vue';
-import FileModules from '@/file-modules';
+import Home from 'pages/Home.vue';
+import Upload from 'pages/Upload.vue';
+import File from 'pages/File.vue';
+import FileModules from 'file-modules';
 import { findFile } from './state';
 
 const routes: RouteRecordRaw[] = [

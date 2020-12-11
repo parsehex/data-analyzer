@@ -32,6 +32,7 @@
 					</btn>
 				</li>
 			</ul>
+			<spinner v-if="isLoading" type="primary" />
 		</div>
 	</nav>
 </template>
@@ -39,17 +40,21 @@
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
 	import Dexie from 'dexie';
-	import state from '@/lib/state';
+	import state from 'lib/state';
 	import NavItem from './NavItem.vue';
+	import Spinner from '../Spinner.vue';
 
 	export default defineComponent({
-		components: { NavItem },
+		components: { NavItem, Spinner },
 		name: 'Navigation',
 		props: {
 			title: {
 				type: String,
 				required: true,
 			},
+		},
+		computed: {
+			isLoading: () => state.isLoading,
 		},
 		methods: {
 			reset: async () => {

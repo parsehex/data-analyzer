@@ -41,10 +41,10 @@
 <script lang="ts">
 	import { defineComponent, reactive } from 'vue';
 	import { formatDistanceToNow, fromUnixTime } from 'date-fns';
-	import router from '@/lib/router';
-	import state from '@/lib/state';
-	import { removeFile } from '@/lib/db';
-	import FileModules from '@/file-modules';
+	import router from 'lib/router';
+	import state from 'lib/state';
+	import { removeFile } from 'lib/db';
+	import FileModules from 'file-modules';
 
 	export default defineComponent({
 		data: () => ({ isDev: state.isDev, files: state.files }),

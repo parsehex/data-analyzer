@@ -59,8 +59,8 @@
 		same exact keys, which are used as columns.
 	*/
 	import { computed, defineComponent, PropType } from 'vue';
-	import { clone, idFromString } from '@/lib/utils';
-	import { TableData, TableDataType, ToggleOptions } from '@/types/components';
+	import { clone, idFromString } from 'lib/utils';
+	import { TableData, TableDataType, ToggleOptions } from 'types/components';
 
 	export default defineComponent({
 		name: 'DataTable',

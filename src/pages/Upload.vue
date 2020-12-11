@@ -26,27 +26,29 @@
 					<label class="custom-file-label" for="file-input">Choose file</label>
 				</div>
 			</div>
-			<progress-bar
+			<!-- <progress-bar
 				v-if="isLoading"
 				label="Loading..."
 				type="primary"
 				:value="100"
 				striped
 				animated
-			/>
+			/> -->
 		</column>
 	</row>
 </template>
 
 <script lang="ts">
 	import { defineComponent, nextTick } from 'vue';
-	import { BootstrapType } from '@/types/components';
-	import { addFile, updateFile, updateFilesList } from '@/lib/db';
-	import router from '@/lib/router';
-	import { processFile } from '@/lib/data';
-	import { DBFileObject, FileType } from '@/types/db';
-	import FileModules from '@/file-modules';
-	import { uploadFiles } from '@/lib/io';
+	import * as Comlink from 'comlink';
+	import { BootstrapType } from 'types/components';
+	import { addFile, updateFile, updateFilesList } from 'lib/db';
+	import router from 'lib/router';
+	import { processFile } from 'lib/data';
+	import { DBFileObject, FileType } from 'types/db';
+	import FileModules from 'file-modules';
+	import { uploadFiles } from 'lib/io';
+	import state from 'src/lib/state';
 
 	export default defineComponent({
 		data: () => ({
@@ -66,7 +68,6 @@
 
 		methods: {
 			async upload() {
-				this.isLoading = true;
 				const { files } = this.$refs.fileInput as HTMLInputElement;
 				const { buffers, file_names } = await uploadFiles(files);
 
@@ -83,7 +84,6 @@
 				});
 				await updateFilesList();
 
-				this.isLoading = false;
 				nextTick(() => router.replace('/file/' + newFile.file_id));
 			},
 		},

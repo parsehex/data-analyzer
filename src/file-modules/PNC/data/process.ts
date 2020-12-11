@@ -1,5 +1,5 @@
-import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
-import { loadSpreadsheetFile } from '@/lib/io';
+import { PNCStatementActivityColumn } from 'types/file-data/pnc';
+import { loadSpreadsheetFile } from 'lib/io';
 
 export default async function processPNCStatementData(
 	buffers: ArrayBuffer[],

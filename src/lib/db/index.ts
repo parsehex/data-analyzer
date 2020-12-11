@@ -1,7 +1,7 @@
 import Dexie from 'dexie';
-import state, { findFile } from '@/lib/state';
-import { clone, generateID, nowSeconds } from '@/lib/utils';
-import { FileType, DBFileObject } from '@/types/db';
+import state, { findFile } from 'lib/state';
+import { clone, generateID, nowSeconds } from 'lib/utils';
+import { FileType, DBFileObject } from 'types/db';
 import applyVersions from './versions';
 
 const db = new Dexie('data-analyzer');

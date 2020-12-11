@@ -12,8 +12,8 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import router from '@/lib/router';
-	import { BootstrapType } from '@/types/components';
+	import router from 'lib/router';
+	import { BootstrapType } from 'types/components';
 
 	export default defineComponent({
 		name: 'ListGroupItem',

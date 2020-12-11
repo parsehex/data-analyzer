@@ -13,8 +13,8 @@
 
 <script lang="ts">
 	import { computed, defineComponent, PropType, watch } from 'vue';
-	import { TableData } from '@/types/components';
-	import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
+	import { TableData } from 'types/components';
+	import { PNCStatementActivityColumn } from 'types/file-data/pnc';
 	import { getTableData } from './data/table';
 
 	export default defineComponent({

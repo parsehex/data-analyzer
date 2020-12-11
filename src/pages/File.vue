@@ -27,14 +27,14 @@
 	import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
 	// import tippy from 'tippy.js';
 	import * as xlsx from 'xlsx';
-	import state from '@/lib/state';
-	import db, { addFile, getFile, updateFile, updateFilesList } from '@/lib/db';
-	import { clone, nowSeconds } from '@/lib/utils';
-	import { DBFileObject } from '@/types/db';
-	import FileModules from '@/file-modules';
-	import { DataTypeConfig } from '@/types/file-data';
-	import { processFile } from '@/lib/data';
-	import { uploadFiles } from '@/lib/io';
+	import state from 'lib/state';
+	import db, { addFile, getFile, updateFile, updateFilesList } from 'lib/db';
+	import { clone, nowSeconds } from 'lib/utils';
+	import { DBFileObject } from 'types/db';
+	import FileModules from 'file-modules';
+	import { DataTypeConfig } from 'types/file-data';
+	import { processFile } from 'lib/data';
+	import { uploadFiles } from 'lib/io';
 
 	export default defineComponent({
 		props: {

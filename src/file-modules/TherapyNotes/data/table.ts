@@ -1,10 +1,10 @@
 import { interquartileRange, quantile } from 'simple-statistics';
 import numeral from 'numeral';
 import { format, isFuture } from 'date-fns';
-import math from '@/math';
-import { TableData, TableRowObject } from '@/types/components';
-import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
-import { $, newDateFromExcel } from '@/lib/utils';
+import math from 'src/math';
+import { TableData, TableRowObject } from 'types/components';
+import { TherapyNotesColumn } from 'types/file-data/therapy-notes';
+import { $, newDateFromExcel } from 'lib/utils';
 
 export type DataMode =
 	| 'Appointment Type'

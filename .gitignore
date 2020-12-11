@@ -7,3 +7,4 @@ sample-data
 .idea
 dist
 .parcel-cache
+public/worker*

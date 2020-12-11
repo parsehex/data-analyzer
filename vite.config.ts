@@ -4,10 +4,11 @@ import tsResolver from 'vite-tsconfig-paths';
 const config: UserConfig = {
 	alias: {
 		vue: 'vue/dist/vue.esm-bundler.js',
-		math: 'mathjs/dist/math.min.js',
+		// math: 'mathjs/dist/math.min.js',
 	},
 	optimizeDeps: {
 		include: ['mathjs/dist/math.min.js'],
+		exclude: ['parcel-bundler'],
 	},
 	resolvers: [tsResolver],
 };

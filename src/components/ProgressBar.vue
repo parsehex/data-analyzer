@@ -20,7 +20,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from '@/types/components';
+	import { BootstrapType } from 'types/components';
 
 	export default defineComponent({
 		name: 'ProgressBar',

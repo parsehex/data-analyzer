@@ -1,19 +1,19 @@
 <template>
-	<div :class="['spinner', type ? 'text-' + type : '']" role="status">
+	<div :class="['spinner-border', type ? 'text-' + type : '']" role="status">
 		<span class="sr-only">Loading...</span>
 	</div>
 </template>
 
 <script lang="ts">
 	import { computed, defineComponent } from 'vue';
-	import { BootstrapType } from '@/types/components';
+	import { BootstrapType } from 'types/components';
 
 	export default defineComponent({
 		name: 'Spinner',
 		props: {
 			type: {
 				type: String as () => BootstrapType,
-				default: '',
+				required: true,
 			},
 		},
 	});

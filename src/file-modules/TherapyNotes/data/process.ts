@@ -1,5 +1,5 @@
-import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
-import { loadSpreadsheetFile } from '@/lib/io';
+import { TherapyNotesColumn } from 'types/file-data/therapy-notes';
+import { loadSpreadsheetFile } from 'lib/io';
 
 export default async function processTherapyNotesData(
 	buffers: ArrayBuffer[],
