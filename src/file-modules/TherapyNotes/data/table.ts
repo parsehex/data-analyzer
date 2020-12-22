@@ -28,6 +28,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 
 		paidInFull?: boolean;
 		patientOwes?: number[];
+		insuranceOwes?: number[];
 		nextAppointments?: {
 			clinician: string;
 			date: Date;
@@ -71,11 +72,19 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 		doc.sessionTotals.push(value);
 
 		if (mode === 'Patient Name') {
-			const owes =
+			const pOwes =
 				row['Patient Amount Due'] - Math.abs(row['Patient Amount Paid']);
+			const iOwes =
+				row['Insurance Amount Due'] - Math.abs(row['Insurance Amount Paid']);
+
 			doc.patientOwes = doc.patientOwes || [];
-			if (owes > 0 && row['Patient Balance Status'] !== 'Paid in Full') {
-				doc.patientOwes.push(owes);
+			if (pOwes > 0 && row['Patient Balance Status'] !== 'Paid in Full') {
+				doc.patientOwes.push(pOwes);
+			}
+
+			doc.insuranceOwes = doc.insuranceOwes || [];
+			if (iOwes > 0 && row['Insurance Balance Status'] !== 'Paid in Full') {
+				doc.insuranceOwes.push(pOwes);
 			}
 
 			doc.nextAppointments = doc.nextAppointments || [];
@@ -140,15 +149,30 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			data[mode].value = result.nameValue;
 			data[mode].text = result.name;
 		} else if (mode === 'Patient Name') {
-			data['Owed'] = {
+			data['Patient Owes'] = {
 				value: 0,
 				text: $(0),
 			};
 			if (result.patientOwes.length > 0) {
 				const owes = math.sum(...result.patientOwes);
-				data['Owed'].text = $(owes);
-				data['Owed'].value = owes;
-				data['Owed'].title = `Owed from ${result.patientOwes.length} sessions`;
+				data['Patient Owes'].text = $(owes);
+				data['Patient Owes'].value = owes;
+				data[
+					'Patient Owes'
+				].title = `Owed from ${result.patientOwes.length} sessions`;
+			}
+
+			data['Insurance Owes'] = {
+				value: 0,
+				text: $(0),
+			};
+			if (result.insuranceOwes.length > 0) {
+				const owes = math.sum(...result.insuranceOwes);
+				data['Insurance Owes'].text = $(owes);
+				data['Insurance Owes'].value = owes;
+				data[
+					'Insurance Owes'
+				].title = `Owed from ${result.insuranceOwes.length} sessions`;
 			}
 
 			data['Next Appointment'] = {
