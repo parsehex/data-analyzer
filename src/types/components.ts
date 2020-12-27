@@ -23,3 +23,9 @@ export type TableRowObject = {
 export type TableData = TableRowObject[];
 
 export type ToggleOptions = { [key: string]: boolean };
+
+export interface DateObject {
+	day: number;
+	month: number;
+	year: number;
+}
