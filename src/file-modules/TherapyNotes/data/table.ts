@@ -183,7 +183,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 				const appt = result.nextAppointments[0];
 
 				data['Next Appointment'].value = appt.date.getTime();
-				data['Next Appointment'].text = `${format(appt.date, 'P')} with ${
+				data['Next Appointment'].text = `${format(appt.date, 'Pp')} / ${
 					appt.clinician
 				}`;
 			}
