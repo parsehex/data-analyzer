@@ -1,29 +1,26 @@
 <template>
 	<div class="input-group">
 		<div class="input-group-prepend">
-			<label class="input-group-text"><slot /></label>
+			<label class="input-group-text">{{ label }}</label>
 		</div>
-		<select
-			class="custom-select custom-select-"
-			v-model="month"
-			style="width: auto"
-		>
-			<option v-for="(m, i) in months" :value="i">
+		<select class="custom-select" v-model="month" style="width: auto">
+			<option v-for="(m, i) in months" :key="label + '-month-' + i" :value="i">
 				{{ m }}
 			</option>
 		</select>
-		<select
-			class="custom-select custom-select-"
-			v-model="day"
-			style="width: auto"
-		>
-			<option v-for="d in daysInMonth(month, year)" :value="d">
+		<select class="custom-select" v-model="day" style="width: auto">
+			<option
+				v-for="d in daysInMonth(month, year)"
+				:key="label + '-day-' + d"
+				:value="d"
+			>
 				{{ d }}
 			</option>
 		</select>
 		<select
-			class="custom-select custom-select-"
+			class="custom-select"
 			v-model="year"
+			:key="label + '-year-' + year"
 			style="width: auto"
 		>
 			<option v-for="y in years" :value="y">
@@ -42,6 +39,10 @@
 		name: 'DateSelector',
 		emits: ['update:modelValue'],
 		props: {
+			label: {
+				type: String,
+				required: true,
+			},
 			modelValue: {
 				type: Object as PropType<DateObject>,
 				required: true,

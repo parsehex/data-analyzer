@@ -22,10 +22,10 @@
 				/>
 			</form-group>
 			<form-group class="px-1">
-				<date-selector v-model="dateFrom">From</date-selector>
+				<date-selector v-model="dateFrom" label="From" />
 			</form-group>
 			<form-group class="px-1">
-				<date-selector v-model="dateTo">To</date-selector>
+				<date-selector v-model="dateTo" label="To" />
 			</form-group>
 		</div>
 		<data-table
