@@ -17,13 +17,8 @@
 				{{ d }}
 			</option>
 		</select>
-		<select
-			class="custom-select"
-			v-model="year"
-			:key="label + '-year-' + year"
-			style="width: auto"
-		>
-			<option v-for="y in years" :value="y">
+		<select class="custom-select" v-model="year" style="width: auto">
+			<option v-for="y in years" :key="label + '-year-' + y" :value="y">
 				{{ y }}
 			</option>
 		</select>
