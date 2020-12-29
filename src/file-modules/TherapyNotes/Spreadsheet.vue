@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="form-inline my-2">
+		<div class="form-inline d-print-none my-2">
 			<form-group class="px-2">
 				<label for="mode">Results Mode:</label>
 				<select class="form-control mx-2" id="mode" v-model="mode">

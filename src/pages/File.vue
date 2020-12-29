@@ -3,7 +3,7 @@
 		<column>
 			<h1 class="lead text-center file-name">
 				{{ fileType.name_long }}
-				<span v-if="fileType.mergeable">
+				<span v-if="fileType.mergeable" class="d-print-none">
 					<input
 						ref="fileInput"
 						type="file"
