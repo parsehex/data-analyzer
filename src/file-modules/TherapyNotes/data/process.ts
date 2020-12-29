@@ -24,19 +24,28 @@ export default async function processTherapyNotesData(
 		const id = makeID(row);
 		row['ID'] = id;
 	}
-	if (priorData) {
-		return sheet.filter((v, i) => {
-			return i === lastIndexOf(sheet, 'ID', v.ID);
-		});
-	} else {
-		return sheet;
+
+	const seenIds: string[] = [];
+
+	const rows = [];
+
+	for (let i = sheet.length - 1; i >= 0; i--) {
+		const row = sheet[i];
+		const { ID } = row;
+		if (seenIds.includes(ID)) {
+			continue;
+		} else {
+			seenIds.push(ID);
+			rows.unshift(row);
+		}
 	}
+
+	return rows;
 }
 
 function makeID(row: TherapyNotesRow) {
 	let id = '';
 
-	id += row['Service Code'] + '-';
 	id += row['Date'] + '-';
 	id += row['Clinician Name'] + '-';
 	id += row['Last Name'] + row['First Name'];
