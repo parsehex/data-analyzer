@@ -49,3 +49,14 @@ export function nowSeconds() {
 export function $(money: number) {
 	return '$' + numeral(money).format('0,0.00');
 }
+
+export function lastIndexOf<T extends { [k: string]: any }>(
+	arr: T[],
+	prop: keyof T,
+	val: any
+) {
+	for (let i = arr.length - 1; i >= 0; i--) {
+		if (arr[i][prop] === val) return i;
+	}
+	return -1;
+}

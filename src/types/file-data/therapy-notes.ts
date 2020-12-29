@@ -1,4 +1,10 @@
 export interface TherapyNotesRow {
+	/**
+	 * This is generated from:
+	 *
+	 * Service Code + Date + Clinician NPI + Last Name + First Name
+	 */
+	ID?: string;
 	'Appointment Type': string;
 	'Bill as Supervisor': string;
 	'Billing Method': string;
