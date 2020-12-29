@@ -83,7 +83,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			}
 
 			doc.insuranceOwes = doc.insuranceOwes || [];
-			if (iOwes > 0 && row['Insurance Balance Status'] !== 'Paid in Full') {
+			if (iOwes > 0 && row['Insurance Balance Status'] !== 'Paid') {
 				doc.insuranceOwes.push(iOwes);
 			}
 
