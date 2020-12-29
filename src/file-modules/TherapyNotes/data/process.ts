@@ -1,16 +1,16 @@
-import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
+import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import { loadSpreadsheetFile } from '@/lib/io';
 
 export default async function processTherapyNotesData(
 	buffers: ArrayBuffer[],
-	priorData?: TherapyNotesColumn[]
+	priorData?: TherapyNotesRow[]
 ) {
-	const sheet: TherapyNotesColumn[] = [];
+	const sheet: TherapyNotesRow[] = [];
 	if (priorData) sheet.push(...priorData);
 
 	for (const buffer of buffers) {
 		sheet.push(
-			...loadSpreadsheetFile<TherapyNotesColumn>({
+			...loadSpreadsheetFile<TherapyNotesRow>({
 				buffer,
 				sheetName: 'Billing Transactions',
 				sort: 'Date',

@@ -1,6 +1,6 @@
 import { FileType } from '@/types/db';
 import processTherapyNotesData from '@/file-modules/TherapyNotes/data/process';
-import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
+import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import processPNCStatementData from '@/file-modules/PNC/data/process';
 import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
 
@@ -23,7 +23,7 @@ export async function processFile({
 		case 'therapy_notes_spreadsheet': {
 			return await processTherapyNotesData(
 				buffers,
-				priorData as TherapyNotesColumn[]
+				priorData as TherapyNotesRow[]
 			);
 		}
 

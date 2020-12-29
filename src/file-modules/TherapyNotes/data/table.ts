@@ -3,7 +3,7 @@ import numeral from 'numeral';
 import { format, isFuture } from 'date-fns';
 import math from '@/math';
 import { TableData, TableRowObject } from '@/types/components';
-import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
+import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import { $, newDateFromExcel } from '@/lib/utils';
 
 export type DataMode =
@@ -16,7 +16,7 @@ export type DataMode =
 	| 'Secondary Insurer Name'
 	| 'Service Description';
 
-export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
+export function getTableData(fileData: TherapyNotesRow[], mode: DataMode) {
 	if (!fileData) return [];
 
 	const tableData: TableData = [];
@@ -34,7 +34,7 @@ export function getTableData(fileData: TherapyNotesColumn[], mode: DataMode) {
 			date: Date;
 		}[];
 	}[] = [];
-	for (const row of fileData as TherapyNotesColumn[]) {
+	for (const row of fileData as TherapyNotesRow[]) {
 		if (row.Type !== 'Appointment') continue;
 
 		const pPaid = math.abs(row['Patient Amount Paid'] || 0);

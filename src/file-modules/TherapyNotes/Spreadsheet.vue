@@ -41,7 +41,7 @@
 	import state from '@/lib/state';
 	import { loadSettings, saveSettings } from '@/lib/settings';
 	import { TableData } from '@/types/components';
-	import { TherapyNotesColumn } from '@/types/file-data/therapy-notes';
+	import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 	import { DataMode, getTableData } from './data/table';
 
 	const DataID = 'therapy-notes';
@@ -51,7 +51,7 @@
 		name: 'TherapyNotesSpreadsheet',
 		props: {
 			fileData: {
-				type: Object as PropType<TherapyNotesColumn[]>,
+				type: Object as PropType<TherapyNotesRow[]>,
 				required: true,
 			},
 		},

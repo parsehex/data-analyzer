@@ -1,4 +1,4 @@
-export interface TherapyNotesColumn {
+export interface TherapyNotesRow {
 	'Appointment Type': string;
 	'Bill as Supervisor': string;
 	'Billing Method': string;
