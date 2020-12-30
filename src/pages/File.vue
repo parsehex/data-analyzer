@@ -13,7 +13,7 @@
 					/>
 					<btn @click="addMoreData" size="sm" type="primary" centered outline>
 						<icon :size="16" type="plus" />
-						Import More Data
+						Import Data
 					</btn>
 				</span>
 			</h1>

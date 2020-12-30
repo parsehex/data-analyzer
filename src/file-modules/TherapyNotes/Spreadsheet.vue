@@ -14,12 +14,18 @@
 					<option value="Service Description">Service Type</option>
 				</select>
 			</form-group>
-			<form-group>
+			<form-group class="px-2">
 				<toggle-dropdown
-					label="Show/Hide Columns"
+					label="Toggle Columns"
 					label-type="info"
 					v-model="columns"
 				/>
+			</form-group>
+			<form-group v-if="isDev">
+				<btn @click="download" size="xs" type="success" centered outline>
+					<icon :size="16" type="download" />
+					Download Results
+				</btn>
 			</form-group>
 		</div>
 		<data-table
@@ -36,6 +42,7 @@
 
 <script lang="ts">
 	import { computed, defineComponent, PropType, watch } from 'vue';
+	import * as xlsx from 'xlsx';
 	import { getFile } from '@/lib/db';
 	import { clone } from '@/lib/utils';
 	import state from '@/lib/state';
@@ -87,6 +94,18 @@
 		computed: {
 			data(): TableData {
 				return getTableData(this.fileData, this.mode);
+			},
+		},
+		methods: {
+			download() {
+				const el = document.querySelector('table');
+				const wb = xlsx.utils.table_to_book(el);
+
+				const now = new Date();
+				const title = `TherapyNotes_Spreadsheet-${
+					now.getMonth() + 1
+				}/${now.getDate()}.csv`;
+				xlsx.writeFile(wb, title);
 			},
 		},
 	});

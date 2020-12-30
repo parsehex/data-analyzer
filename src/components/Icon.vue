@@ -1,5 +1,6 @@
 <template>
 	<svg
+		class="m-1"
 		:width="size"
 		:height="size"
 		fill="none"
