@@ -12,6 +12,7 @@
 					<option value="Primary Insurer Name">Primary Insurer</option>
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
 					<option value="Service Description">Service Type</option>
+					<option value="Write Offs">Write Offs</option>
 				</select>
 			</form-group>
 			<form-group class="px-2">
@@ -143,6 +144,11 @@
 				for (const result of results) {
 					const cols: TableRowObject = {};
 
+					if (!['Write Offs'].includes(mode)) {
+						// almost every mode gets basic stats
+						Object.assign(cols, basicStatCols(result.appointments));
+					}
+
 					if (
 						[
 							'Clinician Name',
@@ -158,6 +164,19 @@
 					if (['Patient Name'].includes(mode)) {
 						Object.assign(cols, owesCols(result.appointments));
 						Object.assign(cols, nextApptCol(result.appointments));
+					}
+
+					if (mode === 'Write Offs') {
+						const owesTotals = result.appointments.map(
+							(a) => a.patient.balance.owes + a.insurance.balance.owes
+						);
+						const value = math.sum(owesTotals);
+						Object.assign(cols, owesCols(result.appointments), {
+							Total: {
+								value,
+								text: $(value),
+							},
+						});
 					}
 
 					const row: TableRowObject = {

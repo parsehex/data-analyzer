@@ -7,6 +7,7 @@ import { $ } from '@/lib/utils';
 import { Appointment } from '..';
 
 export type DataMode =
+	| '% Collected'
 	| 'Appointment Type'
 	| 'Billing Method'
 	| 'Clinician Name'
@@ -15,6 +16,7 @@ export type DataMode =
 	| 'Primary Insurer Name'
 	| 'Secondary Insurer Name'
 	| 'Service Description'
+	| 'Write Offs';
 
 export function basicStatCols(appts: Appointment[]): TableRowObject {
 	const totals = appts.map((a) => a.total.paid);

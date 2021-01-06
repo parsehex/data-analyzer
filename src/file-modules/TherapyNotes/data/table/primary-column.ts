@@ -35,5 +35,8 @@ export function getPrimaryColumnValue(
 		case 'Service Description': {
 			return { value: appt.serviceType };
 		}
+		case 'Write Offs': {
+			return { value: appt.patient.name };
+		}
 	}
 }
