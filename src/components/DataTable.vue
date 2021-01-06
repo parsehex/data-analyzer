@@ -134,8 +134,18 @@
 				}
 				// @ts-ignore
 				return dataCopy.sort((a, b) => {
+					if (
+						!a.hasOwnProperty(this.sortKey) ||
+						!b.hasOwnProperty(this.sortKey)
+					)
+						return 0;
+
 					const aVal = a[this.sortKey].value;
 					const bVal = b[this.sortKey].value;
+
+					// use -1 to push value to the end
+					if (aVal === -1) return 1;
+					if (bVal === -1) return 1;
 
 					if (typeof aVal === 'number' && typeof bVal === 'number') {
 						if (this.reverse) return bVal - aVal;
