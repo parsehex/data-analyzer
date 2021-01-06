@@ -41,6 +41,10 @@ export function newDateFromExcel(serial: number) {
 	);
 }
 
+export function now() {
+	return new Date();
+}
+
 export function nowSeconds() {
 	return Math.round(Date.now() / 1000);
 }

@@ -11,6 +11,7 @@ export type BootstrapType =
 export type TableDataType = string | number;
 
 export interface TableDataObject {
+	/** Used if `value` is a number */
 	text?: string;
 	title?: string;
 	value: TableDataType;

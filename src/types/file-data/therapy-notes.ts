@@ -29,6 +29,8 @@ export interface TherapyNotesRow {
 	'Primary Insurer Group': string;
 	'Primary Insurer Name': string;
 	Rate: number;
+	'Secondary Insurer Group': string;
+	'Secondary Insurer Name': string;
 	'Service Code': string;
 	'Service Description': string;
 	'Supervisor NPI': string;
