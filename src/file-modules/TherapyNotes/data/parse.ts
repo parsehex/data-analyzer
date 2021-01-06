@@ -8,6 +8,7 @@ export interface Appointment {
 	date: Date;
 	billingMethod: string;
 	serviceType: string;
+	serviceCode: string;
 
 	insurance: {
 		primaryName: string;
@@ -23,6 +24,7 @@ export interface Appointment {
 		due: number;
 		paid: number;
 		owes: number;
+		expected: number;
 	};
 }
 export interface Balance {
@@ -46,12 +48,20 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 		const insurancePaid = Math.abs(row['Insurance Amount Paid'] || 0);
 		const insuranceOwes = insuranceDue - insurancePaid;
 
+		const serviceCode = row['Service Code'];
+
+		let expected = 0;
+		if (['90837', '90834', '90846', '90847'].includes(serviceCode))
+			expected = 80;
+		else if (serviceCode === '90832') expected = 40;
+
 		results.push({
 			type: row['Appointment Type'],
 			clinician: row['Clinician Name'],
 			date: newDateFromExcel(row.Date),
 			billingMethod: row['Billing Method'],
 			serviceType: row['Service Description'],
+			serviceCode,
 			insurance: {
 				primaryName: row['Primary Insurer Name'] || 'No Insurance',
 				secondaryName: row['Secondary Insurer Name'] || 'No Insurance',
@@ -79,6 +89,7 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 				paid: insurancePaid + patientPaid,
 				due: insuranceDue + patientDue,
 				owes: insuranceOwes + patientOwes,
+				expected,
 			},
 		});
 	}
