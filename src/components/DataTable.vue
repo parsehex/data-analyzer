@@ -150,6 +150,8 @@
 					if (typeof aVal === 'number' && typeof bVal === 'number') {
 						if (this.reverse) return bVal - aVal;
 						return aVal - bVal;
+					} else {
+						console.log(aVal);
 					}
 
 					const aStr = (aVal as string).toUpperCase();

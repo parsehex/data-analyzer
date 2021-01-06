@@ -1,6 +1,6 @@
-import { now } from '@/lib/utils';
 import { differenceInCalendarDays } from 'date-fns';
-import { Appointment } from '.';
+import { now } from '@/lib/utils';
+import { Appointment } from './parse';
 import { DataMode } from './table';
 
 interface Filters {
@@ -9,6 +9,13 @@ interface Filters {
 
 export function filterAppointments(appts: Appointment[], { mode }: Filters) {
 	return appts.filter((appt) => {
+		if (mode === '% Collected') {
+			const { serviceCode } = appt;
+
+			if (!['90837', '90834', '90846', '90847', '90832'].includes(serviceCode))
+				return false;
+		}
+
 		if (mode === 'Write Offs') {
 			const age = differenceInCalendarDays(now(), appt.date);
 

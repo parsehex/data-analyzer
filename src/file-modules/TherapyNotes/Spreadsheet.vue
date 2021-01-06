@@ -4,15 +4,16 @@
 			<form-group class="px-2">
 				<label for="mode">Results Mode:</label>
 				<select class="form-control mx-2" id="mode" v-model="filters.mode">
-					<option value="Appointment Type">Appointment Type</option>
-					<option value="Billing Method">Billing Method</option>
+					<option>% Collected</option>
+					<option>Appointment Type</option>
+					<option>Billing Method</option>
 					<option value="Clinician Name">Clinician</option>
-					<option value="Month">Month</option>
+					<option>Month</option>
 					<option value="Patient Name">Patient</option>
 					<option value="Primary Insurer Name">Primary Insurer</option>
 					<option value="Secondary Insurer Name">Secondary Insurer</option>
 					<option value="Service Description">Service Type</option>
-					<option value="Write Offs">Write Offs</option>
+					<option>Write Offs</option>
 				</select>
 			</form-group>
 			<form-group class="px-2">
@@ -55,11 +56,16 @@
 	} from '@/types/components';
 	import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 	import math from '@/math';
-	import { DataMode, nextApptCol, owesCols } from './data/table';
+	import { DataMode } from './data/table';
 	import { getPrimaryColumnValue } from './data/table/primary-column';
-	import { Appointment, parseAppointments } from './data';
+	import { Appointment, parseAppointments } from './data/parse';
 	import { filterAppointments } from './data/filter';
-	import { basicStatCols, rpsCols } from './data/table';
+	import nextAppt from './data/table/columns/next-appointment';
+	import paid from './data/table/columns/paid';
+	import owes from './data/table/columns/owes';
+	import collected from './data/table/columns/collected';
+	import rps from './data/table/columns/rps';
+	import basicStats from './data/table/columns/basic-stats';
 
 	const DataID = 'therapy-notes';
 	const DataVersion = 3;
@@ -93,7 +99,8 @@
 					IQR: true,
 					'Patient Owes': true,
 					'Insurance Owes': true,
-					'Total Earnings': true,
+					'Total Owes': true,
+					'Total Revenue': true,
 					'Total Sessions': true,
 					'Next Appointment': true,
 				},
@@ -144,9 +151,9 @@
 				for (const result of results) {
 					const cols: TableRowObject = {};
 
-					if (!['Write Offs'].includes(mode)) {
+					if (!['% Collected', 'Write Offs'].includes(mode)) {
 						// almost every mode gets basic stats
-						Object.assign(cols, basicStatCols(result.appointments));
+						Object.assign(cols, basicStats(result.appointments));
 					}
 
 					if (
@@ -158,25 +165,21 @@
 							'Secondary Insurer Name',
 						].includes(mode)
 					) {
-						Object.assign(cols, rpsCols(result.appointments));
+						Object.assign(cols, rps(result.appointments));
 					}
 
 					if (['Patient Name'].includes(mode)) {
-						Object.assign(cols, owesCols(result.appointments));
-						Object.assign(cols, nextApptCol(result.appointments));
+						Object.assign(cols, owes(result.appointments));
+						Object.assign(cols, nextAppt(result.appointments));
+					}
+
+					if (mode === '% Collected') {
+						Object.assign(cols, paid(result.appointments));
+						Object.assign(cols, collected(result.appointments));
 					}
 
 					if (mode === 'Write Offs') {
-						const owesTotals = result.appointments.map(
-							(a) => a.patient.balance.owes + a.insurance.balance.owes
-						);
-						const value = math.sum(owesTotals);
-						Object.assign(cols, owesCols(result.appointments), {
-							Total: {
-								value,
-								text: $(value),
-							},
-						});
+						Object.assign(cols, owes(result.appointments));
 					}
 
 					const row: TableRowObject = {

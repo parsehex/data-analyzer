@@ -1,13 +1,16 @@
 import { format } from 'date-fns';
 import { TableDataObject } from '@/types/components';
+import { Appointment } from '../parse';
 import { DataMode } from '.';
-import { Appointment } from '..';
 
 export function getPrimaryColumnValue(
 	appt: Appointment,
 	mode: DataMode
 ): TableDataObject {
 	switch (mode) {
+		case '% Collected': {
+			return { value: appt.patient.name };
+		}
 		case 'Appointment Type': {
 			return { value: appt.type };
 		}
