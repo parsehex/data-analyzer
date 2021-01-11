@@ -143,11 +143,14 @@
 					const aVal = a[this.sortKey].value;
 					const bVal = b[this.sortKey].value;
 
+					if (aVal === bVal) return 0;
+
 					if (typeof aVal === 'number' && typeof bVal === 'number') {
+						if (aVal === Number.MIN_VALUE) return 1;
+						else if (bVal === Number.MIN_VALUE) return -1;
+
 						if (this.reverse) return bVal - aVal;
 						return aVal - bVal;
-					} else {
-						console.log(aVal);
 					}
 
 					const aStr = (aVal as string).toUpperCase();

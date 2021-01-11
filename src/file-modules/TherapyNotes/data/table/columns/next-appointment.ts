@@ -8,7 +8,7 @@ export default function nextAppt(appts: Appointment[]): TableRowObject {
 	if (futureAppts.length === 0) {
 		return {
 			'Next Appointment': {
-				value: -1,
+				value: Number.MIN_VALUE,
 				text: 'N/A',
 			},
 		};
