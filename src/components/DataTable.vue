@@ -113,11 +113,11 @@
 					(k, i) =>
 						// always keep first column
 						i === 0 ||
-						// keep if columnStates no provided
+						// keep if columnStates not provided
 						!this.columnStates ||
-						//  use columnStates val
+						// else use columnStates value
 						this.columnStates[k] ||
-						//  keep if columnStates doesn't reference column
+						// or else keep if columnStates doesn't reference column
 						!this.columnStates.hasOwnProperty(k)
 				);
 			},
