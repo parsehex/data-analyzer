@@ -8,19 +8,32 @@
 				<column class="col-12 col-lg-6">
 					<list-group v-for="f in files" :key="f.name">
 						<list-group-link :to="'/file/' + f.file_id">
-							<div class="d-flex w-100 justify-content-between">
-								<h6 class="mb-1">{{ getFileTypeName(f.type) }}</h6>
+							<div
+								class="d-flex w-100 justify-content-between align-items-center file"
+							>
+								<h6>{{ getFileTypeDef(f.type).name_long }}</h6>
 								<div class="d-flex flex-row">
 									<btn
 										@click.stop.capture.prevent="removeFile(f.file_id)"
-										size="sm"
+										size="xs"
 										type="danger"
 										title="Delete file"
 										centered
 									>
-										<icon :size="16" type="trash-2" />
+										<icon :size="14" type="trash-2" />
 									</btn>
 								</div>
+							</div>
+							<div
+								class="available-reports"
+								v-if="getFileTypeDef(f.type).reports"
+							>
+								<small>Includes</small>
+								<ul>
+									<li v-for="r in getFileTypeDef(f.type).reports">
+										{{ r }}
+									</li>
+								</ul>
 							</div>
 							<small>opened {{ getLastOpenedLabel(f.last_opened) }}</small>
 						</list-group-link>
@@ -45,6 +58,7 @@
 	import state from '@/lib/state';
 	import { removeFile } from '@/lib/db';
 	import FileModules from '@/file-modules';
+	import { FileType } from '@/types/db';
 
 	export default defineComponent({
 		data: () => ({ isDev: state.isDev, files: state.files }),
@@ -52,15 +66,43 @@
 			if (state.files.length === 0) router.replace('/upload');
 		},
 		methods: {
+			getFileTypeDef: (type: FileType) => FileModules[type],
 			getLastOpenedLabel(time: number) {
 				return formatDistanceToNow(fromUnixTime(time), {
 					addSuffix: true,
 				});
 			},
-			getFileTypeName(type: string) {
-				return FileModules[type].name_long;
-			},
 			removeFile,
 		},
 	});
 </script>
+
+<style lang="scss">
+	h6 {
+		line-height: 1;
+	}
+	div.file {
+		h6 {
+			margin-bottom: 0;
+		}
+	}
+	div.available-reports {
+		ul {
+			list-style-type: none;
+			padding: 0;
+
+			li {
+				line-height: 1.2;
+				padding: 0 5px;
+				// font-style: italic;
+				font-weight: bold;
+				font-size: 0.85em;
+				display: inline-block;
+
+				&:not(:last-of-type) {
+					border-right: 1px dashed lightgray;
+				}
+			}
+		}
+	}
+</style>
