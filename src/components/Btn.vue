@@ -1,19 +1,11 @@
 <template>
-	<button
-		type="button"
-		:class="[
-			'btn',
-			centered ? 'd-inline-flex justify-content-center align-items-center' : '',
-			'btn-' + (outline ? 'outline-' : '') + type,
-			size ? 'btn-' + size : '',
-		]"
-	>
+	<button type="button" :class="className">
 		<slot />
 	</button>
 </template>
 
 <script lang="ts">
-	import { computed, defineComponent } from 'vue';
+	import { defineComponent } from 'vue';
 	import { BootstrapType } from '@/types/components';
 
 	export default defineComponent({
@@ -30,6 +22,24 @@
 			},
 			outline: Boolean,
 			centered: Boolean,
+		},
+		computed: {
+			className() {
+				const { centered, outline, size, type } = this;
+				let className = 'btn';
+
+				className += ` btn-${outline ? 'outline-' : ''}${type}`;
+
+				if (centered) {
+					className += ' d-inline-flex';
+					className += ' justify-content-center';
+					className += ' align-items-center';
+				}
+
+				if (size) className += ' btn-' + size;
+
+				return className;
+			},
 		},
 	});
 </script>
