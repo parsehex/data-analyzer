@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 
 import Alert from '@/components/Alert.vue';
 import Btn from '@/components/Btn.vue';
+import Card from '@/components/Card.vue';
 import Column from '@/components/Layout/Column.vue';
 import Container from '@/components/Layout/Container.vue';
 import DataTable from '@/components/DataTable.vue';
@@ -23,6 +24,7 @@ export const app = createApp(App);
 export function setupVue() {
 	app.component(Alert.name, Alert);
 	app.component(Btn.name, Btn);
+	app.component(Card.name, Card);
 	app.component(Column.name, Column);
 	app.component(Container.name, Container);
 	app.component(DataTable.name, DataTable);

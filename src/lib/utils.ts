@@ -64,3 +64,26 @@ export function lastIndexOf<T extends { [k: string]: any }>(
 	}
 	return -1;
 }
+
+export function uniqObjectArray<T extends Object>(
+	arr: T[],
+	uniqKey: keyof T
+): T[] {
+	const rows = clone(arr);
+
+	const seenIds: string[] = [];
+	for (let i = arr.length - 1; i >= 0; i--) {
+		const row = arr[i];
+		const id = row[uniqKey];
+		// @ts-ignore
+		if (seenIds.includes(id)) {
+			continue;
+		} else {
+			// @ts-ignore
+			seenIds.push(id);
+			rows.unshift(row);
+		}
+	}
+
+	return rows;
+}
