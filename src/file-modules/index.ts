@@ -1,4 +1,5 @@
 import { FileModuleConfig } from '@/types/file-data';
+import AuditTrail from './IntakeQ/AuditTrail/AuditTrail.vue';
 import TherapyNotes from './TherapyNotes/Spreadsheet.vue';
 import PNCStatementActivity from './PNC/Statement.vue';
 
@@ -9,6 +10,15 @@ const FileModules: FileModuleConfig = {
 		dataSource: 'PNC',
 		name_long: 'Activity Statement',
 		component: PNCStatementActivity,
+		mergeable: true,
+	},
+	intakeq_audit_trail: {
+		version: 1,
+		name: 'intakeq_audit_trail',
+		dataSource: 'IntakeQ',
+		reports: ['Missing Intakes'],
+		name_long: 'Audit Trail',
+		component: AuditTrail,
 		mergeable: true,
 	},
 	therapy_notes_spreadsheet: {

@@ -3,6 +3,8 @@ import processTherapyNotesData from '@/file-modules/TherapyNotes/data/process';
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import processPNCStatementData from '@/file-modules/PNC/data/process';
 import { PNCStatementActivityColumn } from '@/types/file-data/pnc';
+import processData_IntakeQAuditTrail from '@/file-modules/IntakeQ/AuditTrail/data/process';
+import { IntakeQRow_AuditTrail } from '@/types/file-data/intakeq';
 
 interface ProcessFileOptions {
 	buffers: ArrayBuffer[];
@@ -31,6 +33,13 @@ export async function processFile({
 			return await processPNCStatementData(
 				buffers,
 				priorData as PNCStatementActivityColumn[]
+			);
+		}
+
+		case 'intakeq_audit_trail': {
+			return await processData_IntakeQAuditTrail(
+				buffers,
+				priorData as IntakeQRow_AuditTrail[]
 			);
 		}
 

@@ -2,28 +2,31 @@
 	<container>
 		<row class="d-flex justify-content-center">
 			<column class="col-12">
-				<alert :type="alertType">Select the type of file to add</alert>
-				<div class="input-group mb-3" :style="{ display: 'none' }">
-					<div class="custom-file">
-						<input
-							type="file"
-							ref="fileInput"
-							@change="upload"
-							id="file-input"
-							multiple
-						/>
-					</div>
-				</div>
-				<progress-bar
-					v-if="isLoading"
-					label="Loading..."
-					type="primary"
-					:value="100"
-					striped
-					animated
+				<alert :type="alertType">
+					Select the type of file to add
+					<progress-bar
+						v-if="isLoading"
+						label="Loading..."
+						type="primary"
+						:value="100"
+						striped
+						animated
+					/>
+				</alert>
+				<input
+					type="file"
+					ref="fileInput"
+					@change="upload"
+					id="file-input"
+					multiple
+					:style="{ display: 'none' }"
 				/>
 			</column>
-			<column class="col-xs-12 col-sm-6 col-md-4" v-for="def in fileTypes">
+			<column
+				class="col-xs-12 col-sm-6 col-md-4"
+				v-for="def in fileTypes"
+				:key="def.name"
+			>
 				<card
 					type="light"
 					:actions="[
@@ -47,11 +50,10 @@
 
 <script lang="ts">
 	import { defineComponent, nextTick } from 'vue';
-	import { BootstrapType } from '@/types/components';
-	import { addFile, updateFile, updateFilesList } from '@/lib/db';
+	import { addFile, updateFilesList } from '@/lib/db';
 	import router from '@/lib/router';
 	import { processFile } from '@/lib/data';
-	import { DBFileObject, FileType } from '@/types/db';
+	import { FileType } from '@/types/db';
 	import FileModules from '@/file-modules';
 	import { uploadFiles } from '@/lib/io';
 

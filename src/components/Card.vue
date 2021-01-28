@@ -11,8 +11,14 @@
 				<slot name="text" />
 			</p>
 		</div>
-		<div class="card-body" v-if="actions && actions.length">
-			<a href="#" class="card-link" v-for="a in actions" @click="a.callback">
+		<div class="card-body" v-if="actions?.length > 0">
+			<a
+				href="#"
+				class="card-link"
+				v-for="a in actions"
+				:key="a"
+				@click="a.callback"
+			>
 				{{ a.label }}
 			</a>
 		</div>
@@ -40,7 +46,11 @@
 				required: false,
 				default: '',
 			},
-			actions: Object as PropType<ActionButton[]>,
+			actions: {
+				type: Object as PropType<ActionButton[]>,
+				required: false,
+				default: [],
+			},
 		},
 		computed: {
 			className() {

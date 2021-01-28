@@ -210,9 +210,10 @@
 			download() {
 				const el = document.querySelector('table');
 				const wb = xlsx.utils.table_to_book(el);
+				const mode = this.filters.mode.replace(/ /g, '');
 
 				const now = new Date();
-				const title = `TherapyNotes_Spreadsheet-${
+				const title = `DataAnalyzer-TherapyNotes_Spreadsheet_${mode}-${
 					now.getMonth() + 1
 				}/${now.getDate()}.csv`;
 				xlsx.writeFile(wb, title);

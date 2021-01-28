@@ -30,7 +30,7 @@
 							>
 								<small>Includes</small>
 								<ul>
-									<li v-for="r in getFileTypeDef(f.type).reports">
+									<li v-for="r in getFileTypeDef(f.type).reports" :key="r">
 										{{ r }}
 									</li>
 								</ul>
