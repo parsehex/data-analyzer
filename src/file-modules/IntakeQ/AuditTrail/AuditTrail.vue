@@ -105,17 +105,9 @@
 					let status = '';
 					let value = -1;
 
-					if (client.intake.submitted) {
-						status = 'Submitted ' + client.intake.submitted.form;
-						date = client.intake.submitted.date;
-						value = Math.floor(date.getTime() / 1000);
-					} else if (client.intake.sent) {
-						status = 'Sent ' + client.intake.sent.form;
+					if (client.intake.sent) {
+						status = 'Sent form ' + client.intake.sent.form;
 						date = client.intake.sent.date;
-						value = Math.floor(date.getTime() / 1000);
-					} else if (client.created) {
-						status = 'Created';
-						date = client.created;
 						value = Math.floor(date.getTime() / 1000);
 					} else {
 						continue;
