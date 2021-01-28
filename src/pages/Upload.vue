@@ -1,50 +1,59 @@
 <template>
-	<row class="d-flex justify-content-center">
-		<column class="col-lg-6">
-			<alert :type="alertType">
-				Select the type of file to add:
-				<select v-model="dataType">
-					<option
-						v-for="type in fileTypes"
-						:key="type.value"
-						:value="type.value"
-					>
-						{{ type.name }}
-					</option>
-				</select>
-				<!-- TODO add export instructions -->
-			</alert>
-			<div v-if="dataType" class="input-group mb-3">
-				<div class="custom-file">
-					<input
-						type="file"
-						ref="fileInput"
-						@change="upload"
-						id="file-input"
-						multiple
+	<container>
+		<row class="d-flex justify-content-center">
+			<column class="col-12">
+				<alert :type="alertType">
+					Select the type of file to add
+					<progress-bar
+						v-if="isLoading"
+						label="Loading..."
+						type="primary"
+						:value="100"
+						striped
+						animated
 					/>
-					<label class="custom-file-label" for="file-input">Choose file</label>
-				</div>
-			</div>
-			<progress-bar
-				v-if="isLoading"
-				label="Loading..."
-				type="primary"
-				:value="100"
-				striped
-				animated
-			/>
-		</column>
-	</row>
+				</alert>
+				<input
+					type="file"
+					ref="fileInput"
+					@change="upload"
+					id="file-input"
+					multiple
+					:style="{ display: 'none' }"
+				/>
+			</column>
+			<column
+				class="col-xs-12 col-sm-6 col-md-4"
+				v-for="def in fileTypes"
+				:key="def.name"
+			>
+				<card
+					type="light"
+					:actions="[
+						{
+							label: 'Choose File(s)...',
+							callback: () => chooseType(def.name),
+						},
+					]"
+				>
+					<template #header>
+						{{ def.dataSource }}
+					</template>
+					<template #title>
+						{{ def.name_long }}
+					</template>
+				</card>
+			</column>
+		</row>
+	</container>
 </template>
 
 <script lang="ts">
 	import { defineComponent, nextTick } from 'vue';
-	import { BootstrapType } from '@/types/components';
-	import { addFile, updateFile, updateFilesList } from '@/lib/db';
+	import { addFile, updateFilesList } from '@/lib/db';
 	import router from '@/lib/router';
 	import { processFile } from '@/lib/data';
-	import { DBFileObject, FileType } from '@/types/db';
+	import { FileType } from '@/types/db';
 	import FileModules from '@/file-modules';
 	import { uploadFiles } from '@/lib/io';
 
@@ -57,14 +66,15 @@
 
 		computed: {
 			fileTypes: () => {
-				return Object.keys(FileModules).map((value) => ({
-					value,
-					name: FileModules[value as FileType].name_long,
-				}));
+				return Object.values(FileModules);
 			},
 		},
 
 		methods: {
+			chooseType(type: FileType) {
+				this.dataType = type;
+				(this.$refs.fileInput as HTMLInputElement).click();
+			},
 			async upload() {
 				this.isLoading = true;
 				const { files } = this.$refs.fileInput as HTMLInputElement;

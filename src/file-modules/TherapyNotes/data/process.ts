@@ -1,6 +1,6 @@
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import { loadSpreadsheetFile } from '@/lib/io';
-import { lastIndexOf } from '@/lib/utils';
+import { lastIndexOf, uniqObjectArray } from '@/lib/utils';
 
 export default async function processTherapyNotesData(
 	buffers: ArrayBuffer[],
@@ -25,22 +25,7 @@ export default async function processTherapyNotesData(
 		row['ID'] = id;
 	}
 
-	const seenIds: string[] = [];
-
-	const rows = [];
-
-	for (let i = sheet.length - 1; i >= 0; i--) {
-		const row = sheet[i];
-		const { ID } = row;
-		if (seenIds.includes(ID)) {
-			continue;
-		} else {
-			seenIds.push(ID);
-			rows.unshift(row);
-		}
-	}
-
-	return rows;
+	return uniqObjectArray(sheet, 'ID');
 }
 
 function makeID(row: TherapyNotesRow) {

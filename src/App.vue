@@ -4,6 +4,7 @@
 		<container fluid>
 			<router-view />
 		</container>
+		<!-- modal goes here -->
 	</div>
 </template>
 

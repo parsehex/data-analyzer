@@ -17,7 +17,15 @@ export function loadSpreadsheetFile<ColumnType>({
 	const wb = xlsx.read(new Uint8Array(buffer), {
 		type: 'array',
 	});
-	const sheetIndex = wb.SheetNames.indexOf(sheetName);
+
+	let sheetIndex = wb.SheetNames.indexOf(sheetName);
+	if (sheetIndex === -1) {
+		if (wb.SheetNames.length === 1) sheetIndex = 0;
+		else {
+			throw new Error('Invalid sheetName');
+		}
+	}
+
 	const data: ColumnType[] = xlsx.utils.sheet_to_json(
 		wb.Sheets[wb.SheetNames[sheetIndex]],
 		{ header }

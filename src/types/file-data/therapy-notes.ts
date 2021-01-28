@@ -2,7 +2,7 @@ export interface TherapyNotesRow {
 	/**
 	 * This is generated from:
 	 *
-	 * Service Code + Date + Clinician NPI + Last Name + First Name
+	 * Date + "-" + Clinician Name + "-" + Last Name + First Name
 	 */
 	ID?: string;
 	'Appointment Type': string;
