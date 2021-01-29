@@ -105,7 +105,8 @@
 					let status = '';
 					let value = -1;
 
-					if (client.intake.sent) {
+					if (client.intake.submitted) continue;
+					else if (client.intake.sent) {
 						status = 'Sent form ' + client.intake.sent.form;
 						date = client.intake.sent.date;
 						value = Math.floor(date.getTime() / 1000);

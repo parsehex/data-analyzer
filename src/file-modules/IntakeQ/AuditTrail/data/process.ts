@@ -10,14 +10,15 @@ export default async function processData_IntakeQAuditTrail(
 	if (priorData) sheet.push(...priorData);
 
 	for (const buffer of buffers) {
-		sheet.push(
-			...loadSpreadsheetFile<IntakeQRow_AuditTrail>({
-				buffer,
-				sheetName: 'export',
-				sort: (a, b) => a.Date - b.Date,
-			})
-		);
+		const newData = loadSpreadsheetFile<IntakeQRow_AuditTrail>({
+			buffer,
+			sheetName: 'export',
+			raw: true,
+		});
+		sheet.push(...newData);
 	}
+
+	sheet.sort((a, b) => new Date(a.Date).getTime() - new Date(b.Date).getTime());
 
 	return uniqObjectArray(sheet, 'Id');
 }

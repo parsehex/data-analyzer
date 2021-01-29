@@ -5,6 +5,8 @@ interface Options<Col> {
 	sheetName: string;
 	header?: xlsx.Sheet2JSONOpts['header'];
 	sort?: keyof Col | ((a: Col, b: Col) => number);
+	cellDates?: boolean;
+	raw?: boolean;
 }
 
 export function loadSpreadsheetFile<ColumnType>({
@@ -12,10 +14,14 @@ export function loadSpreadsheetFile<ColumnType>({
 	sheetName,
 	header,
 	sort,
+	cellDates,
+	raw,
 }: Options<ColumnType>): ColumnType[] {
 	// convert spreadsheet to json
 	const wb = xlsx.read(new Uint8Array(buffer), {
 		type: 'array',
+		cellDates,
+		raw,
 	});
 
 	let sheetIndex = wb.SheetNames.indexOf(sheetName);

@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { newDateFromExcel } from '@/lib/utils';
 import { IntakeQRow_AuditTrail } from '@/types/file-data/intakeq';
+import { parse } from 'date-fns';
 
 export interface MissingIntakes_Result {
 	name: string;
@@ -23,18 +24,13 @@ export function missingIntakesResults(data: IntakeQRow_AuditTrail[]) {
 		if (!row.Client) continue;
 
 		const { Action, Client, Date: rawDate, Object: object } = row;
-		let date: Date;
+		// @ts-ignore
+		const date = parse(rawDate, 'M/d/yyyy H:m', new Date());
 
-		if (typeof rawDate === 'number') {
-			date = newDateFromExcel(rawDate);
-		} else if (typeof rawDate === 'string') {
-			date = new Date(rawDate);
-		} else {
-			console.error(`Unexpected Date value: ${rawDate}`);
-			continue;
-		}
+		if (typeof date !== 'object') console.log(rawDate);
+		// if (typeof date !== 'string') console.log({ Id, date });
 
-		if (object.includes('MCC') && !object.includes('Intake')) continue;
+		if (!object.includes('MCC') || !object.includes('Intake')) continue;
 
 		const actionType = classifyAction(Action);
 
