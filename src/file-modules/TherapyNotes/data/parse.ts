@@ -43,6 +43,8 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 	const results: Appointment[] = [];
 
 	for (const row of data) {
+		const patientName = row['First Name'] + ' ' + row['Last Name'];
+
 		const patientDue = Math.abs(row['Patient Amount Due'] || 0);
 		const patientPaid = Math.abs(row['Patient Amount Paid'] || 0);
 		const patientOwes = patientDue - patientPaid;
@@ -78,7 +80,7 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 				},
 			},
 			patient: {
-				name: row['First Name'] + ' ' + row['Last Name'],
+				name: patientName.replace(/\*/g, ''),
 				balance: {
 					status: row['Patient Balance Status'],
 					isPaidInFull: row['Patient Balance Status'] === 'Paid In Full',
