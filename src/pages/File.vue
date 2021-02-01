@@ -11,11 +11,15 @@
 						style="display: none"
 						multiple
 					/>
-					<btn @click="addMoreData" size="sm" type="primary" centered outline>
-						<icon :size="16" type="plus" />
+					<btn @click="addMoreData" size="xs" type="primary" centered outline>
+						<icon :size="12" type="plus" />
 						Import Data
 					</btn>
 				</span>
+				<btn @click="downloadData" size="xs" type="success" centered outline>
+					<icon :size="12" type="download" />
+					Export Data
+				</btn>
 			</h1>
 
 			<component :is="fileType.component" :file-data="file.content || []" />
@@ -43,6 +47,7 @@
 				required: true,
 			},
 		},
+		data: () => ({ isDev: state.isDev }),
 		computed: {
 			file(): DBFileObject<unknown> {
 				return state.files.find((f) => f.file_id === this.id);
@@ -66,6 +71,12 @@
 			addMoreData() {
 				const fileInput = this.$refs.fileInput as HTMLInputElement;
 				fileInput.click();
+			},
+			downloadData() {
+				const wb = xlsx.utils.book_new();
+				const sheet = xlsx.utils.json_to_sheet(this.file.content as any);
+				xlsx.utils.book_append_sheet(wb, sheet);
+				xlsx.writeFile(wb, `${this.file.name}-${nowSeconds()}.csv`);
 			},
 			async upload() {
 				const { files } = this.$refs.fileInput as HTMLInputElement;
