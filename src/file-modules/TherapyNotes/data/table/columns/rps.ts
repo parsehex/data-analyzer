@@ -1,10 +1,22 @@
 import numeral from 'numeral';
 import { TableRowObject } from '@/types/components';
 import math from '@/math';
-import { $ } from '@/lib/utils';
+import { $, genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
+import { pastAppts } from '../../filter';
 
+/** Columns `Total Revenue`, `Total Sessions` */
 export default function rps(appts: Appointment[]): TableRowObject {
+	appts = pastAppts(appts);
+	if (appts.length === 0) {
+		return {
+			...genNAColumns('Total Revenue'),
+			'Total Sessions': {
+				value: 0,
+			},
+		};
+	}
+
 	const totals = appts.map((a) => a.total.paid);
 	const sum = math.sum(totals);
 	const sessions = totals.length;

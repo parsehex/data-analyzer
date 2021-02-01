@@ -1,47 +1,52 @@
 import math from '@/math';
 import { TableDataObject, TableRowObject } from '@/types/components';
-import { $ } from '@/lib/utils';
+import { $, genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
+import { pastAppts } from '../../filter';
 
+/** Columns `Patient Owes`, `Insurance Owes`, `Total Owes` */
 export default function owes(appts: Appointment[]): TableRowObject {
-	const patientOwes = appts.map((appt) => {
-		// if (appt.patient.balance.isPaidInFull) return 0;
-		return appt.patient.balance.owes;
-	});
-	const patientOwesSum = math.sum(patientOwes);
-
-	const insuranceOwes = appts.map((appt) => {
-		// if (appt.insurance.balance.isPaidInFull) return 0;
-		return appt.insurance.balance.owes;
-	});
-	const insuranceOwesSum = math.sum(insuranceOwes);
-
-	const patient: TableDataObject = {
-		value: 0,
-		text: $(0),
-	};
-	if (patientOwes.length > 0) {
-		patient.text = $(patientOwesSum);
-		patient.value = patientOwesSum;
-		patient.title = `Owed from ${patientOwes.length} sessions`;
+	appts = pastAppts(appts);
+	if (appts.length === 0) {
+		return genNAColumns(['Patient Owes', 'Insurance Owes', 'Total Owes']);
 	}
 
-	const insurance: TableDataObject = {
+	const pOwesArr = appts.map((appt) => {
+		return appt.patient.balance.owes;
+	});
+	const pOwesSum = math.sum(pOwesArr);
+
+	const iOwesArr = appts.map((appt) => {
+		return appt.insurance.balance.owes;
+	});
+	const iOwesSum = math.sum(iOwesArr);
+
+	const patientOwes: TableDataObject = {
 		value: 0,
 		text: $(0),
 	};
-	if (insuranceOwes.length > 0) {
-		insurance.text = $(insuranceOwesSum);
-		insurance.value = insuranceOwesSum;
-		insurance.title = `Owed from ${insuranceOwes.length} sessions`;
+	if (pOwesArr.length > 0) {
+		patientOwes.text = $(pOwesSum);
+		patientOwes.value = pOwesSum;
+		patientOwes.title = `Owed from ${pOwesArr.length} sessions`;
+	}
+
+	const insuranceOwes: TableDataObject = {
+		value: 0,
+		text: $(0),
+	};
+	if (iOwesArr.length > 0) {
+		insuranceOwes.text = $(iOwesSum);
+		insuranceOwes.value = iOwesSum;
+		insuranceOwes.title = `Owed from ${iOwesArr.length} sessions`;
 	}
 
 	return {
-		'Patient Owes': patient,
-		'Insurance Owes': insurance,
+		'Patient Owes': patientOwes,
+		'Insurance Owes': insuranceOwes,
 		'Total Owes': {
-			value: patientOwesSum + insuranceOwesSum,
-			text: $(patientOwesSum + insuranceOwesSum),
+			value: pOwesSum + iOwesSum,
+			text: $(pOwesSum + iOwesSum),
 		},
 	};
 }
