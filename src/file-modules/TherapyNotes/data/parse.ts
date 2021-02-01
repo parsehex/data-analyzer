@@ -1,3 +1,4 @@
+import { perfMark, perfMeasure } from '@/lib/devtools';
 import { newDateFromExcel } from '@/lib/utils';
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 
@@ -37,6 +38,8 @@ export interface Balance {
 }
 
 export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
+	perfMark('pA_start');
+
 	const results: Appointment[] = [];
 
 	for (const row of data) {
@@ -93,6 +96,9 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 			},
 		});
 	}
+
+	perfMark('pA_end');
+	perfMeasure('parseAppointments', 'pA_start', 'pA_end');
 
 	return results;
 }

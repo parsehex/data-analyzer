@@ -1,4 +1,5 @@
 import * as xlsx from 'xlsx';
+import { perfMark, perfMeasure } from './devtools';
 
 interface Options<Col> {
 	buffer: ArrayBuffer;
@@ -17,6 +18,7 @@ export function loadSpreadsheetFile<ColumnType>({
 	cellDates,
 	raw,
 }: Options<ColumnType>): ColumnType[] {
+	perfMark('lSF_start');
 	// convert spreadsheet to json
 	const wb = xlsx.read(new Uint8Array(buffer), {
 		type: 'array',
@@ -43,6 +45,9 @@ export function loadSpreadsheetFile<ColumnType>({
 	} else if (typeof sort === 'function') {
 		data.sort(sort);
 	}
+
+	perfMark('lSF_end');
+	perfMeasure('loadSpreadsheetFile', 'lSF_start', 'lSF_end');
 
 	return data;
 }
