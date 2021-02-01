@@ -23,9 +23,9 @@
 					v-model="columns"
 				/>
 			</form-group>
-			<form-group v-if="isDev">
-				<btn @click="download" size="xs" type="success" centered outline>
-					<icon :size="16" type="download" />
+			<form-group>
+				<btn @click="download" size="sm" type="success" centered outline>
+					<icon :size="12" type="download" />
 					Download Results
 				</btn>
 			</form-group>
@@ -213,9 +213,8 @@
 				const mode = this.filters.mode.replace(/ /g, '');
 
 				const now = new Date();
-				const title = `DataAnalyzer-TherapyNotes_Spreadsheet_${mode}-${
-					now.getMonth() + 1
-				}/${now.getDate()}.csv`;
+				const dt = now.getMonth() + 1 / now.getDate();
+				const title = `TherapyNotes_Spreadsheet_${mode}-${dt}.csv`;
 				xlsx.writeFile(wb, title);
 			},
 		},
