@@ -1,5 +1,5 @@
 import numeral from 'numeral';
-import { TableDataType } from '@/types/components';
+import { TableDataType, TableRowObject } from '@/types/components';
 
 export function generateID() {
 	return '' + Math.random().toString(36).substr(2, 9);
@@ -86,4 +86,18 @@ export function uniqObjectArray<T extends Object>(
 	}
 
 	return rows;
+}
+
+export function genNAColumns(columnNames: string | string[]) {
+	const tableData: TableRowObject = {};
+
+	if (typeof columnNames === 'string') columnNames = [columnNames];
+	for (const n of columnNames) {
+		tableData[n] = {
+			text: 'N/A',
+			value: -1,
+		};
+	}
+
+	return tableData;
 }
