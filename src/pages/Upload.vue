@@ -66,7 +66,7 @@
 
 		computed: {
 			fileTypes: () => {
-				return Object.values(FileModules);
+				return Object.values(FileModules).filter((v) => !v.disabled);
 			},
 		},
 

@@ -12,4 +12,5 @@ export interface DataTypeConfig {
 	description?: string;
 	reports?: string[];
 	dataSource: string;
+	disabled: boolean;
 }
