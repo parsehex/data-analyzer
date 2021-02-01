@@ -1,4 +1,4 @@
-import { differenceInCalendarDays } from 'date-fns';
+import { differenceInCalendarDays, isFuture } from 'date-fns';
 import { now } from '@/lib/utils';
 import { Appointment } from './parse';
 import { DataMode } from './table';
@@ -26,4 +26,12 @@ export function filterAppointments(appts: Appointment[], { mode }: Filters) {
 
 		return true;
 	});
+}
+
+export function pastAppts(appts: Appointment[]) {
+	return appts.filter((v) => !isFuture(v.date));
+}
+
+export function futureAppts(appts: Appointment[]) {
+	return appts.filter((v) => isFuture(v.date));
 }
