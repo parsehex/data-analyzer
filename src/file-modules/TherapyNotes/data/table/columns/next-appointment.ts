@@ -1,8 +1,8 @@
 import { format, isFuture } from 'date-fns';
 import { TableRowObject } from '@/types/components';
+import { genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
 import { futureAppts } from '../../filter';
-import { genNAColumns } from '@/lib/utils';
 
 export default function nextAppt(appts: Appointment[]): TableRowObject {
 	appts = futureAppts(appts);

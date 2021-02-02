@@ -121,6 +121,12 @@
 			);
 		},
 		computed: {
+			/** Filtered list of appointments */
+			appts() {
+				let appts = parseAppointments(this.fileData);
+				appts = filterAppointments(appts, this.filters);
+				return appts;
+			},
 			results() {
 				const results: TableResult[] = [];
 				for (const appt of this.appts) {
@@ -197,13 +203,6 @@
 				}
 
 				return tableData;
-			},
-
-			/** Filtered list of appointments */
-			appts() {
-				let appts = parseAppointments(this.fileData);
-				appts = filterAppointments(appts, this.filters);
-				return appts;
 			},
 		},
 		methods: {

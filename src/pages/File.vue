@@ -3,7 +3,7 @@
 		<column>
 			<h1 class="lead text-center file-name">
 				{{ fileType.name_long }}
-				<span v-if="fileType.mergeable" class="d-print-none">
+				<span class="d-print-none">
 					<input
 						ref="fileInput"
 						type="file"
@@ -11,15 +11,22 @@
 						style="display: none"
 						multiple
 					/>
-					<btn @click="addMoreData" size="xs" type="primary" centered outline>
+					<btn
+						@click="addMoreData"
+						v-if="fileType.mergeable"
+						size="xs"
+						type="primary"
+						centered
+						outline
+					>
 						<icon :size="12" type="plus" />
 						Import Data
 					</btn>
+					<btn @click="downloadData" size="xs" type="success" centered outline>
+						<icon :size="12" type="download" />
+						Export Data
+					</btn>
 				</span>
-				<btn @click="downloadData" size="xs" type="success" centered outline>
-					<icon :size="12" type="download" />
-					Export Data
-				</btn>
 			</h1>
 
 			<component :is="fileType.component" :file-data="file.content || []" />

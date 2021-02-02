@@ -32,7 +32,9 @@
 					</btn>
 				</li>
 				<li class="nav-item" v-if="isDev">
-					<btn type="info" outline @click="logTimings">Log Timings</btn>
+					<btn type="info" size="xs" outline @click="logTimings">
+						Log Timings
+					</btn>
 				</li>
 			</ul>
 		</div>
