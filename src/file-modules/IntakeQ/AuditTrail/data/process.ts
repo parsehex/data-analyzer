@@ -13,7 +13,6 @@ export default async function processData_IntakeQAuditTrail(
 		const newData = loadSpreadsheetFile<IntakeQRow_AuditTrail>({
 			buffer,
 			sheetName: 'export',
-			raw: true,
 		});
 		sheet.push(...newData);
 	}
