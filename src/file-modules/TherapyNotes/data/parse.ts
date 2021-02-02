@@ -1,3 +1,4 @@
+import { perfMark, perfMeasure } from '@/lib/devtools';
 import { newDateFromExcel } from '@/lib/utils';
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 
@@ -37,9 +38,13 @@ export interface Balance {
 }
 
 export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
+	perfMark('pA_start');
+
 	const results: Appointment[] = [];
 
 	for (const row of data) {
+		const patientName = row['First Name'] + ' ' + row['Last Name'];
+
 		const patientDue = Math.abs(row['Patient Amount Due'] || 0);
 		const patientPaid = Math.abs(row['Patient Amount Paid'] || 0);
 		const patientOwes = patientDue - patientPaid;
@@ -75,7 +80,7 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 				},
 			},
 			patient: {
-				name: row['First Name'] + ' ' + row['Last Name'],
+				name: patientName.replace(/\*/g, ''),
 				balance: {
 					status: row['Patient Balance Status'],
 					isPaidInFull: row['Patient Balance Status'] === 'Paid In Full',
@@ -93,6 +98,9 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 			},
 		});
 	}
+
+	perfMark('pA_end');
+	perfMeasure('parseAppointments', 'pA_start', 'pA_end');
 
 	return results;
 }

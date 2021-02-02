@@ -1,9 +1,16 @@
 import math from '@/math';
 import { TableDataObject, TableRowObject } from '@/types/components';
-import { $ } from '@/lib/utils';
+import { $, genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
+import { pastAppts } from '../../filter';
 
+/** Columns `Total Expected`, `Collect %` */
 export default function collected(appts: Appointment[]): TableRowObject {
+	appts = pastAppts(appts);
+	if (appts.length === 0) {
+		genNAColumns(['Total Expected', 'Collected %']);
+	}
+
 	const paid: number = math.sum(appts.map((appt) => appt.total.paid));
 	const expected: number = math.sum(appts.map((appt) => appt.total.expected));
 

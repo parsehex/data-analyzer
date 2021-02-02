@@ -11,6 +11,7 @@ const FileModules: FileModuleConfig = {
 		name_long: 'Activity Statement',
 		component: PNCStatementActivity,
 		mergeable: true,
+		disabled: false,
 	},
 	intakeq_audit_trail: {
 		version: 1,
@@ -20,6 +21,7 @@ const FileModules: FileModuleConfig = {
 		name_long: 'Audit Trail',
 		component: AuditTrail,
 		mergeable: true,
+		disabled: true,
 	},
 	therapy_notes_spreadsheet: {
 		version: 1,
@@ -29,6 +31,7 @@ const FileModules: FileModuleConfig = {
 		reports: ['% Collected', 'Revenue Per Session', 'Write Offs'],
 		component: TherapyNotes,
 		mergeable: true,
+		disabled: false,
 	},
 };
 

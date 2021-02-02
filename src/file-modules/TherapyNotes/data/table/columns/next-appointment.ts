@@ -1,22 +1,16 @@
 import { format, isFuture } from 'date-fns';
 import { TableRowObject } from '@/types/components';
+import { genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
+import { futureAppts } from '../../filter';
 
 export default function nextAppt(appts: Appointment[]): TableRowObject {
-	const futureAppts = appts.filter((a) => isFuture(a.date));
+	appts = futureAppts(appts);
+	if (appts.length === 0) return genNAColumns('Next Appointment');
 
-	if (futureAppts.length === 0) {
-		return {
-			'Next Appointment': {
-				value: Number.MIN_VALUE,
-				text: 'N/A',
-			},
-		};
-	}
+	appts.sort((a, b) => a.date.getTime() - b.date.getTime());
 
-	futureAppts.sort((a, b) => a.date.getTime() - b.date.getTime());
-
-	const appt = futureAppts[0];
+	const appt = appts[0];
 
 	return {
 		'Next Appointment': {

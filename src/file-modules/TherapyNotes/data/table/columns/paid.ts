@@ -1,43 +1,50 @@
 import math from '@/math';
 import { TableDataObject, TableRowObject } from '@/types/components';
-import { $ } from '@/lib/utils';
+import { $, genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
+import { pastAppts } from '../../filter';
 
+/** Columns `Patient Paid`, `Insurance Paid`, `Paid Total` */
 export default function paid(appts: Appointment[]): TableRowObject {
-	const patientPaid = appts.map((appt) => {
-		return appt.patient.balance.paid;
-	});
-	const patientPaidSum = math.sum(patientPaid);
-
-	const insurancePaid = appts.map((appt) => {
-		return appt.insurance.balance.paid;
-	});
-	const insurancePaidSum = math.sum(insurancePaid);
-
-	const patient: TableDataObject = {
-		value: 0,
-		text: $(0),
-	};
-	if (patientPaid.length > 0) {
-		const sessions = patientPaid.filter((v) => v).length;
-		patient.text = $(patientPaidSum);
-		patient.value = patientPaidSum;
-		if (sessions > 0) patient.title = `Paid from ${sessions} sessions`;
+	appts = pastAppts(appts);
+	if (appts.length === 0) {
+		return genNAColumns(['Patient Paid', 'Insurance Paid', 'Paid Total']);
 	}
 
-	const insurance: TableDataObject = {
+	const pPaid = appts.map((appt) => {
+		return appt.patient.balance.paid;
+	});
+	const patientPaidSum = math.sum(pPaid);
+
+	const iPaid = appts.map((appt) => {
+		return appt.insurance.balance.paid;
+	});
+	const insurancePaidSum = math.sum(iPaid);
+
+	const patientPaid: TableDataObject = {
 		value: 0,
 		text: $(0),
 	};
-	if (insurancePaid.length > 0) {
-		insurance.text = $(insurancePaidSum);
-		insurance.value = insurancePaidSum;
-		insurance.title = `Paid from ${insurancePaid.length} sessions`;
+	if (pPaid.length > 0) {
+		const sessions = pPaid.filter((v) => v).length;
+		patientPaid.text = $(patientPaidSum);
+		patientPaid.value = patientPaidSum;
+		if (sessions > 0) patientPaid.title = `Paid from ${sessions} sessions`;
+	}
+
+	const insurancePaid: TableDataObject = {
+		value: 0,
+		text: $(0),
+	};
+	if (iPaid.length > 0) {
+		insurancePaid.text = $(insurancePaidSum);
+		insurancePaid.value = insurancePaidSum;
+		insurancePaid.title = `Paid from ${iPaid.length} sessions`;
 	}
 
 	return {
-		'Patient Paid': patient,
-		'Insurance Paid': insurance,
+		'Patient Paid': patientPaid,
+		'Insurance Paid': insurancePaid,
 		'Paid Total': {
 			value: patientPaidSum + insurancePaidSum,
 			text: $(patientPaidSum + insurancePaidSum),

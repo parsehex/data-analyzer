@@ -31,6 +31,11 @@
 						Reset Data
 					</btn>
 				</li>
+				<li class="nav-item" v-if="isDev">
+					<btn type="info" size="xs" outline @click="logTimings">
+						Log Timings
+					</btn>
+				</li>
 			</ul>
 		</div>
 	</nav>
@@ -40,11 +45,13 @@
 	import { computed, defineComponent } from 'vue';
 	import Dexie from 'dexie';
 	import state from '@/lib/state';
+	import { perfCompile } from '@/lib/devtools';
 	import NavItem from './NavItem.vue';
 
 	export default defineComponent({
 		components: { NavItem },
 		name: 'Navigation',
+		data: () => ({ isDev: state.isDev, timing: state.timingEnabled }),
 		props: {
 			title: {
 				type: String,
@@ -57,6 +64,7 @@
 				localStorage.clear();
 				window.location.replace('/');
 			},
+			logTimings: perfCompile,
 		},
 	});
 </script>

@@ -1,12 +1,11 @@
 import * as xlsx from 'xlsx';
+import { perfMark, perfMeasure } from './devtools';
 
 interface Options<Col> {
 	buffer: ArrayBuffer;
 	sheetName: string;
 	header?: xlsx.Sheet2JSONOpts['header'];
 	sort?: keyof Col | ((a: Col, b: Col) => number);
-	cellDates?: boolean;
-	raw?: boolean;
 }
 
 export function loadSpreadsheetFile<ColumnType>({
@@ -14,14 +13,11 @@ export function loadSpreadsheetFile<ColumnType>({
 	sheetName,
 	header,
 	sort,
-	cellDates,
-	raw,
 }: Options<ColumnType>): ColumnType[] {
+	perfMark('lSF_start');
 	// convert spreadsheet to json
 	const wb = xlsx.read(new Uint8Array(buffer), {
 		type: 'array',
-		cellDates,
-		raw,
 	});
 
 	let sheetIndex = wb.SheetNames.indexOf(sheetName);
@@ -43,6 +39,9 @@ export function loadSpreadsheetFile<ColumnType>({
 	} else if (typeof sort === 'function') {
 		data.sort(sort);
 	}
+
+	perfMark('lSF_end');
+	perfMeasure('loadSpreadsheetFile', 'lSF_start', 'lSF_end');
 
 	return data;
 }

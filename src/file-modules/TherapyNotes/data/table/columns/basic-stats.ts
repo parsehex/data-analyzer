@@ -1,11 +1,18 @@
 import { interquartileRange, quantile } from 'simple-statistics';
 import math from '@/math';
 import { TableRowObject } from '@/types/components';
-import { $ } from '@/lib/utils';
+import { $, genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
+import { pastAppts } from '../../filter';
 
 export default function basicStats(appts: Appointment[]): TableRowObject {
+	appts = pastAppts(appts);
+	if (appts.length === 0) {
+		return genNAColumns(['Average', 'Q1', 'Median', 'Q3', 'IQR']);
+	}
+
 	const totals = appts.map((a) => a.total.paid);
+
 	const average = math.mean(...totals);
 	const median = math.median(...totals);
 	const q1 = quantile(totals, 0.25);

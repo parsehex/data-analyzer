@@ -58,10 +58,10 @@
 	import state from '@/lib/state';
 	import { removeFile } from '@/lib/db';
 	import FileModules from '@/file-modules';
-	import { FileType } from '@/types/db';
+	import { DBFileObject, FileType } from '@/types/db';
 
 	export default defineComponent({
-		data: () => ({ isDev: state.isDev, files: state.files }),
+		data: () => ({ isDev: state.isDev }),
 		mounted() {
 			if (state.files.length === 0) router.replace('/upload');
 		},
@@ -73,6 +73,14 @@
 				});
 			},
 			removeFile,
+		},
+		computed: {
+			files(): DBFileObject<unknown>[] {
+				return state.files.filter((v) => {
+					const type = this.getFileTypeDef(v.type);
+					return !type.disabled;
+				});
+			},
 		},
 	});
 </script>

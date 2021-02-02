@@ -3,7 +3,7 @@
 		<column>
 			<h1 class="lead text-center file-name">
 				{{ fileType.name_long }}
-				<span v-if="fileType.mergeable" class="d-print-none">
+				<span class="d-print-none">
 					<input
 						ref="fileInput"
 						type="file"
@@ -11,9 +11,20 @@
 						style="display: none"
 						multiple
 					/>
-					<btn @click="addMoreData" size="sm" type="primary" centered outline>
-						<icon :size="16" type="plus" />
+					<btn
+						@click="addMoreData"
+						v-if="fileType.mergeable"
+						size="xs"
+						type="primary"
+						centered
+						outline
+					>
+						<icon :size="12" type="plus" />
 						Import Data
+					</btn>
+					<btn @click="downloadData" size="xs" type="success" centered outline>
+						<icon :size="12" type="download" />
+						Export Data
 					</btn>
 				</span>
 			</h1>
@@ -43,6 +54,7 @@
 				required: true,
 			},
 		},
+		data: () => ({ isDev: state.isDev }),
 		computed: {
 			file(): DBFileObject<unknown> {
 				return state.files.find((f) => f.file_id === this.id);
@@ -66,6 +78,12 @@
 			addMoreData() {
 				const fileInput = this.$refs.fileInput as HTMLInputElement;
 				fileInput.click();
+			},
+			downloadData() {
+				const wb = xlsx.utils.book_new();
+				const sheet = xlsx.utils.json_to_sheet(this.file.content as any);
+				xlsx.utils.book_append_sheet(wb, sheet);
+				xlsx.writeFile(wb, `${this.file.name}-${nowSeconds()}.csv`);
 			},
 			async upload() {
 				const { files } = this.$refs.fileInput as HTMLInputElement;

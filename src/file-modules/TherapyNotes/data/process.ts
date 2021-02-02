@@ -1,12 +1,15 @@
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import { loadSpreadsheetFile } from '@/lib/io';
 import { lastIndexOf, uniqObjectArray } from '@/lib/utils';
+import { perfMark, perfMeasure } from '@/lib/devtools';
 
 export default async function processTherapyNotesData(
 	buffers: ArrayBuffer[],
 	priorData?: TherapyNotesRow[]
 ) {
-	const sheet: TherapyNotesRow[] = [];
+	perfMark('pTND_start');
+
+	let sheet: TherapyNotesRow[] = [];
 	if (priorData) sheet.push(...priorData);
 
 	for (const buffer of buffers) {
@@ -25,7 +28,12 @@ export default async function processTherapyNotesData(
 		row['ID'] = id;
 	}
 
-	return uniqObjectArray(sheet, 'ID');
+	sheet = uniqObjectArray(sheet, 'ID');
+
+	perfMark('pTND_end');
+	perfMeasure('processTherapyNotesData', 'pTND_start', 'pTND_end');
+
+	return sheet;
 }
 
 function makeID(row: TherapyNotesRow) {
