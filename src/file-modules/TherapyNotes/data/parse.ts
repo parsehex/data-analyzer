@@ -43,6 +43,7 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 	const results: Appointment[] = [];
 
 	for (const row of data) {
+		if (row['Type'] !== 'Appointment') continue;
 		const patientName = row['First Name'] + ' ' + row['Last Name'];
 
 		const pBalStatus = row['Patient Balance Status'];
