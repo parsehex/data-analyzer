@@ -52,12 +52,12 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 		const patientDue = Math.abs(row['Patient Amount Due'] || 0);
 		const patientPaid = Math.abs(row['Patient Amount Paid'] || 0);
 		let patientOwes = patientDue - patientPaid;
-		if (pBalStatus.toLowerCase() === 'paid in full') patientOwes = 0;
+		if (pBalStatus?.toLowerCase() === 'paid in full') patientOwes = 0;
 
 		const insuranceDue = Math.abs(row['Insurance Amount Due'] || 0);
 		const insurancePaid = Math.abs(row['Insurance Amount Paid'] || 0);
 		let insuranceOwes = insuranceDue - insurancePaid;
-		if (iBalStatus.toLowerCase() === 'paid') insuranceOwes = 0;
+		if (iBalStatus?.toLowerCase() === 'paid') insuranceOwes = 0;
 
 		const serviceCode = row['Service Code'];
 
