@@ -6,6 +6,7 @@ interface State {
 	isDev: boolean;
 	isLoading: boolean;
 	timingEnabled: boolean;
+	headless: boolean;
 }
 
 const state: State = reactive({
@@ -13,6 +14,7 @@ const state: State = reactive({
 	isDev: window.location.href.includes('localhost'),
 	isLoading: false,
 	timingEnabled: false,
+	headless: false,
 });
 
 export default state;
@@ -20,3 +22,7 @@ export default state;
 export function findFile(file_id: string) {
 	return state.files.find((f) => f.file_id === file_id);
 }
+
+(window as any).iAmHeadless = () => {
+	state.headless = true;
+};
