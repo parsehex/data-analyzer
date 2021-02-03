@@ -83,7 +83,7 @@
 				const wb = xlsx.utils.book_new();
 				const sheet = xlsx.utils.json_to_sheet(this.file.content as any);
 				xlsx.utils.book_append_sheet(wb, sheet);
-				xlsx.writeFile(wb, `${this.file.name}-${nowSeconds()}.csv`);
+				xlsx.writeFile(wb, `${this.file.name}-${nowSeconds()}.xlsx`);
 			},
 			async upload() {
 				const { files } = this.$refs.fileInput as HTMLInputElement;

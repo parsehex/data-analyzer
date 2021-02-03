@@ -23,7 +23,7 @@
 				/>
 			</column>
 			<column
-				class="col-xs-12 col-sm-6 col-md-4"
+				:class="['col-xs-12', 'col-sm-6', 'col-md-4', def.name]"
 				v-for="def in fileTypes"
 				:key="def.name"
 			>

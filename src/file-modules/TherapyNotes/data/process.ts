@@ -1,6 +1,7 @@
+import { format } from 'date-fns';
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import { loadSpreadsheetFile } from '@/lib/io';
-import { lastIndexOf, uniqObjectArray } from '@/lib/utils';
+import { lastIndexOf, newDateFromExcel, uniqObjectArray } from '@/lib/utils';
 import { perfMark, perfMeasure } from '@/lib/devtools';
 
 export default async function processTherapyNotesData(
@@ -39,9 +40,13 @@ export default async function processTherapyNotesData(
 function makeID(row: TherapyNotesRow) {
 	let id = '';
 
-	id += row['Date'] + '-';
+	const date = newDateFromExcel(row.Date);
+	const dateStr = format(date, 'yyyyMMddHH');
+
+	id += dateStr + '-';
 	id += row['Clinician Name'] + '-';
-	id += row['Last Name'] + row['First Name'];
+	id += row['Last Name'] + row['First Name'] + '-';
+	id += row['DOB'];
 
 	return id;
 }

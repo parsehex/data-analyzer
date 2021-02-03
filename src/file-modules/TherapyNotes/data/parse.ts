@@ -4,6 +4,7 @@ import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 
 export interface Appointment {
 	/** Appointment Type */
+	apptID: string;
 	type: string;
 	clinician: string;
 	date: Date;
@@ -67,6 +68,7 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 		else if (serviceCode === '90832') expected = 40;
 
 		results.push({
+			apptID: row['ID'],
 			type: row['Appointment Type'],
 			clinician: row['Clinician Name'],
 			date: newDateFromExcel(row.Date),

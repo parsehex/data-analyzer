@@ -24,7 +24,14 @@
 				/>
 			</form-group>
 			<form-group>
-				<btn @click="download" size="sm" type="success" centered outline>
+				<btn
+					@click="download"
+					id="download-results"
+					size="sm"
+					type="success"
+					centered
+					outline
+				>
 					<icon :size="12" type="download" />
 					Download Results
 				</btn>
@@ -208,6 +215,13 @@
 		methods: {
 			download() {
 				const el = document.querySelector('table');
+
+				if (state.headless) {
+					const csv = xlsx.utils.sheet_to_csv(xlsx.utils.table_to_sheet(el));
+					(window as any).result = csv;
+					return;
+				}
+
 				const wb = xlsx.utils.table_to_book(el);
 				const mode = this.filters.mode.replace(/ /g, '');
 

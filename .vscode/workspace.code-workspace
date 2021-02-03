@@ -3,9 +3,9 @@
 		{
 			"path": ".."
 		},
-		{
-			"path": "..\\src"
-		}
+		// {
+		// 	"path": "..\\src"
+		// }
 	],
 	"settings": {
 		"terminal.integrated.splitCwd": "workspaceRoot"
