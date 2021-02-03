@@ -1,6 +1,6 @@
 import math from '@/math';
 import { TableDataObject, TableRowObject } from '@/types/components';
-import { $, genNAColumns } from '@/lib/utils';
+import { $, clone, genNAColumns } from '@/lib/utils';
 import { Appointment } from '../../parse';
 import { pastAppts } from '../../filter';
 
@@ -11,14 +11,18 @@ export default function owes(appts: Appointment[]): TableRowObject {
 		return genNAColumns(['Patient Owes', 'Insurance Owes', 'Total Owes']);
 	}
 
-	const pOwesArr = appts.map((appt) => {
-		return appt.patient.balance.owes;
-	});
+	const pOwesArr = appts
+		.map((appt) => {
+			return appt.patient.balance.owes;
+		})
+		.filter((v) => !!v);
 	const pOwesSum = math.sum(pOwesArr);
 
-	const iOwesArr = appts.map((appt) => {
-		return appt.insurance.balance.owes;
-	});
+	const iOwesArr = appts
+		.map((appt) => {
+			return appt.insurance.balance.owes;
+		})
+		.filter((v) => !!v);
 	const iOwesSum = math.sum(iOwesArr);
 
 	const patientOwes: TableDataObject = {

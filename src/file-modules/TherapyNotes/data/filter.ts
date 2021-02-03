@@ -16,6 +16,10 @@ export function filterAppointments(appts: Appointment[], { mode }: Filters) {
 				return false;
 		}
 
+		if (mode === 'Month') {
+			if (isFuture(appt.date)) return false;
+		}
+
 		if (mode === 'Write Offs') {
 			const age = differenceInCalendarDays(now(), appt.date);
 

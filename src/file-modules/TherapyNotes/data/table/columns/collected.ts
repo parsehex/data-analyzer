@@ -24,7 +24,7 @@ export default function collected(appts: Appointment[]): TableRowObject {
 		},
 		'Collected %': {
 			value: collected,
-			text: `${collected.toFixed(2)}%`,
+			text: Number.isNaN(collected) ? 'N/A' : `${collected.toFixed(2)}%`,
 		},
 	};
 }
