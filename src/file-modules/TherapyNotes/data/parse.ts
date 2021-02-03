@@ -45,13 +45,18 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 	for (const row of data) {
 		const patientName = row['First Name'] + ' ' + row['Last Name'];
 
+		const pBalStatus = row['Patient Balance Status'];
+		const iBalStatus = row['Insurance Balance Status'];
+
 		const patientDue = Math.abs(row['Patient Amount Due'] || 0);
 		const patientPaid = Math.abs(row['Patient Amount Paid'] || 0);
-		const patientOwes = patientDue - patientPaid;
+		let patientOwes = patientDue - patientPaid;
+		if (pBalStatus.toLowerCase() === 'paid in full') patientOwes = 0;
 
 		const insuranceDue = Math.abs(row['Insurance Amount Due'] || 0);
 		const insurancePaid = Math.abs(row['Insurance Amount Paid'] || 0);
-		const insuranceOwes = insuranceDue - insurancePaid;
+		let insuranceOwes = insuranceDue - insurancePaid;
+		if (iBalStatus.toLowerCase() === 'paid') insuranceOwes = 0;
 
 		const serviceCode = row['Service Code'];
 
@@ -71,8 +76,8 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 				primaryName: row['Primary Insurer Name'] || 'No Insurance',
 				secondaryName: row['Secondary Insurer Name'] || 'No Insurance',
 				balance: {
-					status: row['Insurance Balance Status'],
-					isPaidInFull: row['Insurance Balance Status'] === 'Paid',
+					status: iBalStatus,
+					isPaidInFull: iBalStatus === 'Paid',
 					isPaidPartial: insurancePaid < insuranceDue,
 					due: insuranceDue,
 					paid: insurancePaid,
@@ -82,8 +87,8 @@ export function parseAppointments(data: TherapyNotesRow[]): Appointment[] {
 			patient: {
 				name: patientName.replace(/\*/g, ''),
 				balance: {
-					status: row['Patient Balance Status'],
-					isPaidInFull: row['Patient Balance Status'] === 'Paid In Full',
+					status: pBalStatus,
+					isPaidInFull: pBalStatus === 'Paid in Full',
 					isPaidPartial: patientPaid < patientDue,
 					due: patientDue,
 					paid: patientPaid,
