@@ -22,7 +22,10 @@
 					:style="{ display: 'none' }"
 				/>
 
-				<a href="/Financial-Segments-Sample.xlsx" target="_blank">Download Sample Data</a>
+				<p>
+					To try this app, click to download this
+					<a href="/Financial-Segments-Sample.xlsx" target="_blank">Financial Segments sample data</a>, then click Choose File below and select the downloaded spreadsheet.
+				</p>
 			</column>
 			<column
 				:class="['col-xs-12', 'col-sm-6', 'col-md-4', def.name]"
