@@ -3,7 +3,6 @@ import math from '@/math';
 import { TableRowObject } from '@/types/components';
 import { $, genNAColumns } from '@/lib/utils';
 import { FinancialSegment } from '../../parse';
-import { pastAppts } from '../../filter';
 
 export default function defaultMode(segment: FinancialSegment): TableRowObject {
 	return {
