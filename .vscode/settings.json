@@ -1,8 +1,7 @@
 {
 	"files.exclude": {
 		"**/.cache": true,
-		"package-lock.json": true,
-		".github": true
+		"package-lock.json": true
 	},
 	"files.watcherExclude": {
 		".cache/**": true
