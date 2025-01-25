@@ -21,6 +21,8 @@
 					multiple
 					:style="{ display: 'none' }"
 				/>
+
+				<a href="/Financial-Segments-Sample.xlsx" target="_blank">Download Sample Data</a>
 			</column>
 			<column
 				:class="['col-xs-12', 'col-sm-6', 'col-md-4', def.name]"

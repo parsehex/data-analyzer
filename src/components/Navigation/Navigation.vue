@@ -24,7 +24,7 @@
 					<btn
 						type="warning"
 						outline
-						size="xs"
+						size="sm"
 						@click="reset"
 						title="Reset all data for Data Analyzer"
 					>

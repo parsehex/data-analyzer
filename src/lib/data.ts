@@ -1,4 +1,6 @@
 import { FileType } from '@/types/db';
+import processFinancialSampleData from '@/file-modules/FinancialSample/data/process';
+import { FinancialSegmentRow } from '@/types/file-data/financial-sample';
 import processTherapyNotesData from '@/file-modules/TherapyNotes/data/process';
 import { TherapyNotesRow } from '@/types/file-data/therapy-notes';
 import processPNCStatementData from '@/file-modules/PNC/data/process';
@@ -40,6 +42,13 @@ export async function processFile({
 			return await processData_IntakeQAuditTrail(
 				buffers,
 				priorData as IntakeQRow_AuditTrail[]
+			);
+		}
+
+		case 'financial_sample_spreadsheet': {
+			return await processFinancialSampleData(
+				buffers,
+				priorData as FinancialSegmentRow[]
 			);
 		}
 

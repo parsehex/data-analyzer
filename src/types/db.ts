@@ -1,4 +1,5 @@
 export type FileType =
+	| 'financial_sample_spreadsheet'
 	| 'therapy_notes_spreadsheet'
 	| 'pnc_statement_activity'
 	| 'intakeq_audit_trail';
